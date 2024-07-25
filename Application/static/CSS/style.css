@@ -1,0 +1,146 @@
+/*---------------------------
+DribbleData Project
+Created by Matvey Guralskiy
+---------------------------*/
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #003366;
+    color: #fff;
+    padding: 1em 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+nav {
+    margin: 1em 0;
+    text-align: center;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    background-color: #FF9966;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    margin: 0 0.5em;
+    font-weight: bold;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+nav a:hover {
+    background-color: #e68a2e;
+}
+
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: auto;
+    padding: 2em 0;
+}
+
+footer {
+    background-color: #003366;
+    color: #fff;
+    text-align: center;
+    padding: 1em 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+}
+
+.card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 2em;
+    margin-bottom: 2em;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    margin-bottom: 0.5em;
+    font-weight: bold;
+}
+
+form input {
+    padding: 0.8em;
+    margin-bottom: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+form button {
+    padding: 0.8em;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #003366;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #002244;
+}
+
+#chat-window {
+    max-height: 400px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+#message-input {
+    width: calc(100% - 100px);
+    padding: 0.8em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#send-button {
+    width: 80px;
+    padding: 0.8em;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #FF9966;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#send-button:hover {
+    background-color: #e68a2e;
+}
+
+.message {
+    margin-bottom: 0.5em;
+    padding: 0.5em;
+    background-color: #e4e4e4;
+    border-radius: 5px;
+}

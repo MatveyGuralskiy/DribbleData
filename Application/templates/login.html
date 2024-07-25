@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/style.css') }}">
+    <link rel="icon" href="https://your-s3-bucket-name.s3.amazonaws.com/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <header>
+        <h1>Login</h1>
+        <nav>
+            <a href="{{ url_for('players_service.get_players') }}">Top NBA Players</a>
+            <a href="{{ url_for('training_service.get_training_videos') }}">Training Videos</a>
+            <a href="{{ url_for('auth_chat_service.register') }}">Register</a>
+            <a href="{{ url_for('auth_chat_service.login') }}">Login</a>
+            <a href="{{ url_for('auth_chat_service.chat') }}">Chat</a>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="card">
+            <h2>Login</h2>
+            <form method="POST">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 My Flask App</p>
+    </footer>
+</body>
+
+</html>
