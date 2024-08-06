@@ -5,13 +5,21 @@ phases:
     runtime-versions:
       python: 3.8
       docker: 20
-    commands:                  
+    commands:
+      - echo "AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION"
+      - echo "REPOSITORY_URI=$REPOSITORY_URI"
       - echo CodeBuild Pipeline start the process of building Image
       - echo Cloning the GitHub repository...
       - git clone https://github.com/MatveyGuralskiy/DribbleData.git
       - cd DribbleData
       - echo Logging into Amazon ECR...
-      - $(aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $REPOSITORY_URI)
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $REPOSITORY_URI
+      - echo Retrieving parameters from SSM...
+      - SECRET_KEY=$(aws ssm get-parameter --name /dribble-data/SECRET_KEY --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
+      - DAX_ENDPOINT=$(aws ssm get-parameter --name /dribble-data/DAX_ENDPOINT --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
+      - SESSION_COOKIE_SECURE=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SECURE --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
+      - SESSION_COOKIE_HTTPONLY=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_HTTPONLY --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
+      - SESSION_COOKIE_SAMESITE=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SAMESITE --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
   pre_build:
     commands:
       - echo Building the Docker image...
