@@ -1,0 +1,29 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.8
+      docker: 20
+    commands:                  
+      - echo CodeBuild Pipeline start the process of building Image
+      - echo Cloning the GitHub repository...
+      - git clone https://github.com/MatveyGuralskiy/DribbleData.git
+      - cd DribbleData
+      - echo Logging into Amazon ECR...
+      - $(aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $REPOSITORY_URI)
+  pre_build:
+    commands:
+      - echo Building the Docker image...
+      - cd Application
+      - docker-compose build
+  build:
+    commands:
+      - echo Running unit tests...
+      - python -m unittest unit_tests.py
+  post_build:
+    commands:
+      - echo Tagging the Docker image...
+      - docker tag dribble-data:$APP_VERSION $REPOSITORY_URI:$APP_VERSION
+      - echo Pushing the Docker image...
+      - docker push $REPOSITORY_URI:$APP_VERSION
