@@ -12,8 +12,6 @@ phases:
       - echo Cloning the GitHub repository...
       - git clone https://github.com/MatveyGuralskiy/DribbleData.git
       - cd DribbleData
-      - echo Logging into Amazon ECR...
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $REPOSITORY_URI
       - echo Retrieving parameters from SSM...
       - SECRET_KEY=$(aws ssm get-parameter --name /dribble-data/SECRET_KEY --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
       - DAX_ENDPOINT=$(aws ssm get-parameter --name /dribble-data/DAX_ENDPOINT --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
@@ -22,6 +20,8 @@ phases:
       - SESSION_COOKIE_SAMESITE=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SAMESITE --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
   pre_build:
     commands:
+      - echo Logging into Amazon ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $REPOSITORY_URI
       - echo Building the Docker image...
       - cd Application
       - docker-compose build

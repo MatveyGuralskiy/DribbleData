@@ -2,15 +2,6 @@ provider "aws" {
   region = var.Region
 }
 
-variable "project_name" {
-  default = "CodeBuild-Test"
-}
-
-variable "Region" {
-  default = "us-east-1"
-}
-
-# Объявляем идентификатор аккаунта
 data "aws_caller_identity" "current" {}
 
 resource "aws_codebuild_project" "CodeBuild" {
@@ -146,7 +137,6 @@ resource "aws_iam_policy" "codebuild_ssm_policy" {
   })
 }
 
-# ECR Policy
 resource "aws_iam_policy" "codebuild_ecr_policy" {
   name = "codebuild-ecr-policy"
   path = "/"
