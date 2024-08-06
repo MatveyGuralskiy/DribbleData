@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-1"
+  region = var.Region
 }
 
 variable "project_name" {
@@ -28,7 +28,7 @@ resource "aws_codebuild_project" "CodeBuild" {
     image_pull_credentials_type = "CODEBUILD"
     environment_variable {
       name  = "AWS_DEFAULT_REGION"
-      value = "us-east-1"
+      value = var.Region
     }
     environment_variable {
       name  = "REPOSITORY_URI"
@@ -98,3 +98,52 @@ resource "aws_iam_role_policy_attachment" "codebuild_policy_attachment" {
   role       = aws_iam_role.codebuild_role.name
   policy_arn = "arn:aws:iam::aws:policy/AWSCodeBuildDeveloperAccess"
 }
+
+#SSM
+
+resource "aws_iam_role_policy_attachment" "codebuild_ssm_policy_attachment" {
+  role       = aws_iam_role.codebuild_role.name
+  policy_arn = aws_iam_policy.codebuild_ssm_policy.arn
+}
+
+resource "aws_iam_policy" "codebuild_ssm_policy" {
+  name        = "CodeBuildSSMPolicy"
+  description = "Policy to allow CodeBuild to access SSM parameters"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ssm:GetParameter",
+          "ssm:GetParameters",
+          "ssm:GetParametersByPath"
+        ]
+        Resource = "arn:aws:ssm:${var.Region}:${data.aws_caller_identity.current.account_id}:parameter/dribble-data/*"
+      }
+    ]
+  })
+}
+
+data "aws_ssm_parameter" "secret_key" {
+  name = "/dribble-data/SECRET_KEY"
+}
+
+data "aws_ssm_parameter" "session_cookie_secure" {
+  name = "/dribble-data/SESSION_COOKIE_SECURE"
+}
+
+data "aws_ssm_parameter" "session_cookie_httponly" {
+  name = "/dribble-data/SESSION_COOKIE_HTTPONLY"
+}
+
+data "aws_ssm_parameter" "session_cookie_samesite" {
+  name = "/dribble-data/SESSION_COOKIE_SAMESITE"
+}
+
+data "aws_ssm_parameter" "dax_endpoint" {
+  name = "/dribble-data/DAX_ENDPOINT"
+}
+
+data "aws_caller_identity" "current" {}
