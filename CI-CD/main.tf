@@ -199,3 +199,32 @@ data "aws_ssm_parameter" "dax_endpoint" {
 data "aws_ssm_parameter" "repository_uri" {
   name = "/dribble-data/REPOSITORY_URI"
 }
+
+# S3 Bucket
+
+resource "aws_iam_policy" "codebuild_s3_policy" {
+  name        = "CodeBuildS3Policy"
+  description = "Policy to allow CodeBuild to access S3 buckets"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:ListBucket",
+          "s3:GetObject"
+        ]
+        Resource = [
+          "arn:aws:s3:::dribbledata-project ",
+          "arn:aws:s3:::dribbledata-project /*"
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "codebuild_s3_policy_attachment" {
+  role       = aws_iam_role.codebuild_role.name
+  policy_arn = aws_iam_policy.codebuild_s3_policy.arn
+}
