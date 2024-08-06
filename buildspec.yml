@@ -19,19 +19,20 @@ phases:
       - export SESSION_COOKIE_HTTPONLY=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_HTTPONLY --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
       - export SESSION_COOKIE_SAMESITE=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SAMESITE --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
       - export REPOSITORY_URI=$(aws ssm get-parameter --name /dribble-data/REPOSITORY_URI --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
-      - pip install -r Application/requirements.txt
 
   pre_build:
+    commands:      
+      - echo Running unit tests...
+      - pip install -r Application/requirements.txt
+      - python -m unittest discover -s Application -p "*.py"
+      
+  build:
     commands:
       - echo Logging into Amazon ECR...
       - aws ecr-public get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $REPOSITORY_URI
       - echo Building the Docker image...
       - cd Application
       - docker-compose build
-  build:
-    commands:
-      - echo Running unit tests...
-      - python -m unittest discover -s Application -p "*.py"
 
   post_build:
     commands:
