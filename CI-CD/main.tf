@@ -154,7 +154,9 @@ resource "aws_iam_policy" "codebuild_ecr_policy" {
           "ecr:PutImage",
           "ecr:InitiateLayerUpload",
           "ecr:UploadLayerPart",
-          "ecr:CompleteLayerUpload"
+          "ecr:CompleteLayerUpload",
+          "ecr-public:GetAuthorizationToken",
+          "sts:GetServiceBearerToken"
         ]
         Resource = "*"
       }
@@ -171,4 +173,29 @@ resource "aws_iam_role_policy_attachment" "codebuild_ssm_policy_attachment" {
 resource "aws_iam_role_policy_attachment" "codebuild_ecr_policy_attachment" {
   role       = aws_iam_role.codebuild_role.name
   policy_arn = aws_iam_policy.codebuild_ecr_policy.arn
+}
+
+# SSM Parameters
+data "aws_ssm_parameter" "secret_key" {
+  name = "/dribble-data/SECRET_KEY"
+}
+
+data "aws_ssm_parameter" "session_cookie_secure" {
+  name = "/dribble-data/SESSION_COOKIE_SECURE"
+}
+
+data "aws_ssm_parameter" "session_cookie_httponly" {
+  name = "/dribble-data/SESSION_COOKIE_HTTPONLY"
+}
+
+data "aws_ssm_parameter" "session_cookie_samesite" {
+  name = "/dribble-data/SESSION_COOKIE_SAMESITE"
+}
+
+data "aws_ssm_parameter" "dax_endpoint" {
+  name = "/dribble-data/DAX_ENDPOINT"
+}
+
+data "aws_ssm_parameter" "repository_uri" {
+  name = "/dribble-data/REPOSITORY_URI"
 }
