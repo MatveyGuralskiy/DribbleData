@@ -1,0 +1,135 @@
+/*---------------------------
+DribbleData Project
+Created by Matvey Guralskiy
+---------------------------*/
+
+:root {
+    --primary-color: #003366;
+    --secondary-color: #FF9966;
+    --background-color: #FFFFFF;
+    --text-color: #333333;
+    --header-height: 60px;
+    --button-padding: 10px 20px;
+    --border-radius: 6px;
+}
+
+body,
+h1,
+h2,
+p,
+ul,
+li {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo h1 {
+    font-size: 24px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    text-decoration: none;
+    gap: 15px;
+}
+
+nav a {
+    color: var(--background-color);
+    text-decoration: none;
+    padding: 10px;
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+nav a:hover {
+    background-color: var(--secondary-color);
+    color: var(--background-color);
+}
+
+.auth-buttons .button {
+    background-color: var(--secondary-color);
+    color: var(--background-color);
+    padding: var(--button-padding);
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.auth-buttons .button:hover {
+    background-color: darken(var(--secondary-color), 10%);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+main {
+    padding: 20px;
+}
+
+.hero {
+    background-color: #f9f9f9;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero h2 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.hero-image {
+    max-width: 70%;
+    height: auto;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}

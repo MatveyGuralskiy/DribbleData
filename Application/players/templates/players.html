@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DribbleData</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/style.css') }}">
+    <link rel="icon" type="image/png" href="https://dribbledata-project.s3.amazonaws.com/logo.png">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <h1>DribbleData</h1>
+        </div>
+        <h1>Top NBA Players</h1>
+        <nav>
+            <ul>
+                <li><a href="http://localhost:5000/">Overview</a></li>
+                <li><a href="http://localhost:5003/">Top 50 Players</a></li>
+                <li><a href="http://localhost:5002/training">Training Videos</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <a href="http://localhost:5001/register" class="button">Register</a>
+            <a href="http://localhost:5001/login" class="button">Login</a>
+        </div>
+    </header>
+    <div class="container">
+        <div class="player-list">
+            <h2>Top 50 NBA Players</h2>
+            <div class="player-cards">
+                {% for player in players %}
+                <a href="{{ player.Wikipedia }}" target="_blank" class="player-card">
+                    <div class="player-header">
+                        <h3>{{ player.Name }}</h3>
+                        <p><strong>Team:</strong> {{ player.Team }}</p>
+                    </div>
+                    <div class="player-body">
+                        <p><strong>Achievements:</strong></p>
+                        <ul>
+                            {% for achievement in player.Achievements %}
+                            <li>{{ achievement }}</li>
+                            {% endfor %}
+                        </ul>
+                        <p><strong>Interesting Facts:</strong></p>
+                        <ul>
+                            {% for fact in player.InterestingFacts %}
+                            <li>{{ fact }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 DribbleData. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

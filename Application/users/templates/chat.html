@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DribbleData</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/chat.css') }}">
+    <link rel="icon" type="image/png" href="https://dribbledata-project.s3.amazonaws.com/logo.png">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <h1>DribbleData</h1>
+        </div>
+        <h1>Chat Room</h1>
+        <nav>
+            <ul>
+                <li><a href="http://localhost:5000/">Overview</a></li>
+                <li><a href="http://localhost:5003/">Top 50 Players</a></li>
+                <li><a href="http://localhost:5002/training">Training Videos</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            {% if current_user.is_authenticated %}
+            <a class="button" href="{{ url_for('chat') }}">Chat</a>
+            <a class="button" href="{{ url_for('logout') }}">Log out</a>
+            {% else %}
+            <a class="button" href="{{ url_for('register') }}">Register</a>
+            <a class="button" href="{{ url_for('login') }}">Login</a>
+            {% endif %}
+        </div>
+    </header>
+    <div class="chat-container">
+        <div id="messages" class="messages"></div>
+        <form id="messageForm" class="input-container">
+            <input id="message-input" autocomplete="off" /><button id="send-button" type="submit">Send</button>
+        </form>
+    </div>
+    <footer>
+        <p>&copy; 2024 DribbleData</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='JavaScript/chat.js') }}" defer></script>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+#---------------------------
+#DribbleData Project
+#Created by Matvey Guralskiy
+#---------------------------
+version: '3.8'
+
+services:
+  main:
+    build: ./main
+    ports:
+      - "5000:5000"
+  users:
+    build: ./users
+    ports:
+      - "5001:5001"
+    environment:
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+      - SECRET_KEY=${SECRET_KEY}
+      - SESSION_COOKIE_SECURE=${SESSION_COOKIE_SECURE}
+      - SESSION_COOKIE_HTTPONLY=${SESSION_COOKIE_HTTPONLY}
+      - SESSION_COOKIE_SAMESITE=${SESSION_COOKIE_SAMESITE}
+    volumes:
+      - ~/.aws:/root/.aws:ro
+  training:
+    build: ./training
+    ports:
+      - "5002:5002"
+    environment:
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+    volumes:
+      - ~/.aws:/root/.aws:ro
+  players:
+    build: ./players
+    ports:
+      - "5003:5003"
+    environment:
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+    volumes:
+      - ~/.aws:/root/.aws:ro

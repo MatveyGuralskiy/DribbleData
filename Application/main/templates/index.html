@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DribbleData</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/style.css') }}">
+    <link rel="website icon" type="png" href="https://dribbledata-project.s3.amazonaws.com/logo.png">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <h1>DribbleData</h1>
+        </div>
+        <h1>Created by Matvey Guralskiy</h1>
+        <nav>
+            <ul>
+                <li><a href="http://localhost:5000/">Overview</a></li>
+                <li><a href="http://localhost:5003/">Top 50 Players</a></li>
+                <li><a href="http://localhost:5002/training">Training Videos</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <a href="http://localhost:5001/register" class="button">Register</a>
+            <a href="http://localhost:5001/login" class="button">Login</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="overview" class="hero">
+            <div class="hero-content">
+                <p>
+                    Discover the ultimate destination for basketball fans! With our platform, you can explore the
+                    top<br>
+                    NBA players of the 21st century, delve into detailed statistics, and engage with exclusive
+                    content.<br>
+                    Register to unlock the ability to connect with fellow enthusiasts, participate in vibrant<br>
+                    discussions, and share your passion for the game.<br>
+                    <br>
+                    Immerse yourself in the world of basketball with access to an extensive list of the top 50
+                    players,<br>
+                    watch captivating training videos from your favorite athletes, and be part of a dynamic
+                    community<br>
+                    that celebrates the sport. Whether you're looking to track player performance, gain insights
+                    from<br>
+                    training sessions, or simply chat with other fans, our platform offers everything you need to<br>
+                    elevate your basketball experience.
+                </p>
+                <img src="https://dribbledata-project.s3.amazonaws.com/main-image.png" class="hero-image">
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2024 DribbleData. All rights reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='JavaScript/scripts.js') }}"></script>
+</body>
+
+</html>

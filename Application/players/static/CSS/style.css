@@ -1,0 +1,143 @@
+/*---------------------------
+DribbleData Project
+Created by Matvey Guralskiy
+---------------------------*/
+
+:root {
+    --primary-color: #003366;
+    --secondary-color: #FF9966;
+    --background-color: #FFFFFF;
+    --text-color: #333333;
+    --header-height: 60px;
+    --button-padding: 10px 20px;
+    --border-radius: 6px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo h1 {
+    font-size: 24px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+
+nav a {
+    color: var(--background-color);
+    text-decoration: none;
+    padding: 10px;
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+nav a:hover {
+    background-color: var(--secondary-color);
+    color: var(--background-color);
+}
+
+.auth-buttons .button {
+    background-color: var(--secondary-color);
+    color: var(--background-color);
+    padding: var(--button-padding);
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.auth-buttons .button:hover {
+    background-color: darken(var(--secondary-color), 10%);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.container {
+    padding: 20px;
+}
+
+.player-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.player-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.player-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-decoration: none;
+    color: inherit;
+}
+
+.player-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.player-header {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.player-header h3 {
+    margin: 0;
+}
+
+.player-header p {
+    margin: 5px 0;
+}
+
+.player-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.player-body li {
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    margin: 5px 0;
+    padding: 5px;
+}
+
+footer {
+    background-color: #003366;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

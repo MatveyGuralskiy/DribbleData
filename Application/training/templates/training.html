@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DribbleData</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='CSS/style.css') }}">
+    <link rel="website icon" type="png" href="https://dribbledata-project.s3.amazonaws.com/logo.png">
+    <script src="{{ url_for('static', filename='JavaScript/script.js') }}" defer></script>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <h1>DribbleData</h1>
+        </div>
+        <h1>Basketball Training Videos</h1>
+        <nav>
+            <ul>
+                <li><a href="http://localhost:5000/">Overview</a></li>
+                <li><a href="http://localhost:5003/">Top 50 Players</a></li>
+                <li><a href="http://localhost:5002/training">Training Videos</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <a href="http://localhost:5001/register" class="button">Register</a>
+            <a href="http://localhost:5001/login" class="button">Login</a>
+        </div>
+    </header>
+    <div class="container">
+        <video id="video-player" controls autoplay>
+            <source id="video-source" src="" type="video/mp4">
+            Your browser doesn't provide Video Player
+            <button id="next-video" class="nav-button">&#10095;</button>
+        </video>
+        <div class="video-list">
+            <ul>
+                {% for video in videos %}
+                <li>
+                    <a href="#" data-video="https://dribbledata-project.s3.us-east-1.amazonaws.com/{{ video }}">{{
+                        video.split('/')[-1] }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Matvey Guralskiy</p>
+    </footer>
+</body>
+
+</html>
