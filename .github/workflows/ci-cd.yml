@@ -87,19 +87,67 @@ jobs:
         cd Application
         docker-compose build
 
-    - name: List Docker images
-      run: docker images
-
-    - name: Rename Docker images
+    - name: Set up Docker environment
+      id: version
       run: |
-        docker tag application-main matveyguralskiy/dribbledata_main:latest
-        docker tag application-users matveyguralskiy/dribbledata_users:latest
-        docker tag application-training matveyguralskiy/dribbledata_training:latest
-        docker tag application-players matveyguralskiy/dribbledata_players:latest
+        # Read the current image version
+        CURRENT_VERSION=$(cat IMAGE_VERSION || echo "V0.0")
+        
+        # Extract major and minor numbers
+        MAJOR=$(echo $CURRENT_VERSION | cut -d. -f1 | sed 's/V//')
+        MINOR=$(echo $CURRENT_VERSION | cut -d. -f2)
+        
+        # Increase the minor version
+        NEW_MINOR=$(echo "$MINOR + 1" | bc)
+        NEW_VERSION="V${MAJOR}.${NEW_MINOR}"
+        
+        # Write the new version to the IMAGE_VERSION file
+        echo $NEW_VERSION > IMAGE_VERSION
+        
+        # Set the new version as an environment variable
+        echo "IMAGE_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
 
-    - name: Push Docker image to Docker Hub
+    - name: Log in to Docker Hub
+      run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+    - name: Build Docker images
       run: |
-        docker push matveyguralskiy/dribbledata_main:latest
-        docker push matveyguralskiy/dribbledata_users:latest
-        docker push matveyguralskiy/dribbledata_training:latest
-        docker push matveyguralskiy/dribbledata_players:latest
+        cd Application
+        docker-compose build
+
+    - name: Tag Docker images
+      run: |
+        docker tag application-main matveyguralskiy/dribbledata_main:${{ env.IMAGE_VERSION }}
+        docker tag application-users matveyguralskiy/dribbledata_users:${{ env.IMAGE_VERSION }}
+        docker tag application-training matveyguralskiy/dribbledata_training:${{ env.IMAGE_VERSION }}
+        docker tag application-players matveyguralskiy/dribbledata_players:${{ env.IMAGE_VERSION }}
+
+    - name: Push Docker images to Docker Hub
+      run: |
+        docker push matveyguralskiy/dribbledata_main:${{ env.IMAGE_VERSION }}
+        docker push matveyguralskiy/dribbledata_users:${{ env.IMAGE_VERSION }}
+        docker push matveyguralskiy/dribbledata_training:${{ env.IMAGE_VERSION }}
+        docker push matveyguralskiy/dribbledata_players:${{ env.IMAGE_VERSION }}
+
+    - name: Clean up local Docker images
+      run: |
+        docker system prune -a -f
+
+  scan:
+    runs-on: ubuntu-latest
+    needs: docker
+    steps:
+    - name: Install Trivy
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y wget
+        wget https://github.com/aquasecurity/trivy/releases/download/v0.39.0/trivy_0.39.0_Linux-64bit.deb
+        sudo dpkg -i trivy_0.39.0_Linux-64bit.deb
+        trivy --version
+
+    - name: Scan Docker images with Trivy
+      run: |
+        trivy image matveyguralskiy/dribbledata_main:${{ env.IMAGE_VERSION }} --format json --output main_image_scan_results.json
+        trivy image matveyguralskiy/dribbledata_users:${{ env.IMAGE_VERSION }} --format json --output users_image_scan_results.json
+        trivy image matveyguralskiy/dribbledata_training:${{ env.IMAGE_VERSION }} --format json --output training_image_scan_results.json
+        trivy image matveyguralskiy/dribbledata_players:${{ env.IMAGE_VERSION }} --format json --output players_image_scan_results.json
