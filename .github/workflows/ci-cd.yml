@@ -42,6 +42,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Checking AWS CLI
+      run: aws --version
+
     - name: Create .env file
       run: |
         echo "SECRET_KEY=$(aws ssm get-parameter --name /dribble-data/SECRET_KEY --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)" >> Application/.env
