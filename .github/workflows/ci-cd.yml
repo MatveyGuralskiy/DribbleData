@@ -139,22 +139,31 @@ jobs:
     steps:
     - name: Install Trivy
       run: |
-        sudo apt-get update
-        sudo apt-get install -y wget
-        wget https://github.com/aquasecurity/trivy/releases/download/v0.39.0/trivy_0.39.0_Linux-64bit.deb
-        sudo dpkg -i trivy_0.39.0_Linux-64bit.deb
-        trivy --version
+        wget https://github.com/aquasecurity/trivy/releases/download/v0.39.1/trivy_0.39.1_Linux-$(uname -m).tar.gz
+        tar zxvf trivy_0.39.1_Linux-$(uname -m).tar.gz
+        sudo mv trivy /usr/local/bin/
 
     - name: Scan Docker images with Trivy
       run: |
-        trivy image matveyguralskiy/dribbledata_main:${{ env.IMAGE_VERSION }} --format json --output main_image_scan_results.json
-        trivy image matveyguralskiy/dribbledata_users:${{ env.IMAGE_VERSION }} --format json --output users_image_scan_results.json
-        trivy image matveyguralskiy/dribbledata_training:${{ env.IMAGE_VERSION }} --format json --output training_image_scan_results.json
-        trivy image matveyguralskiy/dribbledata_players:${{ env.IMAGE_VERSION }} --format json --output players_image_scan_results.json
+        trivy image --scanners vuln matveyguralskiy/dribbledata_main:${{ env.IMAGE_VERSION }} --format json --output main_image_scan_results.json
+        trivy image --scanners vuln matveyguralskiy/dribbledata_users:${{ env.IMAGE_VERSION }} --format json --output users_image_scan_results.json
+        trivy image --scanners vuln matveyguralskiy/dribbledata_training:${{ env.IMAGE_VERSION }} --format json --output training_image_scan_results.json
+        trivy image --scanners vuln matveyguralskiy/dribbledata_players:${{ env.IMAGE_VERSION }} --format json --output players_image_scan_results.json
 
-    - name: Display scan results
+    - name: Check scan results for multiple critical vulnerabilities
       run: |
-        cat main_image_scan_results.json
-        cat users_image_scan_results.json
-        cat training_image_scan_results.json
-        cat players_image_scan_results.json
+        check_critical_vulns() {
+          local file=$1
+          local count=$(jq '[.Results[].Vulnerabilities[] | select(.Severity == "CRITICAL")] | length' "$file")
+          if [ "$count" -gt 1 ]; then
+            echo "Found critical vulnerability in $file"
+            exit 1
+          fi
+        }
+
+        check_critical_vulns main_image_scan_results.json
+        check_critical_vulns users_image_scan_results.json
+        check_critical_vulns training_image_scan_results.json
+        check_critical_vulns players_image_scan_results.json
+
+        echo "No critical vulnerabilities found"
