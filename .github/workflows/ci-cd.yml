@@ -195,6 +195,14 @@ jobs:
         }
 
         check_critical_vulns main_image_scan_results.json
-        check_critical_vulns users_image_scan_results.json
+        check_critical_vulns users_image_scan_results.json        
         check_critical_vulns training_image_scan_results.json
         check_critical_vulns players_image_scan_results.json
+
+    - name: Run Docker Compose tests
+      run: |
+        cd Docker
+        docker-compose -f docker-compose.test.yml up -d
+        echo "Docker Compose finished testing"
+        docker-compose -f docker-compose.test.yml down
+
