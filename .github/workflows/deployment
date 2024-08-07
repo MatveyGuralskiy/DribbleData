@@ -1,0 +1,92 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install kubectl
+      run: |
+        curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+        chmod +x ./kubectl
+        sudo mv ./kubectl /usr/local/bin/kubectl
+        kubectl version --client
+
+    - name: Install Helm
+      run: |
+        curl -LO https://get.helm.sh/helm-v3.12.0-linux-amd64.tar.gz
+        tar -zxvf helm-v3.12.0-linux-amd64.tar.gz
+        sudo mv linux-amd64/helm /usr/local/bin/helm
+        helm version
+
+    - name: Install eksctl
+      run: |
+        curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+        sudo mv /tmp/eksctl /usr/local/bin
+        eksctl version
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+    /*
+    - name: Update kubeconfig
+      run: |
+        aws eks update-kubeconfig --name EKS-FlaskPipeline --region us-east-1
+
+    - name: Associate IAM OIDC provider
+      run: |
+        eksctl utils associate-iam-oidc-provider --region=us-east-1 --cluster=EKS-FlaskPipeline --approve
+
+    - name: Create IAM policy
+      run: |
+        aws iam create-policy \
+          --policy-name AWSLoadBalancerControllerIAMPolicy \
+          --policy-document file://Policy/alb_controller_iam_policy.json
+
+    - name: Create IAM service account
+      run: |
+        eksctl create iamserviceaccount \
+          --cluster=EKS-FlaskPipeline \
+          --namespace=kube-system \
+          --name=aws-load-balancer-controller \
+          --attach-policy-arn=arn:aws:iam::YOUR_ACCOUNT_ID:policy/AWSLoadBalancerControllerIAMPolicy \
+          --approve \
+          --override-existing-serviceaccounts
+
+    - name: Add EKS Helm repo
+      run: |
+        helm repo add eks https://aws.github.io/eks-charts
+        helm repo update
+
+    - name: Describe VPC ID
+      id: vpc
+      run: |
+        VPC_ID=$(aws eks describe-cluster --name EKS-FlaskPipeline --query "cluster.resourcesVpcConfig.vpcId" --output text)
+        echo "::set-output name=vpc_id::$VPC_ID"
+
+    - name: Install AWS Load Balancer Controller
+      run: |
+        helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+          -n kube-system \
+          --set clusterName=EKS-FlaskPipeline \
+          --set serviceAccount.create=false \
+          --set region=us-east-1 \
+          --set vpcId=${{ steps.vpc.outputs.vpc_id }} \
+          --set serviceAccount.name=aws-load-balancer-controller
+
+    - name: Verify AWS Load Balancer Controller Deployment
+      run: |
+        kubectl get deployment aws-load-balancer-controller -n kube-system
+        kubectl get pods -n kube-system
+        */
