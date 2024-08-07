@@ -8,9 +8,8 @@ metadata:
   name: {{ .Release.Name }}-deployment
   namespace: {{ .Values.namespace }}
   labels:
+    app: {{ .Release.Name }}
     env: {{ .Values.env }}
-    type: Website
-    owner: Matvey_Guralskiy
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -22,9 +21,19 @@ spec:
         app: {{ .Release.Name }}
     spec:
       containers:
-        {{- range $key, $value := .Values.microservices }}
-        - name: {{ $key }}-container
-          image: {{ $value.container.image }}
+        - name: main-container
+          image: {{ .Values.microservices.main.container.image }}
           ports:
             - containerPort: 80
-        {{- end }}
+        - name: users-container
+          image: {{ .Values.microservices.users.container.image }}
+          ports:
+            - containerPort: 80
+        - name: training-container
+          image: {{ .Values.microservices.training.container.image }}
+          ports:
+            - containerPort: 80
+        - name: players-container
+          image: {{ .Values.microservices.players.container.image }}
+          ports:
+            - containerPort: 80

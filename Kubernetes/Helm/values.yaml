@@ -79,7 +79,7 @@ namespace: dribbledata-project
 
 env: Development
 
-image:
+images:
   main: "v0.3"
   users: "v0.3"
   training: "v0.3"
