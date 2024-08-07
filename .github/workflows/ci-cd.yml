@@ -24,19 +24,12 @@ jobs:
       with:
         python-version: 3.8
 
-    - name: List files after checkout
-      run: |
-        pwd
-        ls -R
-
   install-dependencies:
     runs-on: ubuntu-latest
     needs: setup
     steps:
-    - name: List files before installing dependencies
-      run: |
-        pwd
-        ls -R
+    - name: Checkout repository
+      uses: actions/checkout@v2
     
     - name: Install dependencies for main microservice
       run: |
@@ -66,6 +59,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: install-dependencies
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
     - name: Create .env file
       run: |
         echo "SECRET_KEY=$(aws ssm get-parameter --name /dribble-data/SECRET_KEY --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)" >> Application/.env
@@ -83,6 +79,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: create-env
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
     - name: Run unit tests
       run: |
         cd Application
@@ -92,6 +91,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
     - name: Log in to Docker Hub
       run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
