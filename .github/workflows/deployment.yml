@@ -57,9 +57,10 @@ jobs:
 
     - name: Create IAM policy
       run: |
+        cd Policy
         aws iam create-policy \
           --policy-name AWSLoadBalancerControllerIAMPolicy \
-          --policy-document Policy/alb_controller_iam_policy.json
+          --policy-document alb_controller_iam_policy.json
 
     - name: Create IAM service account
       run: |
