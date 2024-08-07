@@ -24,6 +24,9 @@ jobs:
       with:
         python-version: 3.8
 
+    - name: List files after checkout
+      run: ls -R
+
   install-dependencies:
     runs-on: ubuntu-latest
     needs: setup
