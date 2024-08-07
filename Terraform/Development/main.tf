@@ -30,8 +30,8 @@ module "EKS-VPC-Development" {
   Key_SSH            = "Virginia"
   EKS_Name           = "EKS-Development"
   Node_Group_Name    = "Node-Group-Development"
-  Scaling_Number     = "2"
-  Scaling_Max_Number = "4"
+  Scaling_Number     = "5"
+  Scaling_Max_Number = "6"
   Instance_type      = "t3.small"
   EKS_Template_Name  = "EKS-Template-Development"
 }

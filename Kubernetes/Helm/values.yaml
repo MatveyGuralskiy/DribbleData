@@ -80,7 +80,7 @@ namespace: dribbledata-project
 env: Development
 
 images:
-  main: "v0.3"
-  users: "v0.3"
-  training: "v0.3"
-  players: "v0.3"
+  main: "V0.3"
+  users: "V0.3"
+  training: "V0.3"
+  players: "V0.3"
