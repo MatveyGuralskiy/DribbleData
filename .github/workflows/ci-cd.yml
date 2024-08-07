@@ -151,3 +151,10 @@ jobs:
         trivy image matveyguralskiy/dribbledata_users:${{ env.IMAGE_VERSION }} --format json --output users_image_scan_results.json
         trivy image matveyguralskiy/dribbledata_training:${{ env.IMAGE_VERSION }} --format json --output training_image_scan_results.json
         trivy image matveyguralskiy/dribbledata_players:${{ env.IMAGE_VERSION }} --format json --output players_image_scan_results.json
+
+    - name: Display scan results
+      run: |
+        cat main_image_scan_results.json
+        cat users_image_scan_results.json
+        cat training_image_scan_results.json
+        cat players_image_scan_results.json
