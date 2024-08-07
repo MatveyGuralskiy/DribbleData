@@ -139,9 +139,11 @@ jobs:
     steps:
     - name: Install Trivy
       run: |
-        wget https://github.com/aquasecurity/trivy/releases/download/v0.39.1/trivy_0.39.1_Linux-$(uname -m).tar.gz
-        tar zxvf trivy_0.39.1_Linux-$(uname -m).tar.gz
-        sudo mv trivy /usr/local/bin/
+        sudo apt-get install wget apt-transport-https gnupg lsb-release -y
+        wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+        echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+        sudo apt-get update -y
+        sudo apt-get install trivy -y
 
     - name: Scan Docker images with Trivy
       run: |
