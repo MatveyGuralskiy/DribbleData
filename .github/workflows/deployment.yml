@@ -57,7 +57,7 @@ jobs:
 
     - name: Create IAM policy
       run: |
-        cd Policy
+        cd Kubernetes/Policy
         aws iam create-policy \
           --policy-name AWSLoadBalancerControllerIAMPolicy \
           --policy-document file://alb_controller_iam_policy.json
