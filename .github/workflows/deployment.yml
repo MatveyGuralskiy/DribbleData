@@ -58,9 +58,17 @@ jobs:
     - name: Create IAM policy
       run: |
         cd Kubernetes/Policy
-        aws iam create-policy \
-          --policy-name AWSLoadBalancerControllerIAMPolicy \
-          --policy-document file://alb_controller_iam_policy.json
+        POLICY_NAME="AWSLoadBalancerControllerIAMPolicy"
+        POLICY_ARN=$(aws iam list-policies --query "Policies[?PolicyName=='${POLICY_NAME}'].Arn" --output text)
+        
+        if [ "$POLICY_ARN" == "None" ]; then
+          echo "Creating IAM policy..."
+          aws iam create-policy \
+            --policy-name ${POLICY_NAME} \
+            --policy-document file://alb_controller_iam_policy.json
+        else
+          echo "IAM policy '${POLICY_NAME}' already exists with ARN: ${POLICY_ARN}"
+        fi
 
     - name: Create IAM service account
       run: |
