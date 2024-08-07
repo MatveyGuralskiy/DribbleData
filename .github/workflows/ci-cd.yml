@@ -91,7 +91,11 @@ jobs:
       id: version
       run: |
         # Read the current image version
-        CURRENT_VERSION=$(cat IMAGE_VERSION || echo "V0.0")
+        if [ -f IMAGE_VERSION ]; then
+          CURRENT_VERSION=$(cat IMAGE_VERSION)
+        else
+          CURRENT_VERSION="V0.0"
+        fi
         
         # Extract major and minor numbers
         MAJOR=$(echo $CURRENT_VERSION | cut -d. -f1 | sed 's/V//')
