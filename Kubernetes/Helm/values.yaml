@@ -49,7 +49,7 @@ awsLoadBalancerController:
     pullPolicy: IfNotPresent
   clusterName: EKS-Development
   region: us-east-1
-  vpcId: vpc-077212f7ab18f4388
+  vpcId: vpc-0a338803fef35c4b5
   serviceAccount:
     create: true
     name: aws-load-balancer-controller
@@ -65,11 +65,11 @@ awsLoadBalancerController:
     enabled: false
 
 subnets:
-  - id: subnet-0c9129bce15f09119
+  - id: subnet-0f04ab399e9d66b4f
     tags:
       - key: kubernetes.io/role/elb
         value: 1
-  - id: subnet-0d8dbf8fe4e85bd18
+  - id: subnet-0bb818221a588678e
     tags:
       - key: kubernetes.io/role/elb
         value: 1
@@ -77,7 +77,7 @@ subnets:
 ingress:
   host: dev.matveyguralskiy.com
   tlsSecretName: tls-secret
-  certificateArn: arn:aws:acm:us-east-1:381491938951:certificate/a338462d-554b-4b5e-9b5a-705caad63d95
+  certificateArn: arn:aws:acm:us-east-1:381491938951:certificate/db6b8217-a7c5-4873-aa78-22307a19706c
 
 containers:
   main:
