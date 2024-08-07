@@ -28,6 +28,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: setup
     steps:
+    - name: List files in the working directory
+      run: ls -ls
+    
     - name: Install dependencies for main microservice
       run: |
         cd Application/main
