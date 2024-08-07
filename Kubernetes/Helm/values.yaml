@@ -8,7 +8,7 @@ replicaCount: 4
 microservices:
   main:
     container:
-      image: matveyguralskiy/dribbledata_main:{{ .Values.images.main }}
+      image: matveyguralskiy/dribbledata_main:V0.3
     service:
       type: LoadBalancer
       annotations:
@@ -16,7 +16,7 @@ microservices:
 
   users:
     container:
-      image: matveyguralskiy/dribbledata_users:{{ .Values.images.users }}
+      image: matveyguralskiy/dribbledata_users:V0.3
     service:
       type: LoadBalancer
       annotations:
@@ -24,7 +24,7 @@ microservices:
 
   training:
     container:
-      image: matveyguralskiy/dribbledata_training:{{ .Values.images.training }}
+      image: matveyguralskiy/dribbledata_training:V0.3
     service:
       type: LoadBalancer
       annotations:
@@ -32,7 +32,7 @@ microservices:
 
   players:
     container:
-      image: matveyguralskiy/dribbledata_players:{{ .Values.images.players }}
+      image: matveyguralskiy/dribbledata_players:V0.3
     service:
       type: LoadBalancer
       annotations:
@@ -78,9 +78,3 @@ ingress:
 namespace: dribbledata-project
 
 env: Development
-
-images:
-  main: "V0.3"
-  users: "V0.3"
-  training: "V0.3"
-  players: "V0.3"
