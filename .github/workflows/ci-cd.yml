@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'IMAGE_VERSION'
 
 jobs:
   build:
@@ -91,8 +89,17 @@ jobs:
         cd Application
         docker-compose build
 
-    - name: Set up Docker environment
-      id: version
+    - name: Check for version update flag
+      id: check-version-update
+      run: |
+        if [ -f .skip-version-update ]; then
+          echo "SKIP_UPDATE=true" >> $GITHUB_ENV
+        else
+          echo "SKIP_UPDATE=false" >> $GITHUB_ENV
+        fi
+
+    - name: Update IMAGE_VERSION and commit
+      if: env.SKIP_UPDATE == 'false'
       run: |
         # Read the current image version
         if [ -f IMAGE_VERSION ]; then
@@ -115,7 +122,11 @@ jobs:
         # Set the new version as an environment variable
         echo "IMAGE_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
         
+        # Create a temporary file to avoid infinite loop
+        touch .skip-version-update
+
     - name: Commit and push updated IMAGE_VERSION
+      if: env.SKIP_UPDATE == 'false'
       run: |
         if [[ $(git status --porcelain) ]]; then
           git config user.name "github-actions"
@@ -187,5 +198,3 @@ jobs:
         check_critical_vulns users_image_scan_results.json
         check_critical_vulns training_image_scan_results.json
         check_critical_vulns players_image_scan_results.json
-
-        echo "No critical vulnerabilities found"
