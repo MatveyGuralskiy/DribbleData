@@ -153,13 +153,19 @@ jobs:
           echo "Upgrading existing Helm release 'dribbledata-release'..."
           helm upgrade dribbledata-release . \
             --namespace dribbledata-project \
-            --set image.version=${{ env.IMAGE_VERSION }} \
+            --set images.main=${{ env.IMAGE_VERSION }} \
+            --set images.users=${{ env.IMAGE_VERSION }} \
+            --set images.training=${{ env.IMAGE_VERSION }} \
+            --set images.players=${{ env.IMAGE_VERSION }} \
             --values values.yaml
         else
           echo "Installing new Helm release 'dribbledata-release'..."
           helm install dribbledata-release . \
             --namespace dribbledata-project \
-            --set image.version=${{ env.IMAGE_VERSION }} \
+            --set images.main=${{ env.IMAGE_VERSION }} \
+            --set images.users=${{ env.IMAGE_VERSION }} \
+            --set images.training=${{ env.IMAGE_VERSION }} \
+            --set images.players=${{ env.IMAGE_VERSION }} \
             --values values.yaml
         fi
 
