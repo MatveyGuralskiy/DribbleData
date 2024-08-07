@@ -68,18 +68,12 @@ jobs:
       run: |
         eksctl utils associate-iam-oidc-provider --region=us-east-1 --cluster=EKS-Development --approve
 
-    - name: Create IAM policy
+    - name: Install My IAM JSON Policy from directory Policy
       run: |
         cd Kubernetes/Policy
-        POLICY_NAME="AWSLoadBalancerControllerIAMPolicy"
-        POLICY_ARN=$(aws iam list-policies --query "Policies[?PolicyName=='${POLICY_NAME}'].Arn" --output text)
-        eksctl create iamserviceaccount \
-          --cluster=EKS-Development \
-          --namespace=kube-system \
-          --name=aws-load-balancer-controller \
-          --attach-policy-arn=arn:aws:iam::381491938951:policy/AWSLoadBalancerControllerIAMPolicy \
-          --approve \
-          --override-existing-serviceaccounts
+        aws iam create-policy \
+        --policy-name AWSLoadBalancerControllerIAMPolicy \
+        --policy-document file://alb_controller_iam_policy.json
 
     - name: Create IAM service account
       run: |
@@ -123,7 +117,7 @@ jobs:
             --set vpcId=${{ steps.vpc.outputs.vpc_id }} \
             --set serviceAccount.name=aws-load-balancer-controller
         fi
-
+        
     - name: Wait for AWS Load Balancer Controller
       run: |
         timeout=60
