@@ -87,6 +87,9 @@ jobs:
         cd Application
         docker-compose build
 
+    - name: List Docker images
+      run: docker images
+
     - name: Rename all Images
       run: |
         docker tag dribbledata_main mathewguralskiy/dribbledata_main:latest
