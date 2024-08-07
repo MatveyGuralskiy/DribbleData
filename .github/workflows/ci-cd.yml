@@ -119,7 +119,7 @@ jobs:
         git commit -m "Update IMAGE_VERSION to ${{ env.IMAGE_VERSION }}"
         git push origin main
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUBACTIONS }}
+        GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
         
     - name: Log in to Docker Hub
       run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
