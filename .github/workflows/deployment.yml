@@ -146,13 +146,22 @@ jobs:
           echo "Namespace 'dribbledata-project' already exists"
         fi
 
-    - name: Install DribbleData Helm Chart
+    - name: Install or Upgrade DribbleData Helm Chart
       run: |
         cd Kubernetes/Helm
-        helm install dribbledata-release . \
-          --namespace dribbledata-project \
-          --set image.version=${{ env.IMAGE_VERSION }} \
-          --values values.yaml
+        if [ "${{ env.EXISTS }}" == "true" ]; then
+          echo "Upgrading existing Helm release 'dribbledata-release'..."
+          helm upgrade dribbledata-release . \
+            --namespace dribbledata-project \
+            --set image.version=${{ env.IMAGE_VERSION }} \
+            --values values.yaml
+        else
+          echo "Installing new Helm release 'dribbledata-release'..."
+          helm install dribbledata-release . \
+            --namespace dribbledata-project \
+            --set image.version=${{ env.IMAGE_VERSION }} \
+            --values values.yaml
+        fi
 
     - name: Verify Helm Releases
       run: |
