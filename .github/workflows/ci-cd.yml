@@ -92,15 +92,15 @@ jobs:
 
     - name: Rename Docker images
       run: |
-        docker tag application-main mathewguralskiy/dribbledata_main:latest
-        docker tag application-users mathewguralskiy/dribbledata_users:latest
-        docker tag application-training mathewguralskiy/dribbledata_training:latest
-        docker tag application-players mathewguralskiy/dribbledata_players:latest
+        docker tag application-main matveyguralskiy/dribbledata_main:latest
+        docker tag application-users matveyguralskiy/dribbledata_users:latest
+        docker tag application-training matveyguralskiy/dribbledata_training:latest
+        docker tag application-players matveyguralskiy/dribbledata_players:latest
 
 
     - name: Push Docker image to Docker Hub
       run: |
-        docker push mathewguralskiy/dribbledata_main:latest
-        docker push mathewguralskiy/dribbledata_users:latest
-        docker push mathewguralskiy/dribbledata_training:latest
-        docker push mathewguralskiy/dribbledata_players:latest
+        docker push matveyguralskiy/dribbledata_main:latest
+        docker push matveyguralskiy/dribbledata_users:latest
+        docker push matveyguralskiy/dribbledata_training:latest
+        docker push matveyguralskiy/dribbledata_players:latest
