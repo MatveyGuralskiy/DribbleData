@@ -1,14 +1,14 @@
 #---------------------------
-# FlaskPipeline Project
+# DribbleData Project
 # Created by Matvey Guralskiy
 #---------------------------
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Release.Name }}-service
-  namespace: flaskpipeline-project
+  namespace: {{ .Values.namespace }}
   labels:
-    env: Production
+    env: {{ .Values.env }}
     type: Website
     owner: Matvey_Guralskiy
 spec:

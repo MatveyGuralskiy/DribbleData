@@ -34,7 +34,8 @@ resource "aws_subnet" "Public_A" {
   # Enable Auto-assigned IPv4
   map_public_ip_on_launch = true
   tags = {
-    Name = "Public Subnet A - ${var.Environment}"
+    Name                     = "Public Subnet A - ${var.Environment}"
+    "kubernetes.io/role/elb" = 1
   }
 }
 
@@ -45,7 +46,8 @@ resource "aws_subnet" "Public_B" {
   # Enable Auto-assigned IPv4
   map_public_ip_on_launch = true
   tags = {
-    Name = "Public Subnet B - ${var.Environment}"
+    Name                     = "Public Subnet B - ${var.Environment}"
+    "kubernetes.io/role/elb" = 1
   }
 }
 

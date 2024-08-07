@@ -1,16 +1,42 @@
 #---------------------------
-# FlaskPipeline Project
+# DribbleData Project
 # Created by Matvey Guralskiy
 #---------------------------
 replicaCount: 4
 
-container:
-  image: matveyguralskiy/flask-pipeline:V1.0
+# Configuration for each microservice
+microservices:
+  main:
+    container:
+      image: matveyguralskiy/dribbledata_main:${IMAGE_VERSION}
+    service:
+      type: LoadBalancer
+      annotations:
+        service.beta.kubernetes.io/aws-load-balancer-type: alb
 
-service:
-  type: LoadBalancer
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: alb
+  users:
+    container:
+      image: matveyguralskiy/dribbledata_users:${IMAGE_VERSION}
+    service:
+      type: LoadBalancer
+      annotations:
+        service.beta.kubernetes.io/aws-load-balancer-type: alb
+
+  training:
+    container:
+      image: matveyguralskiy/dribbledata_training:${IMAGE_VERSION}
+    service:
+      type: LoadBalancer
+      annotations:
+        service.beta.kubernetes.io/aws-load-balancer-type: alb
+
+  players:
+    container:
+      image: matveyguralskiy/dribbledata_players:${IMAGE_VERSION}
+    service:
+      type: LoadBalancer
+      annotations:
+        service.beta.kubernetes.io/aws-load-balancer-type: alb
 
 awsLoadBalancerController:
   image:
@@ -43,3 +69,12 @@ subnets:
     tags:
       - key: kubernetes.io/role/elb
         value: 1
+
+ingress:
+  host: dev.matveyguralskiy.com
+  tlsSecretName: tls-secret
+  certificateArn: arn:aws:acm:region:account-id:certificate/certificate-id
+
+namespace: dribbledata-project
+
+env: Production

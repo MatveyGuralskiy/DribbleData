@@ -8,7 +8,7 @@
 variable "Region" {
   description = "AWS Region to work with"
   type        = string
-  default     = "eu-central-1"
+  default     = "us-east-1"
 }
 
 variable "Environment" {
