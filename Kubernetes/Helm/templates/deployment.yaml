@@ -31,21 +31,21 @@ spec:
         - name: users-container
           image: {{ .Values.microservices.users.container.image }}
           ports:
-            - containerPort: 80
+            - containerPort: 81
           env:
             - name: BASE_URL
               value: "{{ .Values.containers.users.base_url }}"
         - name: training-container
           image: {{ .Values.microservices.training.container.image }}
           ports:
-            - containerPort: 80
+            - containerPort: 82
           env:
             - name: BASE_URL
               value: "{{ .Values.containers.training.base_url }}"
         - name: players-container
           image: {{ .Values.microservices.players.container.image }}
           ports:
-            - containerPort: 80
+            - containerPort: 83
           env:
             - name: BASE_URL
               value: "{{ .Values.containers.players.base_url }}"
