@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'IMAGE_VERSION'
 
 jobs:
   build:
@@ -115,11 +117,15 @@ jobs:
         
     - name: Commit and push updated IMAGE_VERSION
       run: |
-        git config user.name "github-actions"
-        git config user.email "github-actions@github.com"
-        git add IMAGE_VERSION
-        git commit -m "Update IMAGE_VERSION to ${{ env.IMAGE_VERSION }}"
-        git push origin main
+        if [[ $(git status --porcelain) ]]; then
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add IMAGE_VERSION
+          git commit -m "Update IMAGE_VERSION to ${{ env.IMAGE_VERSION }}"
+          git push origin main
+        else
+          echo "No changes to commit"
+        fi
         
     - name: Log in to Docker Hub
       run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
