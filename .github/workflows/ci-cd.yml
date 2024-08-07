@@ -58,7 +58,7 @@ jobs:
 
     - name: Run unit tests
       run: |
-        echo cd Application
+        cd Application
         python -m unittest unit_tests.py
 
     - name: Log in to Docker Hub
