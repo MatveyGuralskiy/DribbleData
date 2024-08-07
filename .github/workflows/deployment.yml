@@ -97,3 +97,27 @@ jobs:
       run: |
         kubectl get deployment aws-load-balancer-controller -n kube-system
         kubectl get pods -n kube-system
+
+    - name: Create Namespace
+      run: |
+        if ! kubectl get namespace dribbledata-project > /dev/null 2>&1; then
+          kubectl create namespace dribbledata-project
+        else
+          echo "Namespace 'dribbledata-project' already exists"
+        fi
+
+    - name: Install DribbleData Helm Chart
+      run: |
+        cd Kubernetes/Helm
+        helm install dribbledata-release . \
+          --namespace dribbledata-project \
+          --set image.version=${{ env.IMAGE_VERSION }} \
+          --values values.yaml
+
+    - name: Verify Helm Releases
+      run: |
+        helm list --namespace dribbledata-project
+        kubectl get deployments --namespace dribbledata-project
+        kubectl get services --namespace dribbledata-project
+        kubectl get pods --namespace dribbledata-project
+        kubectl get ingress --namespace dribbledata-project
