@@ -164,10 +164,13 @@ jobs:
       run: |
         docker system prune -a -f
 
-  scan:
+  test:
     runs-on: ubuntu-latest
     needs: docker
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
     - name: Install Trivy
       run: |
         sudo apt-get install wget apt-transport-https gnupg lsb-release -y
@@ -205,4 +208,3 @@ jobs:
         docker-compose -f docker-compose.test.yml up -d
         echo "Docker Compose finished testing"
         docker-compose -f docker-compose.test.yml down
-
