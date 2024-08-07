@@ -22,18 +22,18 @@ spec:
     spec:
       containers:
         - name: main-container
-          image: {{ .Values.microservices.main.container.image }}
+          image: matveyguralskiy/dribbledata_main:V0.3
           ports:
             - containerPort: 80
         - name: users-container
-          image: {{ .Values.microservices.users.container.image }}
+          image: matveyguralskiy/dribbledata_users:V0.3
           ports:
             - containerPort: 80
         - name: training-container
-          image: {{ .Values.microservices.training.container.image }}
+          image: matveyguralskiy/dribbledata_training:V0.3
           ports:
             - containerPort: 80
         - name: players-container
-          image: {{ .Values.microservices.players.container.image }}
+          image: matveyguralskiy/dribbledata_players:V0.3
           ports:
             - containerPort: 80
