@@ -9,3 +9,4 @@ video3.mp4
 terraform.tfstate
 terraform.tfstate.backup
 tfplan
+.pytest_cache

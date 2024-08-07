@@ -1,0 +1,82 @@
+name: CI/CD Pipeline DribbleData
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    
+    - name: Install dependencies for main microservice
+      run: |
+        cd Application/main
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Install dependencies for users microservice
+      run: |
+        cd Application/users
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Install dependencies for training microservice
+      run: |
+        cd Application/training
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Install dependencies for players microservice
+      run: |
+        cd Application/players
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Create .env file
+      run: |
+        echo "SECRET_KEY=$(aws ssm get-parameter --name /dribble-data/SECRET_KEY --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)" >> .env
+        echo "DAX_ENDPOINT=$(aws ssm get-parameter --name /dribble-data/DAX_ENDPOINT --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)" >> .env
+        echo "SESSION_COOKIE_SECURE=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SECURE --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)" >> .env
+        echo "SESSION_COOKIE_HTTPONLY=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_HTTPONLY --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)" >> .env
+        echo "SESSION_COOKIE_SAMESITE=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SAMESITE --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)" >> .env
+        echo "REPOSITORY_URI=$(aws ssm get-parameter --name /dribble-data/REPOSITORY_URI --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)" >> .env
+
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: us-east-1
+
+    - name: Run unit tests
+      run: |
+        echo cd Application
+        python -m unittest unit_tests.py
+
+    - name: Log in to Docker Hub
+      run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+    - name: Build Docker Compose
+      run: docker-compose build
+
+    - name: Rename all Images
+      run: |
+        docker tag dribbledata_main mathewguralskiy/dribbledata_main:latest
+        docker tag dribbledata_main mathewguralskiy/dribbledata_users:latest
+        docker tag dribbledata_main mathewguralskiy/dribbledata_training:latest
+        docker tag dribbledata_main mathewguralskiy/dribbledata_players:latest
+
+    - name: Push Docker image to Docker Hub
+      run: |
+        docker push mathewguralskiy/dribbledata_main:latest
+        docker push mathewguralskiy/dribbledata_users:latest
+        docker push mathewguralskiy/dribbledata_training:latest
+        docker push mathewguralskiy/dribbledata_players:latest
