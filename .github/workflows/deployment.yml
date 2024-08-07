@@ -171,7 +171,7 @@ jobs:
     - name: Install or Upgrade DribbleData Helm Chart
       run: |
         cd Kubernetes/Helm
-        if [ "${{ env.EXISTS }}" == "true" ]; then
+        if helm list -n dribbledata-project | grep -q "dribbledata-release"; then
           echo "Upgrading existing Helm release 'dribbledata-release'..."
           helm upgrade dribbledata-release . \
             --namespace dribbledata-project \
