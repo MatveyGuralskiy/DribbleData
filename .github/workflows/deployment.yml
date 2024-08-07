@@ -97,13 +97,13 @@ jobs:
       run: |
         helm repo add eks https://aws.github.io/eks-charts
         helm repo update
-
+        
     - name: Describe VPC ID
       id: vpc
       run: |
         VPC_ID=$(aws eks describe-cluster --name EKS-Development --query "cluster.resourcesVpcConfig.vpcId" --output text)
         echo "::set-output name=vpc_id::$VPC_ID"
-
+    
     - name: Check if Helm release exists
       id: helm_check
       run: |
@@ -115,8 +115,19 @@ jobs:
           echo "EXISTS=false" >> $GITHUB_ENV
         fi
     
+    - name: Check for existing AWS Load Balancer
+      id: check_load_balancer
+      run: |
+        if kubectl get svc -A -o=jsonpath='{.items[?(@.spec.type=="LoadBalancer")].metadata.name}' | grep -q '.'; then
+          echo "LoadBalancer service already exists."
+          echo "LOAD_BALANCER_EXISTS=true" >> $GITHUB_ENV
+        else
+          echo "No LoadBalancer service found."
+          echo "LOAD_BALANCER_EXISTS=false" >> $GITHUB_ENV
+        fi
+    
     - name: Install AWS Load Balancer Controller
-      if: steps.helm_check.outputs.exists == 'false'
+      if: env.LOAD_BALANCER_EXISTS == 'false'
       run: |
         helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
           -n kube-system \
@@ -125,19 +136,19 @@ jobs:
           --set region=us-east-1 \
           --set vpcId=${{ steps.vpc.outputs.vpc_id }} \
           --set serviceAccount.name=aws-load-balancer-controller
-
+    
     - name: Wait for AWS Load Balancer Controller
       run: |
         while ! kubectl get deployment aws-load-balancer-controller -n kube-system > /dev/null 2>&1; do
           echo "Waiting for AWS Load Balancer Controller deployment to be available..."
           sleep 30
         done
-
+    
     - name: Verify AWS Load Balancer Controller Deployment
       run: |
         kubectl get deployment aws-load-balancer-controller -n kube-system
         kubectl get pods -n kube-system
-
+    
     - name: Create Namespace
       run: |
         if ! kubectl get namespace dribbledata-project > /dev/null 2>&1; then
@@ -145,7 +156,7 @@ jobs:
         else
           echo "Namespace 'dribbledata-project' already exists"
         fi
-
+    
     - name: Install or Upgrade DribbleData Helm Chart
       run: |
         cd Kubernetes/Helm
@@ -168,7 +179,7 @@ jobs:
             --set images.players=${{ env.IMAGE_VERSION }} \
             --values values.yaml
         fi
-
+    
     - name: Verify Helm Releases
       run: |
         helm list --namespace dribbledata-project
