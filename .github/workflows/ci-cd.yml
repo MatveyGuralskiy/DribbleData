@@ -98,6 +98,10 @@ jobs:
         cd Application
         docker-compose build
 
+    - name: Read IMAGE_VERSION
+      id: image_version
+      run: echo "IMAGE_VERSION=$(cat IMAGE_VERSION)" >> $GITHUB_ENV
+      
     - name: Tag Docker images
       run: |
         docker tag application-main matveyguralskiy/dribbledata_main:${{ env.IMAGE_VERSION }}
