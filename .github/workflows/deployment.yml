@@ -71,9 +71,18 @@ jobs:
     - name: Install My IAM JSON Policy from directory Policy
       run: |
         cd Kubernetes/Policy
-        aws iam create-policy \
-        --policy-name AWSLoadBalancerControllerIAMPolicy \
-        --policy-document file://alb_controller_iam_policy.json
+        
+        POLICY_NAME="AWSLoadBalancerControllerIAMPolicy"
+        
+        POLICY_EXISTS=$(aws iam list-policies --query "Policies[?PolicyName=='${POLICY_NAME}'].PolicyName" --output text)
+        if [ "$POLICY_EXISTS" == "$POLICY_NAME" ]; then
+          echo "Policy '$POLICY_NAME' already exists. Skipping creation."
+        else
+          echo "Creating new IAM policy: $POLICY_NAME"
+          aws iam create-policy \
+            --policy-name $POLICY_NAME \
+            --policy-document file://alb_controller_iam_policy.json
+        fi
 
     - name: Create IAM service account
       run: |
