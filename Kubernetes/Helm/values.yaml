@@ -3,12 +3,16 @@
 # Created by Matvey Guralskiy
 #---------------------------
 replicaCount: 4
+namespace: dribbledata-project
+image:
+  tag: V0.4
+env: Development
 
 # Configuration for each microservice
 microservices:
   main:
     container:
-      image: matveyguralskiy/dribbledata_main:V0.3
+      image: matveyguralskiy/dribbledata_main:V0.4
     service:
       type: LoadBalancer
       annotations:
@@ -16,7 +20,7 @@ microservices:
 
   users:
     container:
-      image: matveyguralskiy/dribbledata_users:V0.3
+      image: matveyguralskiy/dribbledata_users:V0.4
     service:
       type: LoadBalancer
       annotations:
@@ -24,7 +28,7 @@ microservices:
 
   training:
     container:
-      image: matveyguralskiy/dribbledata_training:V0.3
+      image: matveyguralskiy/dribbledata_training:V0.4
     service:
       type: LoadBalancer
       annotations:
@@ -32,7 +36,7 @@ microservices:
 
   players:
     container:
-      image: matveyguralskiy/dribbledata_players:V0.3
+      image: matveyguralskiy/dribbledata_players:V0.4
     service:
       type: LoadBalancer
       annotations:
@@ -45,7 +49,7 @@ awsLoadBalancerController:
     pullPolicy: IfNotPresent
   clusterName: EKS-Development
   region: us-east-1
-  vpcId: vpc-052425a1c7fb91650
+  vpcId: vpc-077212f7ab18f4388
   serviceAccount:
     create: true
     name: aws-load-balancer-controller
@@ -61,11 +65,11 @@ awsLoadBalancerController:
     enabled: false
 
 subnets:
-  - id: subnet-0f6d2a8d227e569df
+  - id: subnet-0c9129bce15f09119
     tags:
       - key: kubernetes.io/role/elb
         value: 1
-  - id: subnet-0c10e6d20d7887272
+  - id: subnet-0d8dbf8fe4e85bd18
     tags:
       - key: kubernetes.io/role/elb
         value: 1
@@ -73,8 +77,14 @@ subnets:
 ingress:
   host: dev.matveyguralskiy.com
   tlsSecretName: tls-secret
-  certificateArn: arn:aws:acm:us-east-1:381491938951:certificate/7bb3830c-ba3c-4211-86f7-295e5f6031e9
+  certificateArn: arn:aws:acm:us-east-1:381491938951:certificate/a338462d-554b-4b5e-9b5a-705caad63d95
 
-namespace: dribbledata-project
-
-env: Development
+containers:
+  main:
+    base_url: http://dev.matveyguralskiy.com
+  users:
+    base_url: http://dev.matveyguralskiy.com/users
+  training:
+    base_url: http://dev.matveyguralskiy.com/training
+  players:
+    base_url: http://dev.matveyguralskiy.com/players

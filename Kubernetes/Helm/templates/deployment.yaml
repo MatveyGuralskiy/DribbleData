@@ -22,18 +22,30 @@ spec:
     spec:
       containers:
         - name: main-container
-          image: matveyguralskiy/dribbledata_main:V0.3
+          image: {{ .Values.microservices.main.container.image }}
           ports:
             - containerPort: 80
+          env:
+            - name: BASE_URL
+              value: "{{ .Values.containers.main.base_url }}"
         - name: users-container
-          image: matveyguralskiy/dribbledata_users:V0.3
+          image: {{ .Values.microservices.users.container.image }}
           ports:
             - containerPort: 80
+          env:
+            - name: BASE_URL
+              value: "{{ .Values.containers.users.base_url }}"
         - name: training-container
-          image: matveyguralskiy/dribbledata_training:V0.3
+          image: {{ .Values.microservices.training.container.image }}
           ports:
             - containerPort: 80
+          env:
+            - name: BASE_URL
+              value: "{{ .Values.containers.training.base_url }}"
         - name: players-container
-          image: matveyguralskiy/dribbledata_players:V0.3
+          image: {{ .Values.microservices.players.container.image }}
           ports:
             - containerPort: 80
+          env:
+            - name: BASE_URL
+              value: "{{ .Values.containers.players.base_url }}"

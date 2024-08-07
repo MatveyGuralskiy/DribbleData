@@ -23,17 +23,10 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: ssl-redirect
-                port:
-                  name: use-annotation
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
                 name: {{ .Release.Name }}-service
                 port:
                   number: 80
   tls:
     - hosts:
         - {{ .Values.ingress.host }}
-      secretName: tls-secret
+      secretName: {{ .Values.ingress.tlsSecretName }}
