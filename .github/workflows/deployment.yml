@@ -13,7 +13,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Configure AWS credentials
+    - name: Set up AWS CLI
       uses: aws-actions/configure-aws-credentials@v3
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -112,7 +112,7 @@ jobs:
           helm upgrade aws-load-balancer-controller eks/aws-load-balancer-controller \
             -n kube-system \
             --set clusterName=EKS-Development \
-            --set serviceAccount.create=true \
+            --set serviceAccount.create=false \
             --set region=us-east-1 \
             --set vpcId=${{ steps.vpc.outputs.vpc_id }} \
             --set serviceAccount.name=aws-load-balancer-controller
@@ -121,7 +121,7 @@ jobs:
           helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
             -n kube-system \
             --set clusterName=EKS-Development \
-            --set serviceAccount.create=true \
+            --set serviceAccount.create=false \
             --set region=us-east-1 \
             --set vpcId=${{ steps.vpc.outputs.vpc_id }} \
             --set serviceAccount.name=aws-load-balancer-controller \
