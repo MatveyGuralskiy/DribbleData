@@ -60,7 +60,7 @@ jobs:
         cd Policy
         aws iam create-policy \
           --policy-name AWSLoadBalancerControllerIAMPolicy \
-          --policy-document alb_controller_iam_policy.json
+          --policy-document file://alb_controller_iam_policy.json
 
     - name: Create IAM service account
       run: |
