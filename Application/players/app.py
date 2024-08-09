@@ -3,9 +3,8 @@ import boto3
 import logging
 import os
 
-# Initialize DynamoDB resource using DAX endpoint
-dax_endpoint = os.getenv('DAX_ENDPOINT')
-dynamodb = boto3.resource('dynamodb', region_name='us-east-1', endpoint_url=dax_endpoint)
+dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
+
 table = dynamodb.Table('Players')
 
 app = Flask(__name__)
@@ -21,7 +20,11 @@ def get_top_50_players():
         players = response.get('Items', [])
         players_sorted = sorted(players, key=lambda x: int(x.get('Rank', 0)))
 
-        return render_template('players.html', players=players_sorted)
+        return render_template('players.html',        
+        base_url_service_1=os.getenv('BASE_URL_SERVICE_1'),
+        base_url_service_2=os.getenv('BASE_URL_SERVICE_2'),
+        base_url_service_3=os.getenv('BASE_URL_SERVICE_3'),
+        base_url_service_4=os.getenv('BASE_URL_SERVICE_4'), players=players_sorted)
     except Exception as e:
         logging.error(f"Error: {e}")
         return jsonify({"error": "Error from the server"}), 500
