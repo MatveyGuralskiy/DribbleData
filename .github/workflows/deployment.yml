@@ -165,33 +165,29 @@ jobs:
           echo "Namespace 'dribbledata-project' already exists"
         fi
 
-    - name: Check and Create Kubernetes Secrets
-      id: check-secrets
-      run: |
-        SECRET_NAMES=("SECRET_KEY" "DAX_ENDPOINT" "SESSION_COOKIE_SECURE" "SESSION_COOKIE_HTTPONLY" "SESSION_COOKIE_SAMESITE" "REPOSITORY_URI")
-        EXISTING_SECRETS=$(kubectl get secret -n dribbledata-project -o jsonpath="{.items[*].metadata.name}")
-    
-        for SECRET_NAME in "${SECRET_NAMES[@]}"; do
-          if [[ "$EXISTING_SECRETS" == *"$SECRET_NAME"* ]]; then
-            echo "Secret $SECRET_NAME already exists"
-          else
-            echo "Secret $SECRET_NAME does not exist"
-            echo "CREATE_SECRET_$SECRET_NAME=true" >> $GITHUB_ENV
-          fi
-        done
-    
-    - name: Create Kubernetes Secrets
-      if: env.CREATE_SECRET_SECRET_KEY == 'true' || env.CREATE_SECRET_DAX_ENDPOINT == 'true' || env.CREATE_SECRET_SESSION_COOKIE_SECURE == 'true' || env.CREATE_SECRET_SESSION_COOKIE_HTTPONLY == 'true' || env.CREATE_SECRET_SESSION_COOKIE_SAMESITE == 'true' || env.CREATE_SECRET_REPOSITORY_URI == 'true'
-      run: |
+    - name: Create or Update Kubernetes Secrets
+      run: | 
+        SECRET_KEY=$(aws ssm get-parameter --name /dribble-data/SECRET_KEY --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
+        DAX_ENDPOINT=$(aws ssm get-parameter --name /dribble-data/DAX_ENDPOINT --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
+        SESSION_COOKIE_SECURE=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SECURE --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
+        SESSION_COOKIE_HTTPONLY=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_HTTPONLY --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
+        SESSION_COOKIE_SAMESITE=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SAMESITE --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
+        REPOSITORY_URI=$(aws ssm get-parameter --name /dribble-data/REPOSITORY_URI --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
+
+        # Создаем или обновляем секреты в Kubernetes
         kubectl create secret generic dribbledata-secrets \
-          --from-literal=SECRET_KEY=${{ secrets.SECRET_KEY }} \
-          --from-literal=DAX_ENDPOINT=${{ secrets.DAX_ENDPOINT }} \
-          --from-literal=SESSION_COOKIE_SECURE=${{ secrets.SESSION_COOKIE_SECURE }} \
-          --from-literal=SESSION_COOKIE_HTTPONLY=${{ secrets.SESSION_COOKIE_HTTPONLY }} \
-          --from-literal=SESSION_COOKIE_SAMESITE=${{ secrets.SESSION_COOKIE_SAMESITE }} \
-          --from-literal=REPOSITORY_URI=${{ secrets.REPOSITORY_URI }} \
+          --from-literal=SECRET_KEY=$SECRET_KEY \
+          --from-literal=DAX_ENDPOINT=$DAX_ENDPOINT \
+          --from-literal=SESSION_COOKIE_SECURE=$SESSION_COOKIE_SECURE \
+          --from-literal=SESSION_COOKIE_HTTPONLY=$SESSION_COOKIE_HTTPONLY \
+          --from-literal=SESSION_COOKIE_SAMESITE=$SESSION_COOKIE_SAMESITE \
+          --from-literal=REPOSITORY_URI=$REPOSITORY_URI \
           --namespace dribbledata-project \
           --dry-run=client -o yaml | kubectl apply -f -
+      env:
+        AWS_DEFAULT_REGION: us-east-1
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     
     - name: Install or Upgrade DribbleData Helm Chart
       run: |
