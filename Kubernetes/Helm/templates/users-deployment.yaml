@@ -27,11 +27,34 @@ spec:
             - containerPort: 80
           env:
             - name: BASE_URL
-              value: "{{ .Values.microservices.users.base_url | quote }}"
-            {{- range .Values.env }}
-            - name: {{ .name }}
+              value: "{{ .Values.microservices.main.base_url }}"
+            - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: {{ .valueFrom.secretKeyRef.name }}
-                  key: {{ .valueFrom.secretKeyRef.key }}
-            {{- end }}
+                  name: my-secrets
+                  key: SECRET_KEY
+            - name: DAX_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: DAX_ENDPOINT
+            - name: SESSION_COOKIE_SECURE
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: SESSION_COOKIE_SECURE
+            - name: SESSION_COOKIE_HTTPONLY
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: SESSION_COOKIE_HTTPONLY
+            - name: SESSION_COOKIE_SAMESITE
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: SESSION_COOKIE_SAMESITE
+            - name: REPOSITORY_URI
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: REPOSITORY_URI
