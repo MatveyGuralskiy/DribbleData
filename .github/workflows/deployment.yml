@@ -154,10 +154,17 @@ jobs:
 
     - name: Create AWS Secrets for Cluster
       run: |
-        kubectl create secret generic aws-credentials \
-          --namespace dribbledata-project \
-          --from-literal=access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }} \
-          --from-literal=secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        # Check if the secret already exists
+        if kubectl get secret aws-credentials --namespace dribbledata-project > /dev/null 2>&1; then
+          echo "Secret 'aws-credentials' already exists."
+        else
+          # Create the secret if it does not exist
+          kubectl create secret generic aws-credentials \
+            --namespace dribbledata-project \
+            --from-literal=access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }} \
+            --from-literal=secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          echo "Secret 'aws-credentials' created."
+        fi
 
     - name: Generate and apply secrets.yaml
       run: |
