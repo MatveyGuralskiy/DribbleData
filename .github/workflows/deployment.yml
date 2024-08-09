@@ -130,7 +130,7 @@ jobs:
             --set serviceAccount.create=false \
             --set region=us-east-1 \
             --set vpcId=${{ steps.vpc.outputs.vpc_id }} \
-            --set serviceAccount.name=aws-load-balancer-controller \
+            --set serviceAccount.name=aws-load-balancer-controller
         fi
         
     - name: Wait for AWS Load Balancer Controller
