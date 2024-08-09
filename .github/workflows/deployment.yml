@@ -57,9 +57,6 @@ jobs:
       id: image_version
       run: echo "IMAGE_VERSION=$(cat IMAGE_VERSION)" >> $GITHUB_ENV
 
-    - name: Checkout repository
-      uses: actions/checkout@v3
-
     - name: Update kubeconfig
       run: |
         aws eks update-kubeconfig --name EKS-Development --region us-east-1
@@ -74,8 +71,8 @@ jobs:
         
         POLICY_NAME="AWSLoadBalancerControllerIAMPolicy"
         
-        POLICY_EXISTS=$(aws iam list-policies --query "Policies[?PolicyName=='${POLICY_NAME}'].PolicyName" --output text)
-        if [ "$POLICY_EXISTS" == "$POLICY_NAME" ]; then
+        POLICY_ARN=$(aws iam list-policies --query "Policies[?PolicyName=='${POLICY_NAME}'].Arn" --output text)
+        if [ "$POLICY_ARN" != "None" ]; then
           echo "Policy '$POLICY_NAME' already exists. Skipping creation."
         else
           echo "Creating new IAM policy: $POLICY_NAME"
@@ -125,7 +122,6 @@ jobs:
             --set region=us-east-1 \
             --set vpcId=${{ steps.vpc.outputs.vpc_id }} \
             --set serviceAccount.name=aws-load-balancer-controller \
-            --debug
         fi
         
     - name: Wait for AWS Load Balancer Controller
