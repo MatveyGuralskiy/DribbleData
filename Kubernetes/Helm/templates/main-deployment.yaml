@@ -27,7 +27,7 @@ spec:
             - containerPort: {{ .Values.microservices.main.container.port }}
           env:
             - name: BASE_URL
-              value: "{{ .Values.microservices.main.baseUrl }}"
+              value: {{ .Values.microservices.main.base_Url }}
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:
