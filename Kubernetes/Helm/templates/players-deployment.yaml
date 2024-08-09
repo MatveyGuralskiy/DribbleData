@@ -5,26 +5,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: main-deployment
+  name: players-deployment
   namespace: {{ .Values.namespace }}
   labels:
-    app: main-service
+    app: players-service
     env: {{ .Values.env }}
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: main-service
+      app: players-service
   template:
     metadata:
       labels:
-        app: main-service
+        app: players-service
     spec:
       containers:
-        - name: main-container
-          image: {{ .Values.microservices.main.container.image }}
+        - name: players-container
+          image: {{ .Values.microservices.players.container.image }}
           ports:
             - containerPort: 80
           env:
             - name: BASE_URL
-              value: "{{ .Values.microservices.main.base_url }}"
+              value: "{{ .Values.microservices.players.base_url }}"
