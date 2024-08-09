@@ -28,7 +28,7 @@ class TestPlayersService(unittest.TestCase):
         self.app = players_app.test_client()
 
     def test_index(self):
-        response = self.app.get('/players')
+        response = self.app.get('/')
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'<h1>Top NBA Players</h1>', response.data)
 
@@ -39,7 +39,7 @@ class TestVideosService(unittest.TestCase):
         self.app = training_app.test_client()
 
     def test_index(self):
-        response = self.app.get('/training')
+        response = self.app.get('/')
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'<h1>Basketball Training Videos</h1>', response.data)
 
@@ -50,7 +50,7 @@ class TestUsersService(unittest.TestCase):
         self.app = users_app.test_client()
 
     def test_register(self):
-        response = self.app.get('/register')
+        response = self.app.get('/')
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'<h1>Register</h1>', response.data)
 
