@@ -174,12 +174,12 @@ jobs:
           namespace: dribbledata-project
         type: Opaque
         data:
-          SECRET_KEY: $(echo -n '${{ secrets.SECRET_KEY }}' | base64)
-          DAX_ENDPOINT: $(echo -n '${{ secrets.DAX_ENDPOINT }}' | base64)
-          SESSION_COOKIE_SECURE: $(echo -n '${{ secrets.SESSION_COOKIE_SECURE }}' | base64)
-          SESSION_COOKIE_HTTPONLY: $(echo -n '${{ secrets.SESSION_COOKIE_HTTPONLY }}' | base64)
-          SESSION_COOKIE_SAMESITE: $(echo -n '${{ secrets.SESSION_COOKIE_SAMESITE }}' | base64)
-          REPOSITORY_URI: $(echo -n '${{ secrets.REPOSITORY_URI }}' | base64)" > Kubernetes/Helm/secrets.yaml
+          SECRET_KEY: $(echo -n '${{ secrets.SECRET_KEY }}' | base64 | tr -d '\n')
+          DAX_ENDPOINT: $(echo -n '${{ secrets.DAX_ENDPOINT }}' | base64 | tr -d '\n')
+          SESSION_COOKIE_SECURE: $(echo -n '${{ secrets.SESSION_COOKIE_SECURE }}' | base64 | tr -d '\n')
+          SESSION_COOKIE_HTTPONLY: $(echo -n '${{ secrets.SESSION_COOKIE_HTTPONLY }}' | base64 | tr -d '\n')
+          SESSION_COOKIE_SAMESITE: $(echo -n '${{ secrets.SESSION_COOKIE_SAMESITE }}' | base64 | tr -d '\n')
+          REPOSITORY_URI: $(echo -n '${{ secrets.REPOSITORY_URI }}' | base64 | tr -d '\n')" > Kubernetes/Helm/secrets.yaml
     
         kubectl apply -f Kubernetes/Helm/secrets.yaml --namespace dribbledata-project
     
