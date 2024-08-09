@@ -32,21 +32,21 @@ spec:
               service:
                 name: users-service
                 port:
-                  number: 81
+                  number: 80
           - path: /training
             pathType: Prefix
             backend:
               service:
                 name: training-service
                 port:
-                  number: 82
+                  number: 80
           - path: /players
             pathType: Prefix
             backend:
               service:
                 name: players-service
                 port:
-                  number: 83
+                  number: 80
   tls:
     - hosts:
         - {{ .Values.ingress.host }}
