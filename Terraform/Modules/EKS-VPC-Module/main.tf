@@ -22,7 +22,7 @@ resource "aws_vpc" "VPC" {
 resource "aws_internet_gateway" "IG" {
   vpc_id = aws_vpc.VPC.id
   tags = {
-    Name = "IG FlaskPipeline"
+    Name = "IG DribbleData"
   }
 }
 
@@ -94,7 +94,7 @@ resource "aws_route_table_association" "RouteTable_Attach_B" {
   route_table_id = aws_route_table.Public_RouteTable_B.id
 }
 
-
+/*
 # Create 2 Private Subnets in different Availability Zones: A, B
 resource "aws_subnet" "Private_A" {
   vpc_id            = aws_vpc.VPC.id
@@ -177,7 +177,7 @@ resource "aws_route_table_association" "Route_Table_Private_B" {
   subnet_id      = aws_subnet.Private_B.id
   route_table_id = aws_route_table.Private_Route_Table_B.id
 }
-
+*/
 #---------------EKS-------------------
 
 # IAM role for EKS

@@ -3,8 +3,22 @@
 #Created by Matvey Guralskiy
 #---------------------------
 
-variable "Region" {
-  description = "Enter AWS Region you want to work with"
-  type        = string
-  default     = "eu-central-1"
+output "VPC_ID" {
+  value       = module.EKS-VPC-Development.VPC_ID
+  description = "My VPC ID"
+}
+
+output "Public_A_ID" {
+  value       = module.EKS-VPC-Development.Public_A_ID
+  description = "Public Subnet A ID of VPC"
+}
+
+output "Public_B_ID" {
+  value       = module.EKS-VPC-Development.Public_B_ID
+  description = "Public Subnet B ID of VPC"
+}
+
+output "SSL_ARN" {
+  value       = aws_acm_certificate.DribbleData_cert.arn
+  description = "Certificate SSL ARN"
 }
