@@ -48,13 +48,7 @@ def load_user(user_id):
         print(f"Error loading user: {e}")
     return None
 
-@app.route('/')
-def overview():
-    if current_user.is_authenticated:
-        return redirect(url_for('chat'))
-    return redirect(url_for('login'))
-
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         data = request.get_json()
