@@ -1,7 +1,7 @@
 import boto3
 import os
 
-ENV_FILE = "Application/.env"
+ENV_FILE = "../Application/.env"
 
 def upload_ssm_parameters(env_file):
     ssm_client = boto3.client('ssm', region_name='us-east-1')

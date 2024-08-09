@@ -8,14 +8,14 @@ env: Development
 # Common settings for all microservices
 replicaCount: 4
 image:
-  tag: V0.4
+  tag: V0.5
 
 # Configuration for each microservice
 microservices:
   main:
     deploymentName: main
     container:
-      image: matveyguralskiy/dribbledata_main:V0.4
+      image: matveyguralskiy/dribbledata_main:V0.5
       port: 80
     service:
       type: LoadBalancer
@@ -27,7 +27,7 @@ microservices:
   users:
     deploymentName: users
     container:
-      image: matveyguralskiy/dribbledata_users:V0.4
+      image: matveyguralskiy/dribbledata_users:V0.5
       port: 80
     service:
       type: LoadBalancer
@@ -41,11 +41,6 @@ microservices:
           secretKeyRef:
             name: my-secrets
             key: SECRET_KEY
-      - name: DAX_ENDPOINT
-        valueFrom:
-          secretKeyRef:
-            name: my-secrets
-            key: DAX_ENDPOINT
       - name: SESSION_COOKIE_SECURE
         valueFrom:
           secretKeyRef:
@@ -61,16 +56,11 @@ microservices:
           secretKeyRef:
             name: my-secrets
             key: SESSION_COOKIE_SAMESITE
-      - name: REPOSITORY_URI
-        valueFrom:
-          secretKeyRef:
-            name: my-secrets
-            key: REPOSITORY_URI
 
   training:
     deploymentName: training
     container:
-      image: matveyguralskiy/dribbledata_training:V0.4
+      image: matveyguralskiy/dribbledata_training:V0.5
       port: 80
     service:
       type: LoadBalancer
@@ -84,11 +74,6 @@ microservices:
           secretKeyRef:
             name: my-secrets
             key: SECRET_KEY
-      - name: DAX_ENDPOINT
-        valueFrom:
-          secretKeyRef:
-            name: my-secrets
-            key: DAX_ENDPOINT
       - name: SESSION_COOKIE_SECURE
         valueFrom:
           secretKeyRef:
@@ -104,16 +89,11 @@ microservices:
           secretKeyRef:
             name: my-secrets
             key: SESSION_COOKIE_SAMESITE
-      - name: REPOSITORY_URI
-        valueFrom:
-          secretKeyRef:
-            name: my-secrets
-            key: REPOSITORY_URI
 
   players:
     deploymentName: players
     container:
-      image: matveyguralskiy/dribbledata_players:V0.4
+      image: matveyguralskiy/dribbledata_players:V0.5
       port: 80
     service:
       type: LoadBalancer
@@ -127,11 +107,6 @@ microservices:
           secretKeyRef:
             name: my-secrets
             key: SECRET_KEY
-      - name: DAX_ENDPOINT
-        valueFrom:
-          secretKeyRef:
-            name: my-secrets
-            key: DAX_ENDPOINT
       - name: SESSION_COOKIE_SECURE
         valueFrom:
           secretKeyRef:
@@ -147,11 +122,6 @@ microservices:
           secretKeyRef:
             name: my-secrets
             key: SESSION_COOKIE_SAMESITE
-      - name: REPOSITORY_URI
-        valueFrom:
-          secretKeyRef:
-            name: my-secrets
-            key: REPOSITORY_URI
 
 awsLoadBalancerController:
   image:
@@ -160,7 +130,7 @@ awsLoadBalancerController:
     pullPolicy: IfNotPresent
   clusterName: EKS-Development
   region: us-east-1
-  vpcId: vpc-0daf9b002806ae4dd
+  vpcId: vpc-052f3335f7add3cef
   serviceAccount:
     create: true
     name: aws-load-balancer-controller
@@ -176,11 +146,11 @@ awsLoadBalancerController:
     enabled: false
 
 subnets:
-  - id: subnet-0800200e437ee7d86
+  - id: subnet-0bab4bf2c9d9da83d
     tags:
       - key: kubernetes.io/role/elb
         value: 1
-  - id: subnet-0c0aedd168c564c17
+  - id: subnet-088f4dfd394bc179d
     tags:
       - key: kubernetes.io/role/elb
         value: 1
@@ -188,4 +158,4 @@ subnets:
 ingress:
   host: dev.matveyguralskiy.com
   tlsSecretName: tls-secret
-  certificateArn: arn:aws:acm:us-east-1:381491938951:certificate/98afd82b-7bb7-41ea-816c-4b71f3bcdfcd
+  certificateArn: arn:aws:acm:us-east-1:381491938951:certificate/8e566664-2688-4269-9f60-67aa7cdeb2ca

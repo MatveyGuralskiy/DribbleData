@@ -53,7 +53,7 @@ resource "aws_dynamodb_table" "messages" {
     type = "S"
   }
 }
-
+/*
 # Create IAM Role for DAX
 resource "aws_iam_role" "dax_role" {
   name = "dax-role"
@@ -89,7 +89,7 @@ resource "aws_dax_cluster" "dax_cluster" {
     Name = "DAX Cluster for DribbleData"
   }
 }
-
+*/
 
 # IAM Role for Lambda
 resource "aws_iam_role" "lambda_role" {
