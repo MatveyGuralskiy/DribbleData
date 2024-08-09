@@ -96,3 +96,35 @@ ingress:
   host: dev.matveyguralskiy.com
   tlsSecretName: tls-secret
   certificateArn: arn:aws:acm:us-east-1:381491938951:certificate/98afd82b-7bb7-41ea-816c-4b71f3bcdfcd
+
+env:
+  - name: SECRET_KEY
+    valueFrom:
+      secretKeyRef:
+        name: my-secrets
+        key: SECRET_KEY
+  - name: DAX_ENDPOINT
+    valueFrom:
+      secretKeyRef:
+        name: my-secrets
+        key: DAX_ENDPOINT
+  - name: SESSION_COOKIE_SECURE
+    valueFrom:
+      secretKeyRef:
+        name: my-secrets
+        key: SESSION_COOKIE_SECURE
+  - name: SESSION_COOKIE_HTTPONLY
+    valueFrom:
+      secretKeyRef:
+        name: my-secrets
+        key: SESSION_COOKIE_HTTPONLY
+  - name: SESSION_COOKIE_SAMESITE
+    valueFrom:
+      secretKeyRef:
+        name: my-secrets
+        key: SESSION_COOKIE_SAMESITE
+  - name: REPOSITORY_URI
+    valueFrom:
+      secretKeyRef:
+        name: my-secrets
+        key: REPOSITORY_URI
