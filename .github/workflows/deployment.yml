@@ -167,22 +167,20 @@ jobs:
 
     - name: Generate and apply secrets.yaml
       run: |
-        cat <<EOF > Kubernetes/Helm/secrets.yaml
-        apiVersion: v1
+        echo "apiVersion: v1
         kind: Secret
         metadata:
           name: my-secrets
           namespace: dribbledata-project
         type: Opaque
         data:
-          SECRET_KEY: ${{ secrets.SECRET_KEY | base64 }}
-          DAX_ENDPOINT: ${{ secrets.DAX_ENDPOINT | base64 }}
-          SESSION_COOKIE_SECURE: ${{ secrets.SESSION_COOKIE_SECURE | base64 }}
-          SESSION_COOKIE_HTTPONLY: ${{ secrets.SESSION_COOKIE_HTTPONLY | base64 }}
-          SESSION_COOKIE_SAMESITE: ${{ secrets.SESSION_COOKIE_SAMESITE | base64 }}
-          REPOSITORY_URI: ${{ secrets.REPOSITORY_URI | base64 }}
-        EOF
-        
+          SECRET_KEY: $(echo -n '${{ secrets.SECRET_KEY }}' | base64)
+          DAX_ENDPOINT: $(echo -n '${{ secrets.DAX_ENDPOINT }}' | base64)
+          SESSION_COOKIE_SECURE: $(echo -n '${{ secrets.SESSION_COOKIE_SECURE }}' | base64)
+          SESSION_COOKIE_HTTPONLY: $(echo -n '${{ secrets.SESSION_COOKIE_HTTPONLY }}' | base64)
+          SESSION_COOKIE_SAMESITE: $(echo -n '${{ secrets.SESSION_COOKIE_SAMESITE }}' | base64)
+          REPOSITORY_URI: $(echo -n '${{ secrets.REPOSITORY_URI }}' | base64)" > Kubernetes/Helm/secrets.yaml
+    
         kubectl apply -f Kubernetes/Helm/secrets.yaml --namespace dribbledata-project
     
     - name: Install or Upgrade DribbleData Helm Chart
