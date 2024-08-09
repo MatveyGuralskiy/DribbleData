@@ -165,28 +165,25 @@ jobs:
           echo "Namespace 'dribbledata-project' already exists"
         fi
 
-    - name: Create or Update Kubernetes Secrets
-      run: | 
-        SECRET_KEY=$(aws ssm get-parameter --name /dribble-data/SECRET_KEY --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text | base64)
-        DAX_ENDPOINT=$(aws ssm get-parameter --name /dribble-data/DAX_ENDPOINT --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text | base64)
-        SESSION_COOKIE_SECURE=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SECURE --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text | base64)
-        SESSION_COOKIE_HTTPONLY=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_HTTPONLY --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text | base64)
-        SESSION_COOKIE_SAMESITE=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SAMESITE --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text | base64)
-        REPOSITORY_URI=$(aws ssm get-parameter --name /dribble-data/REPOSITORY_URI --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text | base64)
-    
-        kubectl create secret generic dribbledata-secrets \
-          --from-literal=SECRET_KEY=$SECRET_KEY \
-          --from-literal=DAX_ENDPOINT=$DAX_ENDPOINT \
-          --from-literal=SESSION_COOKIE_SECURE=$SESSION_COOKIE_SECURE \
-          --from-literal=SESSION_COOKIE_HTTPONLY=$SESSION_COOKIE_HTTPONLY \
-          --from-literal=SESSION_COOKIE_SAMESITE=$SESSION_COOKIE_SAMESITE \
-          --from-literal=REPOSITORY_URI=$REPOSITORY_URI \
-          --namespace dribbledata-project \
-          --dry-run=client -o yaml | kubectl apply -f -
-      env:
-        AWS_DEFAULT_REGION: us-east-1
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    - name: Generate and apply secrets.yaml
+      run: |
+        cat <<EOF > Kubernetes/Helm/secrets.yaml
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: my-secrets
+          namespace: dribbledata-project
+        type: Opaque
+        data:
+          SECRET_KEY: ${{ secrets.SECRET_KEY | base64 }}
+          DAX_ENDPOINT: ${{ secrets.DAX_ENDPOINT | base64 }}
+          SESSION_COOKIE_SECURE: ${{ secrets.SESSION_COOKIE_SECURE | base64 }}
+          SESSION_COOKIE_HTTPONLY: ${{ secrets.SESSION_COOKIE_HTTPONLY | base64 }}
+          SESSION_COOKIE_SAMESITE: ${{ secrets.SESSION_COOKIE_SAMESITE | base64 }}
+          REPOSITORY_URI: ${{ secrets.REPOSITORY_URI | base64 }}
+        EOF
+        
+        kubectl apply -f Kubernetes/Helm/secrets.yaml --namespace dribbledata-project
     
     - name: Install or Upgrade DribbleData Helm Chart
       run: |
