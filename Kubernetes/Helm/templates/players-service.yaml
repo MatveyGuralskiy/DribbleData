@@ -8,7 +8,7 @@ metadata:
   name: players-service
   namespace: {{ .Values.namespace }}
   labels:
-    env: {{ .Values.env }}
+    env: {{ .Values.env | quote }}
     type: Website
     owner: Matvey_Guralskiy
 spec:
