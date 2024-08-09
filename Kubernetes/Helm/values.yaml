@@ -8,14 +8,14 @@ env: Development
 # Common settings for all microservices
 replicaCount: 4
 image:
-  tag: V0.5
+  tag: V0.7
 
 # Configuration for each microservice
 microservices:
   main:
     deploymentName: main
     container:
-      image: matveyguralskiy/dribbledata_main:V0.5
+      image: matveyguralskiy/dribbledata_main:V0.7
       port: 80
     service:
       type: LoadBalancer
@@ -27,14 +27,14 @@ microservices:
   users:
     deploymentName: users
     container:
-      image: matveyguralskiy/dribbledata_users:V0.5
+      image: matveyguralskiy/dribbledata_users:V0.7
       port: 80
     service:
       type: LoadBalancer
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-type: alb
-    ingressPath: /users
-    base_Url: http://dev.matveyguralskiy.com/users
+    ingressPath: /
+    base_url: http://dev.matveyguralskiy.com
     env:
       - name: SECRET_KEY
         valueFrom:
@@ -60,14 +60,14 @@ microservices:
   training:
     deploymentName: training
     container:
-      image: matveyguralskiy/dribbledata_training:V0.5
+      image: matveyguralskiy/dribbledata_training:V0.7
       port: 80
     service:
       type: LoadBalancer
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-type: alb
     ingressPath: /training
-    base_Url: http://dev.matveyguralskiy.com/training
+    base_url: http://dev.matveyguralskiy.com
     env:
       - name: SECRET_KEY
         valueFrom:
@@ -93,14 +93,14 @@ microservices:
   players:
     deploymentName: players
     container:
-      image: matveyguralskiy/dribbledata_players:V0.5
+      image: matveyguralskiy/dribbledata_players:V0.7
       port: 80
     service:
       type: LoadBalancer
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-type: alb
     ingressPath: /players
-    base_Url: http://dev.matveyguralskiy.com/players
+    base_url: http://dev.matveyguralskiy.com
     env:
       - name: SECRET_KEY
         valueFrom:
