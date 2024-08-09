@@ -20,19 +20,6 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
 
-    - name: Create .env file
-      run: |
-        echo "SECRET_KEY=$(aws ssm get-parameter --name /dribble-data/SECRET_KEY --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)" >> Application/.env
-        echo "DAX_ENDPOINT=$(aws ssm get-parameter --name /dribble-data/DAX_ENDPOINT --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)" >> Application/.env
-        echo "SESSION_COOKIE_SECURE=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SECURE --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)" >> Application/.env
-        echo "SESSION_COOKIE_HTTPONLY=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_HTTPONLY --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)" >> Application/.env
-        echo "SESSION_COOKIE_SAMESITE=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SAMESITE --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)" >> Application/.env
-        echo "REPOSITORY_URI=$(aws ssm get-parameter --name /dribble-data/REPOSITORY_URI --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)" >> Application/.env
-        export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
-        export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      env:
-        AWS_DEFAULT_REGION: us-east-1
-
     - name: Install kubectl
       run: |
         curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -174,13 +161,13 @@ jobs:
           namespace: dribbledata-project
         type: Opaque
         data:
-          SECRET_KEY: $(echo -n '${{ secrets.SECRET_KEY }}' | base64 | tr -d '\n')
-          DAX_ENDPOINT: $(echo -n '${{ secrets.DAX_ENDPOINT }}' | base64 | tr -d '\n')
-          SESSION_COOKIE_SECURE: $(echo -n '${{ secrets.SESSION_COOKIE_SECURE }}' | base64 | tr -d '\n')
-          SESSION_COOKIE_HTTPONLY: $(echo -n '${{ secrets.SESSION_COOKIE_HTTPONLY }}' | base64 | tr -d '\n')
-          SESSION_COOKIE_SAMESITE: $(echo -n '${{ secrets.SESSION_COOKIE_SAMESITE }}' | base64 | tr -d '\n')
-          REPOSITORY_URI: $(echo -n '${{ secrets.REPOSITORY_URI }}' | base64 | tr -d '\n')" > Kubernetes/Helm/secrets.yaml
-    
+          SECRET_KEY: $(echo -n '$(aws ssm get-parameter --name /dribble-data/SECRET_KEY --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text)' | base64 | tr -d '\n')
+          DAX_ENDPOINT: $(echo -n '$(aws ssm get-parameter --name /dribble-data/DAX_ENDPOINT --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text)' | base64 | tr -d '\n')
+          SESSION_COOKIE_SECURE: $(echo -n '$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SECURE --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text)' | base64 | tr -d '\n')
+          SESSION_COOKIE_HTTPONLY: $(echo -n '$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_HTTPONLY --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text)' | base64 | tr -d '\n')
+          SESSION_COOKIE_SAMESITE: $(echo -n '$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SAMESITE --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text)' | base64 | tr -d '\n')
+          REPOSITORY_URI: $(echo -n '$(aws ssm get-parameter --name /dribble-data/REPOSITORY_URI --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text)' | base64 | tr -d '\n')" > Kubernetes/Helm/secrets.yaml
+
         kubectl apply -f Kubernetes/Helm/secrets.yaml --namespace dribbledata-project
     
     - name: Install or Upgrade DribbleData Helm Chart
