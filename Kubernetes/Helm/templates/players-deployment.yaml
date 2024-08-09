@@ -25,6 +25,16 @@ spec:
           ports:
             - containerPort: 80
           env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: aws-credentials
+                  key: access_key_id
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-credentials
+                  key: secret_access_key
             - name: BASE_URL_SERVICE_2
               value: "{{ .Values.microservices.main.base_url }}"
             - name: SECRET_KEY
