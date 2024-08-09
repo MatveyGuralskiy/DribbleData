@@ -26,7 +26,21 @@ spec:
                 name: main-service
                 port:
                   number: 80
-          - path: /users
+          - path: /register
+            pathType: Prefix
+            backend:
+              service:
+                name: users-service
+                port:
+                  number: 80
+          - path: /login
+            pathType: Prefix
+            backend:
+              service:
+                name: users-service
+                port:
+                  number: 80
+          - path: /chat
             pathType: Prefix
             backend:
               service:
