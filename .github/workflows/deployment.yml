@@ -167,14 +167,13 @@ jobs:
 
     - name: Create or Update Kubernetes Secrets
       run: | 
-        SECRET_KEY=$(aws ssm get-parameter --name /dribble-data/SECRET_KEY --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
-        DAX_ENDPOINT=$(aws ssm get-parameter --name /dribble-data/DAX_ENDPOINT --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
-        SESSION_COOKIE_SECURE=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SECURE --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
-        SESSION_COOKIE_HTTPONLY=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_HTTPONLY --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
-        SESSION_COOKIE_SAMESITE=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SAMESITE --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
-        REPOSITORY_URI=$(aws ssm get-parameter --name /dribble-data/REPOSITORY_URI --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text)
-
-        # Создаем или обновляем секреты в Kubernetes
+        SECRET_KEY=$(aws ssm get-parameter --name /dribble-data/SECRET_KEY --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text | base64)
+        DAX_ENDPOINT=$(aws ssm get-parameter --name /dribble-data/DAX_ENDPOINT --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text | base64)
+        SESSION_COOKIE_SECURE=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SECURE --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text | base64)
+        SESSION_COOKIE_HTTPONLY=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_HTTPONLY --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text | base64)
+        SESSION_COOKIE_SAMESITE=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SAMESITE --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text | base64)
+        REPOSITORY_URI=$(aws ssm get-parameter --name /dribble-data/REPOSITORY_URI --region $AWS_DEFAULT_REGION --query "Parameter.Value" --output text | base64)
+    
         kubectl create secret generic dribbledata-secrets \
           --from-literal=SECRET_KEY=$SECRET_KEY \
           --from-literal=DAX_ENDPOINT=$DAX_ENDPOINT \
