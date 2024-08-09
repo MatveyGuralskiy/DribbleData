@@ -8,7 +8,6 @@ metadata:
   name: main-service
   namespace: {{ .Values.namespace }}
   labels:
-    env: {{ .Values.env }}
     type: Website
     owner: Matvey_Guralskiy
 spec:
