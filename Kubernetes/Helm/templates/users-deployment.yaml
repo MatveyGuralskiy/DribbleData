@@ -8,7 +8,8 @@ metadata:
   name: {{ .Values.microservices.users.deploymentName }}
   namespace: {{ .Values.namespace }}
   labels:
-    app: users-service
+    type: Website
+    owner: Matvey_Guralskiy
 spec:
   replicas: 2
   selector:

@@ -22,7 +22,7 @@ microservices:
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-type: alb
     ingressPath: /
-    base_Url: http://dev.matveyguralskiy.com
+    base_url: http://dev.matveyguralskiy.com
 
   users:
     deploymentName: users
