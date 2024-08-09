@@ -152,6 +152,13 @@ jobs:
           echo "Namespace 'dribbledata-project' already exists"
         fi
 
+    - name: Create AWS Secrets for Cluster
+      run: |
+        kubectl create secret generic aws-credentials \
+          --namespace dribbledata-project \
+          --from-literal=access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }} \
+          --from-literal=secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
     - name: Generate and apply secrets.yaml
       run: |
         echo "apiVersion: v1
@@ -169,8 +176,6 @@ jobs:
           BASE_URL_SERVICE_2: $(echo -n 'http://dev.matveyguralskiy.com/players' | base64 | tr -d '\n')
           BASE_URL_SERVICE_3: $(echo -n 'http://dev.matveyguralskiy.com/training' | base64 | tr -d '\n')
           BASE_URL_SERVICE_4: $(echo -n 'http://dev.matveyguralskiy.com/users' | base64 | tr -d '\n')
-          AWS_ACCESS_KEY_ID: $(echo -n '${{ secrets.AWS_ACCESS_KEY_ID }}' | base64 | tr -d '\n')
-          AWS_SECRET_ACCESS_KEY: $(echo -n '${{ secrets.AWS_SECRET_ACCESS_KEY }}' | base64 | tr -d '\n')
         " > Kubernetes/Helm/secrets.yaml
         
         kubectl apply -f Kubernetes/Helm/secrets.yaml --namespace dribbledata-project
