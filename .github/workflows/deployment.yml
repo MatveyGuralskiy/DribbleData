@@ -165,10 +165,10 @@ jobs:
           SESSION_COOKIE_SECURE: $(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SECURE --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text | base64 | tr -d '\n')
           SESSION_COOKIE_HTTPONLY: $(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_HTTPONLY --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text | base64 | tr -d '\n')
           SESSION_COOKIE_SAMESITE: $(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SAMESITE --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text | base64 | tr -d '\n')
-          BASE_URL_SERVICE_1: $(aws ssm get-parameter --name /dribble-data/BASE_URL_SERVICE_1 --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text | base64 | tr -d '\n')
-          BASE_URL_SERVICE_2: $(aws ssm get-parameter --name /dribble-data/BASE_URL_SERVICE_2 --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text | base64 | tr -d '\n')
-          BASE_URL_SERVICE_3: $(aws ssm get-parameter --name /dribble-data/BASE_URL_SERVICE_3 --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text | base64 | tr -d '\n')
-          BASE_URL_SERVICE_4: $(aws ssm get-parameter --name /dribble-data/BASE_URL_SERVICE_4 --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text | base64 | tr -d '\n')
+          BASE_URL_SERVICE_1: http://dev.matveyguralskiy.com
+          BASE_URL_SERVICE_2: http://dev.matveyguralskiy.com/players
+          BASE_URL_SERVICE_3: http://dev.matveyguralskiy.com/training
+          BASE_URL_SERVICE_4: http://dev.matveyguralskiy.com/users
         " > Kubernetes/Helm/secrets.yaml
         
         kubectl apply -f Kubernetes/Helm/secrets.yaml --namespace dribbledata-project
