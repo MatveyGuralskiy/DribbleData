@@ -11,7 +11,7 @@ metadata:
     app: main-service
     env: {{ .Values.env | quote }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 2
   selector:
     matchLabels:
       app: main-service
@@ -24,10 +24,10 @@ spec:
         - name: main-container
           image: {{ .Values.microservices.main.container.image }}
           ports:
-            - containerPort: {{ .Values.microservices.main.container.port }}
+            - containerPort: 80
           env:
             - name: BASE_URL
-              value: "{{ .Values.microservices.main.base_Url | quote }}"
+              value: "{{ .Values.microservices.main.base_url | quote }}"
             {{- range .Values.env }}
             - name: {{ .name }}
               valueFrom:
