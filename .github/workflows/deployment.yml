@@ -81,15 +81,24 @@ jobs:
             --policy-document file://alb_controller_iam_policy.json
         fi
 
-    - name: Create IAM service account
+    - name: Check and Create IAM Service Account
       run: |
-        eksctl create iamserviceaccount \
-          --cluster=EKS-Development \
-          --namespace=kube-system \
-          --name=aws-load-balancer-controller \
-          --attach-policy-arn=arn:aws:iam::381491938951:policy/AWSLoadBalancerControllerIAMPolicy \
-          --approve \
-          --override-existing-serviceaccounts
+        SERVICE_ACCOUNT_NAME="aws-load-balancer-controller"
+        NAMESPACE="kube-system"
+        CLUSTER_NAME="EKS-Development"
+        
+        # Check if the service account already exists
+        if kubectl get serviceaccount $SERVICE_ACCOUNT_NAME -n $NAMESPACE > /dev/null 2>&1; then
+          echo "Service account $SERVICE_ACCOUNT_NAME already exists in namespace $NAMESPACE."
+        else
+          echo "Service account $SERVICE_ACCOUNT_NAME does not exist. Creating it now."
+          eksctl create iamserviceaccount \
+            --cluster=$CLUSTER_NAME \
+            --namespace=$NAMESPACE \
+            --name=$SERVICE_ACCOUNT_NAME \
+            --attach-policy-arn=arn:aws:iam::381491938951:policy/AWSLoadBalancerControllerIAMPolicy \
+            --approve
+        fi
 
     - name: Add EKS Helm repo
       run: |
