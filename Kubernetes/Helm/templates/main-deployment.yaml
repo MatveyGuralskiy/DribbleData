@@ -9,7 +9,7 @@ metadata:
   namespace: {{ .Values.namespace }}
   labels:
     app: main-service
-    env: {{ .Values.env | quote }}
+    env: {{ .Values.env }}
 spec:
   replicas: 2
   selector:
