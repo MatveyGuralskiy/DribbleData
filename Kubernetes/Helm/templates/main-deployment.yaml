@@ -5,13 +5,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: main-deployment
+  name: {{ .Values.microservices.main.deploymentName }}
   namespace: {{ .Values.namespace }}
   labels:
     app: main-service
     env: {{ .Values.env }}
 spec:
-  replicas: 2
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: main-service
@@ -24,7 +24,37 @@ spec:
         - name: main-container
           image: {{ .Values.microservices.main.container.image }}
           ports:
-            - containerPort: 80
+            - containerPort: {{ .Values.microservices.main.container.port }}
           env:
             - name: BASE_URL
-              value: "{{ .Values.microservices.main.base_url }}"
+              value: "{{ .Values.microservices.main.baseUrl }}"
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: SECRET_KEY
+            - name: DAX_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: DAX_ENDPOINT
+            - name: SESSION_COOKIE_SECURE
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: SESSION_COOKIE_SECURE
+            - name: SESSION_COOKIE_HTTPONLY
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: SESSION_COOKIE_HTTPONLY
+            - name: SESSION_COOKIE_SAMESITE
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: SESSION_COOKIE_SAMESITE
+            - name: REPOSITORY_URI
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: REPOSITORY_URI

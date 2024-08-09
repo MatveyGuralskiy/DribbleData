@@ -5,7 +5,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: players-deployment
+  name: {{ .Values.microservices.players.deploymentName }}
   namespace: {{ .Values.namespace }}
   labels:
     app: players-service
@@ -28,3 +28,33 @@ spec:
           env:
             - name: BASE_URL
               value: "{{ .Values.microservices.players.base_url }}"
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: SECRET_KEY
+            - name: DAX_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: DAX_ENDPOINT
+            - name: SESSION_COOKIE_SECURE
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: SESSION_COOKIE_SECURE
+            - name: SESSION_COOKIE_HTTPONLY
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: SESSION_COOKIE_HTTPONLY
+            - name: SESSION_COOKIE_SAMESITE
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: SESSION_COOKIE_SAMESITE
+            - name: REPOSITORY_URI
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: REPOSITORY_URI
