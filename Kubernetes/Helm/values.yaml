@@ -33,8 +33,8 @@ microservices:
       type: LoadBalancer
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-type: alb
-    ingressPath: /
-    base_url: http://dev.matveyguralskiy.com/register
+    ingressPath: /register
+    base_url: http://dev.matveyguralskiy.com
     env:
       - name: SECRET_KEY
         valueFrom:
@@ -67,7 +67,7 @@ microservices:
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-type: alb
     ingressPath: /training
-    base_url: http://dev.matveyguralskiy.com/training
+    base_url: http://dev.matveyguralskiy.com
     env:
       - name: SECRET_KEY
         valueFrom:
@@ -100,7 +100,7 @@ microservices:
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-type: alb
     ingressPath: /players
-    base_url: http://dev.matveyguralskiy.com/players
+    base_url: http://dev.matveyguralskiy.com
     env:
       - name: SECRET_KEY
         valueFrom:
