@@ -171,6 +171,19 @@ jobs:
 
     - name: Generate and apply secrets.yaml
       run: |
+        # Fetch parameters from SSM and decode Base64
+        SECRET_KEY=$(aws ssm get-parameter --name /dribble-data/SECRET_KEY --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text)
+        SESSION_COOKIE_SECURE=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SECURE --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text)
+        SESSION_COOKIE_HTTPONLY=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_HTTPONLY --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text)
+        SESSION_COOKIE_SAMESITE=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SAMESITE --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text)
+        
+        # Encode the parameters to Base64
+        SECRET_KEY_BASE64=$(echo -n "$SECRET_KEY" | base64 | tr -d '\n')
+        SESSION_COOKIE_SECURE_BASE64=$(echo -n "$SESSION_COOKIE_SECURE" | base64 | tr -d '\n')
+        SESSION_COOKIE_HTTPONLY_BASE64=$(echo -n "$SESSION_COOKIE_HTTPONLY" | base64 | tr -d '\n')
+        SESSION_COOKIE_SAMESITE_BASE64=$(echo -n "$SESSION_COOKIE_SAMESITE" | base64 | tr -d '\n')
+    
+        # Create secrets.yaml file
         echo "apiVersion: v1
         kind: Secret
         metadata:
@@ -178,12 +191,13 @@ jobs:
           namespace: dribbledata-project
         type: Opaque
         data:
-          SECRET_KEY: $(aws ssm get-parameter --name /dribble-data/SECRET_KEY --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text | base64 | tr -d '\n')
-          SESSION_COOKIE_SECURE: $(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SECURE --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text | base64 | tr -d '\n')
-          SESSION_COOKIE_HTTPONLY: $(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_HTTPONLY --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text | base64 | tr -d '\n')
-          SESSION_COOKIE_SAMESITE: $(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SAMESITE --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text | base64 | tr -d '\n')
+          SECRET_KEY: $SECRET_KEY_BASE64
+          SESSION_COOKIE_SECURE: $SESSION_COOKIE_SECURE_BASE64
+          SESSION_COOKIE_HTTPONLY: $SESSION_COOKIE_HTTPONLY_BASE64
+          SESSION_COOKIE_SAMESITE: $SESSION_COOKIE_SAMESITE_BASE64
         " > Kubernetes/Helm/secrets.yaml
     
+        # Apply the secrets.yaml to the cluster
         kubectl apply -f Kubernetes/Helm/secrets.yaml --namespace dribbledata-project
     
     - name: Install or Upgrade DribbleData Helm Chart
