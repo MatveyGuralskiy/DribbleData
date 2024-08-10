@@ -99,7 +99,7 @@ jobs:
       id: vpc
       run: |
         VPC_ID=$(aws eks describe-cluster --name EKS-Development --query "cluster.resourcesVpcConfig.vpcId" --output text)
-        echo "::set-output name=vpc_id::$VPC_ID"
+        echo "VPC_ID=$VPC_ID" >> $GITHUB_ENV
     
     - name: Install or Upgrade AWS Load Balancer Controller
       run: |
@@ -110,7 +110,7 @@ jobs:
             --set clusterName=EKS-Development \
             --set serviceAccount.create=false \
             --set region=us-east-1 \
-            --set vpcId=${{ steps.vpc.outputs.vpc_id }} \
+            --set vpcId=${{ env.VPC_ID }} \
             --set serviceAccount.name=aws-load-balancer-controller
         else
           echo "Installing new AWS Load Balancer Controller..."
@@ -119,7 +119,7 @@ jobs:
             --set clusterName=EKS-Development \
             --set serviceAccount.create=false \
             --set region=us-east-1 \
-            --set vpcId=${{ steps.vpc.outputs.vpc_id }} \
+            --set vpcId=${{ env.VPC_ID }} \
             --set serviceAccount.name=aws-load-balancer-controller
         fi
         
