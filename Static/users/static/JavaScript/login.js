@@ -20,10 +20,11 @@ document.getElementById('login-form').addEventListener('submit', function (event
     })
         .then(response => response.json())
         .then(data => {
-            if (data.message) {
-                window.location.href = '/chat'; // Redirect on successful login
+            if (data.message === 'Login successful') {  // Check the message for successful login
+                window.location.href = '/chat';  // Redirect on successful login
             } else {
-                document.getElementById('login-error').style.display = 'block'; // Show error message
+                document.getElementById('login-error').textContent = data.error;  // Show error message
+                document.getElementById('login-error').style.display = 'block';
             }
         })
         .catch(error => console.error('Error:', error));

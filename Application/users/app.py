@@ -14,6 +14,10 @@ import pytz
 from dotenv import load_dotenv
 import os
 from dotenv import load_dotenv
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
 
 dotenv_path = os.path.join(os.path.dirname(__file__), '../.env')
 load_dotenv(dotenv_path)
@@ -105,8 +109,8 @@ def login():
         except Exception as e:
             app.logger.error(f'Error during login: {e}')
             return jsonify({'error': 'Internal server error'}), 500
-
-    return render_template('login.html',         
+    else:
+        return render_template('login.html',         
         base_url_service_1=os.getenv('BASE_URL_SERVICE_1'),
         base_url_service_2=os.getenv('BASE_URL_SERVICE_2'),
         base_url_service_3=os.getenv('BASE_URL_SERVICE_3'),
