@@ -13,7 +13,6 @@ from datetime import datetime
 import pytz
 from dotenv import load_dotenv
 import os
-from dotenv import load_dotenv
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -22,7 +21,6 @@ CORS(app)
 dotenv_path = os.path.join(os.path.dirname(__file__), '../.env')
 load_dotenv(dotenv_path)
 
-app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['SESSION_COOKIE_SECURE'] = os.getenv('SESSION_COOKIE_SECURE')
 app.config['SESSION_COOKIE_HTTPONLY'] = os.getenv('SESSION_COOKIE_HTTPONLY')
@@ -125,11 +123,12 @@ def logout():
 @app.route('/chat')
 @login_required
 def chat():
-    return render_template('chat.html',         
+    return render_template('chat.html',
         base_url_service_1=os.getenv('BASE_URL_SERVICE_1'),
         base_url_service_2=os.getenv('BASE_URL_SERVICE_2'),
         base_url_service_3=os.getenv('BASE_URL_SERVICE_3'),
-        base_url_service_4=os.getenv('BASE_URL_SERVICE_4'), username=current_user.username)
+        base_url_service_4=os.getenv('BASE_URL_SERVICE_4'),
+        username=current_user.username)
 
 @app.route('/get_messages')
 @login_required
