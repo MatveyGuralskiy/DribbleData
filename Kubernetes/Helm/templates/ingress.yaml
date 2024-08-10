@@ -61,6 +61,13 @@ spec:
                 name: players-service
                 port:
                   number: 80
+          - path: /socket.io/
+            pathType: Prefix
+            backend:
+              service:
+                name: users-service
+                port:
+                  number: 80
   tls:
     - hosts:
         - {{ .Values.ingress.host }}
