@@ -26,6 +26,16 @@ spec:
           ports:
             - containerPort: {{ .Values.microservices.training.container.port }}
           env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: aws-credentials
+                  key: access_key_id
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-credentials
+                  key: secret_access_key
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:
