@@ -48,7 +48,7 @@ def load_user(user_id):
         print(f"Error loading user: {e}")
     return None
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         data = request.get_json()
@@ -74,7 +74,7 @@ def register():
         base_url_service_1=os.getenv('BASE_URL_SERVICE_1'),
         base_url_service_2=os.getenv('BASE_URL_SERVICE_2'),
         base_url_service_3=os.getenv('BASE_URL_SERVICE_3'),
-        base_url_service_4=os.getenv('BASE_URL_SERVICE_4'),)
+        base_url_service_4=os.getenv('BASE_URL_SERVICE_4'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

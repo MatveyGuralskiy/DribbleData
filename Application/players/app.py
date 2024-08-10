@@ -9,7 +9,7 @@ table = dynamodb.Table('Players')
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET'])
+@app.route('/players', methods=['GET'])
 def get_top_50_players():
     try:
         response = table.scan()

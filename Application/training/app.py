@@ -13,7 +13,7 @@ app = Flask(__name__)
 s3 = boto3.client('s3')
 bucket_name = 'dribbledata-project'
 
-@app.route('/', methods=['GET'])
+@app.route('/training', methods=['GET'])
 def get_training_videos():
     response = s3.list_objects_v2(Bucket=bucket_name)
     videos = [obj['Key'] for obj in response.get('Contents', []) if obj['Key'].endswith('.mp4')]
