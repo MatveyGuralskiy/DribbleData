@@ -178,10 +178,10 @@ jobs:
           namespace: dribbledata-project
         type: Opaque
         data:
-          SECRET_KEY: $(aws ssm get-parameter --name /dribble-data/SECRET_KEY --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text | echo -n | base64 | tr -d '\n')
-          SESSION_COOKIE_SECURE: $(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SECURE --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text | echo -n | base64 | tr -d '\n')
-          SESSION_COOKIE_HTTPONLY: $(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_HTTPONLY --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text | echo -n | base64 | tr -d '\n')
-          SESSION_COOKIE_SAMESITE: $(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SAMESITE --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text | echo -n | base64 | tr -d '\n')
+          SECRET_KEY: $(aws ssm get-parameter --name /dribble-data/SECRET_KEY --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text | base64 | tr -d '\n')
+          SESSION_COOKIE_SECURE: $(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SECURE --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text | base64 | tr -d '\n')
+          SESSION_COOKIE_HTTPONLY: $(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_HTTPONLY --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text | base64 | tr -d '\n')
+          SESSION_COOKIE_SAMESITE: $(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SAMESITE --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text | base64 | tr -d '\n')
           BASE_URL_SERVICE_1: $(echo -n 'http://dev.matveyguralskiy.com' | base64 | tr -d '\n')
           BASE_URL_SERVICE_2: $(echo -n 'http://dev.matveyguralskiy.com/players' | base64 | tr -d '\n')
           BASE_URL_SERVICE_3: $(echo -n 'http://dev.matveyguralskiy.com/training' | base64 | tr -d '\n')
