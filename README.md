@@ -69,7 +69,6 @@ print("<span style='color:#FF9966;'>Hello</span> <span style='color:#003366;'>Wo
 ### Continuos Deployment
 
 
-
 <blockquote style="border-left: 10px solid #003366; padding: 10px;">
   <p style="color:#FF9966;">"This project is a game-changer in the industry!"</p>
 </blockquote>
