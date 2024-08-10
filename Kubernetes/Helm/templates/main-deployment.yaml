@@ -2,6 +2,10 @@
 # DribbleData Project
 # Created by Matvey Guralskiy
 #---------------------------
+#---------------------------
+# DribbleData Project
+# Created by Matvey Guralskiy
+#---------------------------
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -11,7 +15,7 @@ metadata:
     type: Website
     owner: Matvey_Guralskiy
 spec:
-  replicas: 2
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: main-service
@@ -24,10 +28,28 @@ spec:
         - name: main-container
           image: {{ .Values.microservices.main.container.image }}
           ports:
-            - containerPort: 80
+            - containerPort: {{ .Values.microservices.main.container.port }}
           env:
             - name: BASE_URL_SERVICE_1
-              value: "{{ .Values.microservices.main.base_url }}"
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: BASE_URL_SERVICE_1
+            - name: BASE_URL_SERVICE_2
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: BASE_URL_SERVICE_2
+            - name: BASE_URL_SERVICE_3
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: BASE_URL_SERVICE_3
+            - name: BASE_URL_SERVICE_4
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: BASE_URL_SERVICE_4
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:

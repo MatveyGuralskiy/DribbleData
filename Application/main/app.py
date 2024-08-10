@@ -4,6 +4,10 @@
 #---------------------------
 from flask import Flask, render_template, redirect, url_for
 import os
+from dotenv import load_dotenv
+
+dotenv_path = os.path.join(os.path.dirname(__file__), '../.env')
+load_dotenv(dotenv_path)
 
 app = Flask(__name__)
 

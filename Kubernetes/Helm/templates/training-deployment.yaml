@@ -11,7 +11,7 @@ metadata:
     type: Website
     owner: Matvey_Guralskiy
 spec:
-  replicas: 2
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: training-service
@@ -24,20 +24,8 @@ spec:
         - name: training-container
           image: {{ .Values.microservices.training.container.image }}
           ports:
-            - containerPort: 80
+            - containerPort: {{ .Values.microservices.training.container.port }}
           env:
-            - name: AWS_ACCESS_KEY_ID
-              valueFrom:
-                secretKeyRef:
-                  name: aws-credentials
-                  key: access_key_id
-            - name: AWS_SECRET_ACCESS_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: aws-credentials
-                  key: secret_access_key
-            - name: BASE_URL_SERVICE_3
-              value: "{{ .Values.microservices.main.base_url }}"
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:
@@ -58,3 +46,23 @@ spec:
                 secretKeyRef:
                   name: my-secrets
                   key: SESSION_COOKIE_SAMESITE
+            - name: BASE_URL_SERVICE_1
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: BASE_URL_SERVICE_1
+            - name: BASE_URL_SERVICE_2
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: BASE_URL_SERVICE_2
+            - name: BASE_URL_SERVICE_3
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: BASE_URL_SERVICE_3
+            - name: BASE_URL_SERVICE_4
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: BASE_URL_SERVICE_4

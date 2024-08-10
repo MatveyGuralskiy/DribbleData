@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  BASE_URL_SERVICE_1: "http://dev.matveyguralskiy.com"
+  BASE_URL_SERVICE_2: "http://dev.matveyguralskiy.com"
+  BASE_URL_SERVICE_3: "http://dev.matveyguralskiy.com"
+  BASE_URL_SERVICE_4: "http://dev.matveyguralskiy.com"

@@ -2,6 +2,10 @@ from flask import Flask, jsonify, redirect, url_for, render_template
 import boto3
 import logging
 import os
+from dotenv import load_dotenv
+
+dotenv_path = os.path.join(os.path.dirname(__file__), '../.env')
+load_dotenv(dotenv_path)
 
 dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
 
