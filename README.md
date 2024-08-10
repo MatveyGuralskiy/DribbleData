@@ -35,8 +35,6 @@ Overall, the DribbleData project is a sophisticated example of modern DevOps pra
 ### AWS Resources map
 
 
-
-
 <hr style="border: 2px solid #FF9966;">
 
 ```python
