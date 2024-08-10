@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'IMAGE_VERSION'
+      - 'README.md'
   workflow_dispatch:
 
 jobs:

@@ -8,14 +8,14 @@ env: Development
 # Common settings for all microservices
 replicaCount: 4
 image:
-  tag: V0.7
+  tag: V0.8
 
 # Configuration for each microservice
 microservices:
   main:
     deploymentName: main
     container:
-      image: matveyguralskiy/dribbledata_main:V0.7
+      image: matveyguralskiy/dribbledata_main:{{ .Values.image.tag }}
       port: 80
     service:
       type: LoadBalancer
@@ -27,7 +27,7 @@ microservices:
   users:
     deploymentName: users
     container:
-      image: matveyguralskiy/dribbledata_users:V0.7
+      image: matveyguralskiy/dribbledata_users:{{ .Values.image.tag }}
       port: 80
     service:
       type: LoadBalancer
@@ -60,7 +60,7 @@ microservices:
   training:
     deploymentName: training
     container:
-      image: matveyguralskiy/dribbledata_training:V0.7
+      image: matveyguralskiy/dribbledata_training:{{ .Values.image.tag }}
       port: 80
     service:
       type: LoadBalancer
@@ -93,7 +93,7 @@ microservices:
   players:
     deploymentName: players
     container:
-      image: matveyguralskiy/dribbledata_players:V0.7
+      image: matveyguralskiy/dribbledata_players:{{ .Values.image.tag }}
       port: 80
     service:
       type: LoadBalancer
@@ -130,7 +130,7 @@ awsLoadBalancerController:
     pullPolicy: IfNotPresent
   clusterName: EKS-Development
   region: us-east-1
-  vpcId: vpc-052f3335f7add3cef
+  vpcId: vpc-0496451e98e05d8b4
   serviceAccount:
     create: true
     name: aws-load-balancer-controller
@@ -146,11 +146,11 @@ awsLoadBalancerController:
     enabled: false
 
 subnets:
-  - id: subnet-0bab4bf2c9d9da83d
+  - id: subnet-070dc5c2adb662e01
     tags:
       - key: kubernetes.io/role/elb
         value: 1
-  - id: subnet-088f4dfd394bc179d
+  - id: subnet-02119eb443c3825d0
     tags:
       - key: kubernetes.io/role/elb
         value: 1
@@ -158,4 +158,4 @@ subnets:
 ingress:
   host: dev.matveyguralskiy.com
   tlsSecretName: tls-secret
-  certificateArn: arn:aws:acm:us-east-1:381491938951:certificate/8e566664-2688-4269-9f60-67aa7cdeb2ca
+  certificateArn: arn:aws:acm:us-east-1:381491938951:certificate/81faa0d2-5cfe-4c34-a17c-72553d2af5ac
