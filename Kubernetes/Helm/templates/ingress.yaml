@@ -47,6 +47,13 @@ spec:
                 name: users-service
                 port:
                   number: 80
+          - path: /get_messages
+            pathType: Prefix
+            backend:
+              service:
+                name: users-service
+                port:
+                  number: 80
           - path: /training
             pathType: Prefix
             backend:

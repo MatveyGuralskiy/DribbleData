@@ -12,6 +12,12 @@ $(document).ready(function () {
 
     socket.on('connect_error', function (error) {
         console.error('Connection error:', error);
+        alert('Connection error. Please try again later.');
+    });
+
+    socket.on('error', function (data) {
+        console.error('Socket.io error:', data);
+        alert('Socket.io error. Please try again later.');
     });
 
     function loadMessages() {
@@ -25,6 +31,7 @@ $(document).ready(function () {
             }
         }).fail(function (jqXHR, textStatus, errorThrown) {
             console.error('Failed to load messages:', textStatus, errorThrown);
+            alert('Failed to load messages.');
         });
     }
 
@@ -50,10 +57,6 @@ $(document).ready(function () {
         console.log('Received message:', data);
         $('#messages').append(`<div class="message"><span class="username">${data.username}</span>: <span class="text">${data.message}</span> <span class="timestamp">${data.timestamp}</span></div>`);
         $('#messages').scrollTop($('#messages')[0].scrollHeight);
-    });
-
-    socket.on('error', function (data) {
-        console.error('Socket.io error:', data);
     });
 
     if (window.location.search.includes('login_success=true')) {
