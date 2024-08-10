@@ -41,7 +41,6 @@ Overall, the DribbleData project is a sophisticated example of modern DevOps pra
 print("<span style='color:#FF9966;'>Hello</span> <span style='color:#003366;'>World</span>")
 ```
 
-
 ## 🗨️ Contacts
 
 <p align="center">
