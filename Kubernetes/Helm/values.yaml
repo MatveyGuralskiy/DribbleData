@@ -15,7 +15,7 @@ microservices:
   main:
     deploymentName: main
     container:
-      image: matveyguralskiy/dribbledata_main:{{ .Values.image.tag }}
+      image: matveyguralskiy/dribbledata_main:V0.8
       port: 80
     service:
       type: LoadBalancer
@@ -27,7 +27,7 @@ microservices:
   users:
     deploymentName: users
     container:
-      image: matveyguralskiy/dribbledata_users:{{ .Values.image.tag }}
+      image: matveyguralskiy/dribbledata_users:V0.8
       port: 80
     service:
       type: LoadBalancer
@@ -60,7 +60,7 @@ microservices:
   training:
     deploymentName: training
     container:
-      image: matveyguralskiy/dribbledata_training:{{ .Values.image.tag }}
+      image: matveyguralskiy/dribbledata_training:V0.8
       port: 80
     service:
       type: LoadBalancer
@@ -93,7 +93,7 @@ microservices:
   players:
     deploymentName: players
     container:
-      image: matveyguralskiy/dribbledata_players:{{ .Values.image.tag }}
+      image: matveyguralskiy/dribbledata_players:V0.8
       port: 80
     service:
       type: LoadBalancer
