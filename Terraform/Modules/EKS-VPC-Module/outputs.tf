@@ -23,6 +23,16 @@ output "Public_B_ID" {
   description = "Public Subnet B ID of VPC"
 }
 
+output "Private_A_ID" {
+  value       = aws_subnet.Private_A.id
+  description = "Private Subnet A ID of VPC"
+}
+
+output "Private_B_ID" {
+  value       = aws_subnet.Private_B.id
+  description = "Private Subnet B ID of VPC"
+}
+
 output "EKS_ID" {
   value       = aws_eks_cluster.EKS.id
   description = "EKS Cluster Id"

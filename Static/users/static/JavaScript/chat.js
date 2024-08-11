@@ -4,15 +4,12 @@ Created by Matvey Guralskiy
 ---------------------------*/
 $(document).ready(function () {
 
-    const socket = io(base_Url);
+    const socket = io(base_Url, {
+        transports: ['websocket', 'polling']
+    });
 
     socket.on('connect', function () {
         console.log('Connected to the WebSocket server');
-    });
-
-    socket.on('connect_error', function (error) {
-        console.error('Connection error:', error);
-        alert('Connection error. Please try again later.');
     });
 
     socket.on('error', function (data) {

@@ -53,43 +53,6 @@ resource "aws_dynamodb_table" "messages" {
     type = "S"
   }
 }
-/*
-# Create IAM Role for DAX
-resource "aws_iam_role" "dax_role" {
-  name = "dax-role"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Principal = {
-          Service = "dax.amazonaws.com"
-        }
-      }
-    ]
-  })
-}
-
-# Attach Policy to IAM Role
-resource "aws_iam_role_policy_attachment" "dax_policy_attachment" {
-  role       = aws_iam_role.dax_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
-}
-
-# Create DynamoDB Accelerator (DAX) Cluster
-resource "aws_dax_cluster" "dax_cluster" {
-  cluster_name       = "dribbledata-dax"
-  node_type          = "dax.r5.large"
-  replication_factor = 1
-  iam_role_arn       = aws_iam_role.dax_role.arn
-
-  tags = {
-    Name = "DAX Cluster for DribbleData"
-  }
-}
-*/
 
 # IAM Role for Lambda
 resource "aws_iam_role" "lambda_role" {

@@ -8,14 +8,14 @@ env: Development
 # Common settings for all microservices
 replicaCount: 4
 image:
-  tag: V1.1
+  tag: V1.2
 
 # Configuration for each microservice
 microservices:
   main:
     deploymentName: main
     container:
-      image: matveyguralskiy/dribbledata_main:V1.1
+      image: matveyguralskiy/dribbledata_main:V1.2
       port: 80
     service:
       type: LoadBalancer
@@ -48,7 +48,7 @@ microservices:
   users:
     deploymentName: users
     container:
-      image: matveyguralskiy/dribbledata_users:V1.1
+      image: matveyguralskiy/dribbledata_users:V1.2
       port: 80
     service:
       type: LoadBalancer
@@ -101,7 +101,7 @@ microservices:
   training:
     deploymentName: training
     container:
-      image: matveyguralskiy/dribbledata_training:V1.1
+      image: matveyguralskiy/dribbledata_training:V1.2
       port: 80
     service:
       type: LoadBalancer
@@ -154,7 +154,7 @@ microservices:
   players:
     deploymentName: players
     container:
-      image: matveyguralskiy/dribbledata_players:V1.1
+      image: matveyguralskiy/dribbledata_players:V1.2
       port: 80
     service:
       type: LoadBalancer
@@ -211,7 +211,7 @@ awsLoadBalancerController:
     pullPolicy: IfNotPresent
   clusterName: EKS-Development
   region: us-east-1
-  vpcId: vpc-019fe7c995fa1c4dc
+  vpcId: vpc-035f6a413de0bb8d9
   serviceAccount:
     create: true
     name: aws-load-balancer-controller
@@ -227,11 +227,11 @@ awsLoadBalancerController:
     enabled: false
 
 subnets:
-  - id: subnet-07e3cd7177864edbd
+  - id: subnet-059bcc16d446198e8
     tags:
       - key: kubernetes.io/role/elb
         value: 1
-  - id: subnet-07e3cd7177864edbd
+  - id: subnet-01d08a82cbfa26c80
     tags:
       - key: kubernetes.io/role/elb
         value: 1
@@ -239,4 +239,4 @@ subnets:
 ingress:
   host: dev.matveyguralskiy.com
   tlsSecretName: tls-secret
-  certificateArn: arn:aws:acm:us-east-1:381491938951:certificate/5f02abb0-8f8f-46b4-b44a-cdbf25c11491
+  certificateArn: arn:aws:acm:us-east-1:381491938951:certificate/de6b2c10-413a-4a20-845c-e832afd7cc78

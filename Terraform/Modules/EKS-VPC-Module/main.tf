@@ -94,7 +94,6 @@ resource "aws_route_table_association" "RouteTable_Attach_B" {
   route_table_id = aws_route_table.Public_RouteTable_B.id
 }
 
-/*
 # Create 2 Private Subnets in different Availability Zones: A, B
 resource "aws_subnet" "Private_A" {
   vpc_id            = aws_vpc.VPC.id
@@ -177,7 +176,7 @@ resource "aws_route_table_association" "Route_Table_Private_B" {
   subnet_id      = aws_subnet.Private_B.id
   route_table_id = aws_route_table.Private_Route_Table_B.id
 }
-*/
+
 #---------------EKS-------------------
 
 # IAM role for EKS
@@ -212,7 +211,7 @@ resource "aws_eks_cluster" "EKS" {
   role_arn = aws_iam_role.Main_Role.arn
 
   vpc_config {
-    subnet_ids = [aws_subnet.Public_A.id, aws_subnet.Public_B.id]
+    subnet_ids = [aws_subnet.Public_A.id, aws_subnet.Public_B.id, aws_subnet.Private_A.id, aws_subnet.Private_B.id]
   }
 
   depends_on = [
@@ -257,7 +256,7 @@ resource "aws_eks_node_group" "Worker_Nodes" {
   cluster_name    = aws_eks_cluster.EKS.name
   node_group_name = var.Node_Group_Name
   node_role_arn   = aws_iam_role.Node_Role.arn
-  subnet_ids      = [aws_subnet.Public_A.id, aws_subnet.Public_B.id]
+  subnet_ids      = [aws_subnet.Private_A.id, aws_subnet.Private_B.id]
 
   scaling_config {
     desired_size = var.Scaling_Number

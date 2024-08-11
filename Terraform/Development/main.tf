@@ -25,6 +25,8 @@ module "EKS-VPC-Development" {
   VPC_CIDR           = "192.168.0.0/16"
   Public_A_CIDR      = "192.168.1.0/24"
   Public_B_CIDR      = "192.168.2.0/24"
+  Private_A_CIDR     = "192.168.3.0/24"
+  Private_B_CIDR     = "192.168.4.0/24"
   Key_SSH            = "Virginia"
   EKS_Name           = "EKS-Development"
   Node_Group_Name    = "Node-Group-Development"

@@ -38,13 +38,13 @@ variable "Public_B_CIDR" {
 variable "Private_A_CIDR" {
   type        = string
   description = "My CIDR Block for Private Subnet A"
-  default     = "192.168.3.0/24"
+  default     = "192.168.4.0/24"
 }
 
 variable "Private_B_CIDR" {
   type        = string
   description = "My CIDR Block for Private Subnet B"
-  default     = "192.168.4.0/24"
+  default     = "192.168.5.0/24"
 }
 
 #-----------------EKS-----------------------
