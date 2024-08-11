@@ -196,6 +196,17 @@ jobs:
     
         # Apply the secrets.yaml to the cluster
         kubectl apply -f Kubernetes/Helm/secrets.yaml --namespace dribbledata-project
+
+    - name: Add Helm repository
+      run: |
+        helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+        helm repo update
+
+    - name: Install or Upgrade Node Exporter
+      run: |
+        helm upgrade --install node-exporter prometheus-community/prometheus-node-exporter \
+          --set service.enabled=true \
+          --set service.type=ClusterIP
     
     - name: Install or Upgrade DribbleData Helm Chart
       run: |
