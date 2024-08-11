@@ -75,7 +75,33 @@ spec:
                 name: users-service
                 port:
                   number: 80
+    - host: grafana.matveyguralskiy.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana
+                port:
+                  number: 3000
+    - host: prometheus.matveyguralskiy.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: prometheus-service
+                port:
+                  number: 9090
   tls:
     - hosts:
         - {{ .Values.ingress.host }}
+      secretName: {{ .Values.ingress.tlsSecretName }}
+    - hosts:
+        - grafana.matveyguralskiy.com
+      secretName: {{ .Values.ingress.tlsSecretName }}
+    - hosts:
+        - prometheus.matveyguralskiy.com
       secretName: {{ .Values.ingress.tlsSecretName }}
