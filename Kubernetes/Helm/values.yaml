@@ -204,6 +204,31 @@ microservices:
             name: app-config
             key: BASE_URL_SERVICE_4
 
+grafana:
+  deploymentName: grafana
+  container:
+    image: grafana/grafana:latest
+    port: 3000
+  service:
+    type: LoadBalancer
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: alb
+  ingressPath: /
+  base_url: http://grafana.matveyguralskiy.com
+
+prometheus:
+  deploymentName: prometheus
+  container:
+    image: prom/prometheus:latest
+    port: 9090
+  service:
+    type: LoadBalancer
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: alb
+  ingressPath: /
+  base_url: http://prometheus.matveyguralskiy.com
+
+
 awsLoadBalancerController:
   image:
     repository: public.ecr.aws/eks/aws-load-balancer-controller
