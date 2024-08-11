@@ -78,8 +78,7 @@ jobs:
     - name: Update Chart.yaml with new version
       run: |
         VERSION=${{ env.IMAGE_VERSION }}
-        sed -i "s/^version: .*/version: $VERSION/" Kubernetes/Helm/Chart.yaml
-        sed -i "s/^appVersion: .*/appVersion: V$VERSION/" Kubernetes/Helm/Chart.yaml
+        sed -i "s/^appVersion: .*/appVersion: $VERSION/" Kubernetes/Helm/Chart.yaml
 
     - name: Update values.yaml with new version
       run: |
