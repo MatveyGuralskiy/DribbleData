@@ -7,7 +7,7 @@ name: dribble-data
 description: A Helm chart for deploying DribbleData microservices
 type: application
 version: 3.15.2
-appVersion: "V2.6"
+appVersion: "V2.7"
 
 maintainers:
   - name: Matvey Guralskiy
