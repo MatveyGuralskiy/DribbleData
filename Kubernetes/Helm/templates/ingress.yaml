@@ -75,13 +75,6 @@ spec:
                 name: users-service
                 port:
                   number: 80
-            - path: /prometheus
-            pathType: Prefix
-            backend:
-              service:
-                name: prometheus-service
-                port:
-                  number: 80
   tls:
     - hosts:
         - {{ .Values.ingress.host }}
