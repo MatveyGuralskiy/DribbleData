@@ -6,8 +6,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: prometheus
-  labels:
-    app: prometheus
 spec:
   replicas: 1
   selector:
@@ -19,17 +17,15 @@ spec:
         app: prometheus
     spec:
       containers:
-      - name: prometheus
-        image: prom/prometheus:latest
-        args:
-          - "--config.file=/etc/prometheus/prometheus.yml"
-        ports:
-          - containerPort: 9090
-        volumes:
-          - name: config
-            configMap:
-              name: app-config
-        volumeMounts:
-          - name: config
-            mountPath: /etc/prometheus
-            subPath: prometheus.yml
+        - name: prometheus
+          image: prom/prometheus:latest
+          ports:
+            - containerPort: 9090
+          volumeMounts:
+            - name: config
+              mountPath: /etc/prometheus
+              subPath: prometheus.yml
+      volumes:
+        - name: config
+          configMap:
+            name: app-config
