@@ -8,14 +8,14 @@ env: Development
 # Common settings for all microservices
 replicaCount: 4
 image:
-  tag: V2.5
+  tag: V2.6
 
 # Configuration for each microservice
 microservices:
   main:
     deploymentName: main
     container:
-      image: matveyguralskiy/dribbledata_main:V2.5
+      image: matveyguralskiy/dribbledata_main:V2.6
       port: 80
     service:
       type: LoadBalancer
@@ -48,7 +48,7 @@ microservices:
   users:
     deploymentName: users
     container:
-      image: matveyguralskiy/dribbledata_users:V2.5
+      image: matveyguralskiy/dribbledata_users:V2.6
       port: 80
     service:
       type: LoadBalancer
@@ -101,7 +101,7 @@ microservices:
   training:
     deploymentName: training
     container:
-      image: matveyguralskiy/dribbledata_training:V2.5
+      image: matveyguralskiy/dribbledata_training:V2.6
       port: 80
     service:
       type: LoadBalancer
@@ -154,7 +154,7 @@ microservices:
   players:
     deploymentName: players
     container:
-      image: matveyguralskiy/dribbledata_players:V2.5
+      image: matveyguralskiy/dribbledata_players:V2.6
       port: 80
     service:
       type: LoadBalancer
