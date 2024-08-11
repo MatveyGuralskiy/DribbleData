@@ -249,6 +249,19 @@ subnets:
       - key: kubernetes.io/role/elb
         value: 1
 
+nodeExporter:
+  enabled: true
+  service:
+    enabled: true
+    type: ClusterIP
+  daemonSet:
+    enabled: true
+    updateStrategy:
+      type: RollingUpdate
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+
 ingress:
   host: dev.matveyguralskiy.com
   tlsSecretName: tls-secret
