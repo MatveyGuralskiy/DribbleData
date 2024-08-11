@@ -2,7 +2,7 @@ name: Deployment
 
 on:
   workflow_run:
-    workflows: ["Development"]
+    workflows: ["CI/CD Pipeline DribbleData"]
     types:
       - completed
 
