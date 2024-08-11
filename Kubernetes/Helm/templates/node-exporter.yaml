@@ -1,8 +1,12 @@
+#---------------------------
+# DribbleData Project
+# Created by Matvey Guralskiy
+#---------------------------
 apiVersion: v1
 kind: Service
 metadata:
   name: node-exporter-service
-  namespace: dribbledata-project
+  namespace: {{ .Values.namespace }}
 spec:
   selector:
     app: node-exporter
