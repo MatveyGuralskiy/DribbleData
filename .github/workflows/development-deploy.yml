@@ -205,8 +205,7 @@ jobs:
     - name: Install or Upgrade Node Exporter
       run: |
         helm upgrade --install node-exporter prometheus-community/prometheus-node-exporter \
-          --set service.enabled=true \
-          --set service.type=ClusterIP
+          -namespace dribbledata-project
     
     - name: Install or Upgrade DribbleData Helm Chart
       run: |
