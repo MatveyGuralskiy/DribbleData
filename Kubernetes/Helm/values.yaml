@@ -205,7 +205,7 @@ microservices:
             key: BASE_URL_SERVICE_4
 
 prometheus:
-  deploymentName: prometheus
+  deploymentName: prometheus-server
   container:
     image: prom/prometheus:latest
     port: 9090
