@@ -2,10 +2,6 @@
 # DribbleData Project
 # Created by Matvey Guralskiy
 #---------------------------
-#---------------------------
-# DribbleData Project
-# Created by Matvey Guralskiy
-#---------------------------
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -36,4 +32,4 @@ data:
 
       - job_name: 'node-exporter'
         static_configs:
-          - targets: ['node-exporter-prometheus-node-exporter:9100']
+          - targets: ['node-exporter-service:9100']
