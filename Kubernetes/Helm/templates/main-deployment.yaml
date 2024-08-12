@@ -2,10 +2,6 @@
 # DribbleData Project
 # Created by Matvey Guralskiy
 #---------------------------
-#---------------------------
-# DribbleData Project
-# Created by Matvey Guralskiy
-#---------------------------
 apiVersion: apps/v1
 kind: Deployment
 metadata:

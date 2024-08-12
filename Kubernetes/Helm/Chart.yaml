@@ -3,7 +3,7 @@
 # Created by Matvey Guralskiy
 #---------------------------
 apiVersion: v2
-name: dribble-data
+name: dribbledata
 description: A Helm chart for deploying DribbleData microservices
 type: application
 version: 3.15.2
