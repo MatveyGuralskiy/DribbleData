@@ -10,7 +10,7 @@ metadata:
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/certificate-arn: {{ .Values.ingress.certificateArn }},{{ .Values.ingress.certificateArn2 }}
+    alb.ingress.kubernetes.io/certificate-arn: {{ .Values.ingress.certificateArn }},{{ .Values.ingress.certificateArn2 }},{{ .Values.ingress.certificateArn3 }}
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
     alb.ingress.kubernetes.io/actions.ssl-redirect: '{"Type": "redirect", "RedirectConfig": { "Protocol": "HTTPS", "Port": "443", "StatusCode": "HTTP_301"}}'
 spec:
@@ -85,11 +85,14 @@ spec:
                 name: prometheus-service
                 port:
                   number: 80
-          - path: /node-exporter
+    - host: grafana.matveyguralskiy.com
+      http:
+        paths:
+          - path: /
             pathType: Prefix
             backend:
               service:
-                name: node-exporter-service
+                name: grafana-service
                 port:
                   number: 80
   tls:
@@ -99,3 +102,6 @@ spec:
     - hosts:
         - {{ .Values.ingress.host2 }}
       secretName: {{ .Values.ingress.tlsSecretName2 }}
+    - hosts:
+        - {{ .Values.ingress.host3 }}
+      secretName: {{ .Values.ingress.tlsSecretName3 }}
