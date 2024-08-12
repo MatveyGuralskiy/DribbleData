@@ -216,6 +216,17 @@ prometheus:
   ingressPath: /
   base_url: http://prometheus.matveyguralskiy.com
 
+grafana:
+  deploymentName: grafana
+  container:
+    image: grafana/grafana:latest
+    port: 3000
+  service:
+    type: LoadBalancer
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: alb
+  ingressPath: /
+  base_url: http://grafana.matveyguralskiy.com
 
 awsLoadBalancerController:
   image:
@@ -270,3 +281,7 @@ ingress:
   host2: prometheus.matveyguralskiy.com
   tlsSecretName2: prometheus-tls-secret
   certificateArn2: arn:aws:acm:us-east-1:381491938951:certificate/1b275fd1-9636-4b70-a365-cba10b39142e
+
+  host3: grafana.matveyguralskiy.com
+  tlsSecretName3: grafana-tls-secret
+  certificateArn3: arn:aws:acm:us-east-1:381491938951:certificate/44f259b1-3da7-4458-b9c2-6af21d0df842
