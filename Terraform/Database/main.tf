@@ -120,14 +120,14 @@ resource "aws_lambda_function" "delete_old_messages" {
   source_code_hash = filebase64sha256("archive_chat_function.zip")
 }
 
-# EventBridge Rule for every 24 hours
+# CloudWatch for every 24 hours
 resource "aws_cloudwatch_event_rule" "every_24_hours" {
   name                = "every_24_hours"
   description         = "Trigger Lambda every 24 hours"
   schedule_expression = "rate(24 hours)"
 }
 
-# EventBridge Target
+# CloudWatch Target
 resource "aws_cloudwatch_event_target" "lambda_target" {
   rule      = aws_cloudwatch_event_rule.every_24_hours.name
   target_id = "lambda"
@@ -144,14 +144,14 @@ resource "aws_lambda_permission" "allow_eventbridge" {
 }
 
 /* # Lambda For Every 5 minutes
-# EventBridge Rule
+# Cloudwatch Rule
 resource "aws_cloudwatch_event_rule" "every_5_minutes" {
   name                = "every_5_minutes"
   description         = "Trigger Lambda every 5 minutes"
   schedule_expression = "rate(5 minutes)"
 }
 
-# EventBridge Target for every 5 minutes
+# Cloudwatch Target for every 5 minutes
 resource "aws_cloudwatch_event_target" "lambda_target" {
   rule      = aws_cloudwatch_event_rule.every_5_minutes.name
   target_id = "lambda"

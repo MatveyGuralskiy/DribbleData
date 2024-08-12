@@ -247,7 +247,7 @@ awsLoadBalancerController:
     pullPolicy: IfNotPresent
   clusterName: EKS-Development
   region: us-east-1
-  vpcId: vpc-0f3436d41c70616f8
+  vpcId: vpc-0c5d8ef91081a9dfe
   serviceAccount:
     create: true
     name: aws-load-balancer-controller
@@ -263,11 +263,11 @@ awsLoadBalancerController:
     enabled: false
 
 subnets:
-  - id: subnet-0d5db3f3c35e9a81c
+  - id: subnet-0c3a06c6bfd0f7dc4
     tags:
       - key: kubernetes.io/role/elb
         value: 1
-  - id: subnet-03f7ffe03297175b6
+  - id: subnet-0decad14969d31da9
     tags:
       - key: kubernetes.io/role/elb
         value: 1
@@ -289,12 +289,12 @@ nodeExporter:
 ingress:
   host: dribbledata.matveyguralskiy.com
   tlsSecretName: tls-secret
-  certificateArn: arn:aws:acm:us-east-1:381491938951:certificate/9f958ded-7c0e-4ecf-b0f5-39c972dc166c
+  certificateArn: arn:aws:acm:us-east-1:381491938951:certificate/8c08b7e0-670e-48ff-b6f1-c7a285356fba
   
   host2: prometheus.matveyguralskiy.com
   tlsSecretName2: prometheus-tls-secret
-  certificateArn2: arn:aws:acm:us-east-1:381491938951:certificate/1b275fd1-9636-4b70-a365-cba10b39142e
+  certificateArn2: arn:aws:acm:us-east-1:381491938951:certificate/4b0ba48a-acca-488c-af8c-3f0ba093d1a9
 
   host3: grafana.matveyguralskiy.com
   tlsSecretName3: grafana-tls-secret
-  certificateArn3: arn:aws:acm:us-east-1:381491938951:certificate/44f259b1-3da7-4458-b9c2-6af21d0df842
+  certificateArn3: arn:aws:acm:us-east-1:381491938951:certificate/0cb15ddf-39f8-439d-84db-a7b51552e39a
