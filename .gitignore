@@ -1,8 +1,5 @@
 __pycache__
 .env
-video1.mp4
-video2.mp4
-video3.mp4
 .terraform
 .terraform.lock.hcl
 .terraform.tfstate.lock.info
