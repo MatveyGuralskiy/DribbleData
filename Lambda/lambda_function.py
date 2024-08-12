@@ -1,3 +1,8 @@
+#---------------------------
+# DribbleData Project
+# Created by Matvey Guralskiy
+#---------------------------
+
 import boto3
 from datetime import datetime, timedelta
 from dateutil import parser, tz
