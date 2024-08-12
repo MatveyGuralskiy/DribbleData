@@ -86,12 +86,12 @@ spec:
                 port:
                   number: 80
           - path: /node-exporter
-          pathType: Prefix
-          backend:
-            service:
-              name: node-exporter-service
-              port:
-                number: 80
+            pathType: Prefix
+            backend:
+              service:
+                name: node-exporter-service
+                port:
+                  number: 80
   tls:
     - hosts:
         - {{ .Values.ingress.host }}
