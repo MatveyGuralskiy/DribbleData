@@ -217,16 +217,28 @@ prometheus:
   base_url: http://prometheus.matveyguralskiy.com
 
 grafana:
-  deploymentName: grafana
-  container:
-    image: grafana/grafana:latest
-    port: 3000
+  enabled: true
+  adminPassword: "admin"
   service:
-    type: LoadBalancer
-    annotations:
-      service.beta.kubernetes.io/aws-load-balancer-type: alb
-  ingressPath: /
-  base_url: http://grafana.matveyguralskiy.com
+    type: ClusterIP
+    port: 3000
+  ingress:
+    enabled: true
+    name: grafana-ingress
+    path: /
+    hosts:
+      - grafana.matveyguralskiy.com
+    tls:
+      - secretName: grafana-tls
+        hosts:
+          - grafana.matveyguralskiy.com
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "100m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
 
 awsLoadBalancerController:
   image:
@@ -259,6 +271,7 @@ subnets:
     tags:
       - key: kubernetes.io/role/elb
         value: 1
+
 
 nodeExporter:
   enabled: true
