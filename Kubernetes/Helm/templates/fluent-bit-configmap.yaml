@@ -1,0 +1,36 @@
+#---------------------------
+# DribbleData Project
+# Created by Matvey Guralskiy
+#---------------------------
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-bit-config
+  namespace: kube-system
+data:
+  fluent-bit.conf: |
+    [SERVICE]
+        Flush        1
+        Daemon       Off
+        Log_Level    info
+
+    [INPUT]
+        Name              tail
+        Path              /var/log/containers/*.log
+        Tag               kube.*
+        Parser            docker
+        Docker_Mode       On
+
+    [OUTPUT]
+        Name              cloudwatch
+        Match             kube.*
+        region            us-east-1
+        log_group_name    my-fluent-bit-logs
+        log_stream_prefix from-fluent-bit-
+        auto_create_group true
+  parsers.conf: |
+    [PARSER]
+        Name         docker
+        Format       json
+        Time_Key     time
+        Time_Format  %Y-%m-%dT%H:%M:%S
