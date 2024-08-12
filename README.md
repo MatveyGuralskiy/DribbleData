@@ -30,7 +30,7 @@ Key aspects of the project include:
 Overall, the DribbleData project is a sophisticated example of modern DevOps practices, demonstrating how to manage complex infrastructure effectively while addressing real-world challenges in scaling, security, and continuous operation.
 
 
-<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Full-Scheme.jpeg?raw=true">
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Project-Scheme.jpeg?raw=true">
 
 ### AWS Resources map
 
