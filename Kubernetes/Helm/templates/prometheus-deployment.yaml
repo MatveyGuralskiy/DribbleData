@@ -17,9 +17,10 @@ spec:
       labels:
         app: prometheus-server
     spec:
+      serviceAccountName: prometheus
       containers:
         - name: prometheus
-          image: prom/prometheus
+          image: prom/prometheus:v2.53.2
           ports:
             - containerPort: 9090
           volumeMounts:
