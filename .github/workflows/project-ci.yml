@@ -1,4 +1,4 @@
-name: CI/CD Pipeline DribbleData
+name: CI Pipeline DribbleData
 
 on:
   push:
