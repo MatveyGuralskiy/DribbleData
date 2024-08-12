@@ -1,3 +1,8 @@
+#---------------------------
+# DribbleData Project
+# Created by Matvey Guralskiy
+#---------------------------
+
 import boto3
 from botocore.exceptions import ClientError
 
