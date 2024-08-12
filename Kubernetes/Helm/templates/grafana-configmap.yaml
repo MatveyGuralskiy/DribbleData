@@ -2,31 +2,16 @@
 # DribbleData Project
 # Created by Matvey Guralskiy
 #---------------------------
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: ConfigMap
 metadata:
-  name: grafana
+  name: grafana-config
   namespace: {{ .Values.namespace }}
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: grafana
-  template:
-    metadata:
-      labels:
-        app: grafana
-    spec:
-      containers:
-        - name: grafana
-          image: grafana/grafana:latest
-          ports:
-            - containerPort: 3000
-          volumeMounts:
-            - name: config-volume
-              mountPath: /etc/grafana/grafana.ini
-              subPath: grafana.ini
-      volumes:
-        - name: config-volume
-          configMap:
-            name: grafana-config
+data:
+  grafana.ini: |
+    [server]
+    root_url = http://grafana.matveyguralskiy.com
+    serve_from_sub_path = true
+    [auth]
+    disable_login_form = false
+    disable_signout_menu = false
