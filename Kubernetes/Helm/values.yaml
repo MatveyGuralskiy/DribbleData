@@ -22,7 +22,7 @@ microservices:
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-type: alb
     ingressPath: /
-    base_url: http://dev.matveyguralskiy.com
+    base_url: http://dribbledata.matveyguralskiy.com
     env:
       - name: BASE_URL_SERVICE_1
         valueFrom:
@@ -55,7 +55,7 @@ microservices:
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-type: alb
     ingressPath: /register
-    base_url: http://dev.matveyguralskiy.com
+    base_url: http://dribbledata.matveyguralskiy.com
     env:
       - name: SECRET_KEY
         valueFrom:
@@ -108,7 +108,7 @@ microservices:
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-type: alb
     ingressPath: /training
-    base_url: http://dev.matveyguralskiy.com
+    base_url: http://dribbledata.matveyguralskiy.com
     env:
       - name: SECRET_KEY
         valueFrom:
@@ -161,7 +161,7 @@ microservices:
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-type: alb
     ingressPath: /players
-    base_url: http://dev.matveyguralskiy.com
+    base_url: http://dribbledata.matveyguralskiy.com
     env:
       - name: SECRET_KEY
         valueFrom:
@@ -287,7 +287,7 @@ nodeExporter:
     affinity: {}
 
 ingress:
-  host: dev.matveyguralskiy.com
+  host: dribbledata.matveyguralskiy.com
   tlsSecretName: tls-secret
   certificateArn: arn:aws:acm:us-east-1:381491938951:certificate/9f958ded-7c0e-4ecf-b0f5-39c972dc166c
   
