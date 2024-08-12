@@ -7,7 +7,7 @@ kind: ConfigMap
 metadata:
   name: app-config
 data:
-  BASE_URL_SERVICE_1: "https://dev.matveyguralskiy.com"
-  BASE_URL_SERVICE_2: "https://dev.matveyguralskiy.com"
-  BASE_URL_SERVICE_3: "https://dev.matveyguralskiy.com"
-  BASE_URL_SERVICE_4: "https://dev.matveyguralskiy.com"
+  BASE_URL_SERVICE_1: "https://dribbledata.matveyguralskiy.com"
+  BASE_URL_SERVICE_2: "https://dribbledata.matveyguralskiy.com"
+  BASE_URL_SERVICE_3: "https://dribbledata.matveyguralskiy.com"
+  BASE_URL_SERVICE_4: "https://dribbledata.matveyguralskiy.com"
