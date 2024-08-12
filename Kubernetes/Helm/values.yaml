@@ -224,7 +224,7 @@ awsLoadBalancerController:
     pullPolicy: IfNotPresent
   clusterName: EKS-Development
   region: us-east-1
-  vpcId: vpc-07e14b6f685ea7fcc
+  vpcId: vpc-0f3436d41c70616f8
   serviceAccount:
     create: true
     name: aws-load-balancer-controller
@@ -240,11 +240,11 @@ awsLoadBalancerController:
     enabled: false
 
 subnets:
-  - id: subnet-003e561e6466f60a9
+  - id: subnet-0d5db3f3c35e9a81c
     tags:
       - key: kubernetes.io/role/elb
         value: 1
-  - id: subnet-087142893aed4ba37
+  - id: subnet-03f7ffe03297175b6
     tags:
       - key: kubernetes.io/role/elb
         value: 1
@@ -265,9 +265,8 @@ nodeExporter:
 ingress:
   host: dev.matveyguralskiy.com
   tlsSecretName: tls-secret
-  certificateArn: arn:aws:acm:us-east-1:381491938951:certificate/8c482ba1-e70f-41b4-974d-d6273dacc4a1
+  certificateArn: arn:aws:acm:us-east-1:381491938951:certificate/9f958ded-7c0e-4ecf-b0f5-39c972dc166c
   
   host2: prometheus.matveyguralskiy.com
   tlsSecretName2: prometheus-tls-secret
-  certificateArn2: arn:aws:acm:us-east-1:381491938951:certificate/8c482ba1-e70f-41b4-974d-d6273dacc4a1
-  service2: prometheus-service
+  certificateArn2: arn:aws:acm:us-east-1:381491938951:certificate/1b275fd1-9636-4b70-a365-cba10b39142e
