@@ -1,6 +1,6 @@
 #---------------------------
-#DribbleData Project
-#Created by Matvey Guralskiy
+# DribbleData Project
+# Created by Matvey Guralskiy
 #---------------------------
 
 # Use an official Python runtime as a parent image

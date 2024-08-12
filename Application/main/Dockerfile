@@ -1,8 +1,8 @@
 #---------------------------
-#DribbleData Project
-#Created by Matvey Guralskiy
+# DribbleData Project
+# Created by Matvey Guralskiy
 #---------------------------
-    
+
 # Use an official Python runtime as a parent image
 FROM python:3.9-slim
 
