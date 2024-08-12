@@ -1,3 +1,8 @@
+#---------------------------
+# DribbleData Project
+# Created by Matvey Guralskiy
+#---------------------------
+
 from flask import Flask, jsonify, redirect, url_for, render_template
 import boto3
 import logging
