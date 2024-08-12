@@ -1,3 +1,8 @@
+#---------------------------
+# DribbleData Project
+# Created by Matvey Guralskiy
+#---------------------------
+
 provider "aws" {
   region = "us-east-1"
 }
@@ -12,6 +17,7 @@ terraform {
   }
 }
 
+# Create DynamoDB table Users
 resource "aws_dynamodb_table" "users" {
   name           = "Users"
   billing_mode   = "PROVISIONED"
@@ -26,6 +32,7 @@ resource "aws_dynamodb_table" "users" {
   }
 }
 
+# Create DynamoDB table Players
 resource "aws_dynamodb_table" "players" {
   name           = "Players"
   billing_mode   = "PROVISIONED"
@@ -40,6 +47,7 @@ resource "aws_dynamodb_table" "players" {
   }
 }
 
+# Create DynamoDB table Messages
 resource "aws_dynamodb_table" "messages" {
   name           = "Messages"
   billing_mode   = "PROVISIONED"
@@ -112,7 +120,7 @@ resource "aws_lambda_function" "delete_old_messages" {
   source_code_hash = filebase64sha256("archive_chat_function.zip")
 }
 
-# EventBridge Rule
+# EventBridge Rule for every 24 hours
 resource "aws_cloudwatch_event_rule" "every_24_hours" {
   name                = "every_24_hours"
   description         = "Trigger Lambda every 24 hours"
@@ -143,7 +151,7 @@ resource "aws_cloudwatch_event_rule" "every_5_minutes" {
   schedule_expression = "rate(5 minutes)"
 }
 
-# EventBridge Target
+# EventBridge Target for every 5 minutes
 resource "aws_cloudwatch_event_target" "lambda_target" {
   rule      = aws_cloudwatch_event_rule.every_5_minutes.name
   target_id = "lambda"

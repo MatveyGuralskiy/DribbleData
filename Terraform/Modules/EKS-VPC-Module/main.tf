@@ -1,9 +1,10 @@
 #---------------------------
-#DribbleData Project
-#Created by Matvey Guralskiy
+# DribbleData Project
+# Created by Matvey Guralskiy
 #---------------------------
 
-# Module AWS EKS VPC
+# Module AWS EKS Cluster and VPC
+
 #---------------VPC-------------------
 
 data "aws_availability_zones" "Availability" {}

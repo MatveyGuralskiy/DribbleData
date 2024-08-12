@@ -1,6 +1,6 @@
 #---------------------------
-#DribbleData Project
-#Created by Matvey Guralskiy
+# DribbleData Project
+# Created by Matvey Guralskiy
 #---------------------------
 
 provider "aws" {
@@ -84,6 +84,7 @@ resource "aws_s3_bucket_public_access_block" "Bucket_Public_Access_Block" {
   restrict_public_buckets = false
 }
 
+# Create Bucket Policy
 resource "aws_s3_bucket_policy" "Bucket_Policy" {
   provider = aws
   bucket   = aws_s3_bucket.Bucket_Project.id
@@ -112,6 +113,7 @@ resource "aws_s3_bucket_policy" "Bucket_Policy" {
   })
 }
 
+# Upload Icon for Application
 resource "aws_s3_object" "image_1" {
   provider = aws
   bucket   = aws_s3_bucket.Bucket_Project.id
@@ -119,6 +121,7 @@ resource "aws_s3_object" "image_1" {
   source   = "../../Screens/S3-Bucket/Icon.png"
 }
 
+# Upload Logo of Project for Application
 resource "aws_s3_object" "image_2" {
   provider = aws
   bucket   = aws_s3_bucket.Bucket_Project.id
@@ -126,6 +129,7 @@ resource "aws_s3_object" "image_2" {
   source   = "../../Screens/S3-Bucket/Logo-Project.png"
 }
 
+# Upload Video Training
 resource "aws_s3_object" "video_1" {
   provider = aws
   bucket   = aws_s3_bucket.Bucket_Project.id
@@ -133,6 +137,7 @@ resource "aws_s3_object" "video_1" {
   source   = "../../Screens/S3-Bucket/video1.mp4"
 }
 
+# Upload Video Training
 resource "aws_s3_object" "video_2" {
   provider = aws
   bucket   = aws_s3_bucket.Bucket_Project.id
@@ -140,6 +145,7 @@ resource "aws_s3_object" "video_2" {
   source   = "../../Screens/S3-Bucket/video2.mp4"
 }
 
+# Upload Video Training
 resource "aws_s3_object" "video_3" {
   provider = aws
   bucket   = aws_s3_bucket.Bucket_Project.id
@@ -149,6 +155,7 @@ resource "aws_s3_object" "video_3" {
 
 #-----------------Static Files of Microservices------------------
 
+# Upload Main CSS
 resource "aws_s3_object" "main_css" {
   provider     = aws
   bucket       = aws_s3_bucket.Bucket_Project.id
@@ -157,6 +164,7 @@ resource "aws_s3_object" "main_css" {
   content_type = "text/css"
 }
 
+# Upload Main JavaScript
 resource "aws_s3_object" "main_js" {
   provider     = aws
   bucket       = aws_s3_bucket.Bucket_Project.id
@@ -165,6 +173,7 @@ resource "aws_s3_object" "main_js" {
   content_type = "application/javascript"
 }
 
+# Upload Players CSS
 resource "aws_s3_object" "players_css" {
   provider     = aws
   bucket       = aws_s3_bucket.Bucket_Project.id
@@ -173,6 +182,7 @@ resource "aws_s3_object" "players_css" {
   content_type = "text/css"
 }
 
+# Upload Training CSS
 resource "aws_s3_object" "training_css" {
   provider     = aws
   bucket       = aws_s3_bucket.Bucket_Project.id
@@ -181,6 +191,7 @@ resource "aws_s3_object" "training_css" {
   content_type = "text/css"
 }
 
+# Upload Training JavaScript
 resource "aws_s3_object" "training_js" {
   provider     = aws
   bucket       = aws_s3_bucket.Bucket_Project.id
@@ -189,6 +200,7 @@ resource "aws_s3_object" "training_js" {
   content_type = "application/javascript"
 }
 
+# Upload Users Chat CSS
 resource "aws_s3_object" "users_chat_css" {
   provider     = aws
   bucket       = aws_s3_bucket.Bucket_Project.id
@@ -197,6 +209,7 @@ resource "aws_s3_object" "users_chat_css" {
   content_type = "text/css"
 }
 
+# Upload Users Chat JavaScript
 resource "aws_s3_object" "users_chat_js" {
   provider     = aws
   bucket       = aws_s3_bucket.Bucket_Project.id
@@ -205,6 +218,7 @@ resource "aws_s3_object" "users_chat_js" {
   content_type = "application/javascript"
 }
 
+# Upload Users Register JavaScript
 resource "aws_s3_object" "users_js" {
   provider     = aws
   bucket       = aws_s3_bucket.Bucket_Project.id
@@ -213,7 +227,7 @@ resource "aws_s3_object" "users_js" {
   content_type = "application/javascript"
 }
 
-#Also for Login Page
+# Upload Users Login and Register CSS
 resource "aws_s3_object" "users_css" {
   provider     = aws
   bucket       = aws_s3_bucket.Bucket_Project.id
@@ -222,6 +236,7 @@ resource "aws_s3_object" "users_css" {
   content_type = "text/css"
 }
 
+# Upload Users Login JavaScript
 resource "aws_s3_object" "users_login_js" {
   provider     = aws
   bucket       = aws_s3_bucket.Bucket_Project.id
@@ -230,8 +245,9 @@ resource "aws_s3_object" "users_login_js" {
   content_type = "application/javascript"
 }
 
-#CloudFront
+#-----------------CloudFront Distribution------------------
 
+# Create CloudFront Distribution
 resource "aws_cloudfront_distribution" "cdn" {
   origin {
     domain_name = "${aws_s3_bucket.Bucket_Project.bucket}.s3.amazonaws.com"
@@ -259,7 +275,7 @@ resource "aws_cloudfront_distribution" "cdn" {
   is_ipv6_enabled = true
   comment         = "CloudFront distribution for my microservices"
 
-  price_class = "PriceClass_100" #Only in Europe, USA and Canada
+  price_class = "PriceClass_100" # Only in Europe, USA and Canada
 
   restrictions {
     geo_restriction {
@@ -272,6 +288,7 @@ resource "aws_cloudfront_distribution" "cdn" {
   }
 }
 
+# Add CORS to S3 Bucket
 resource "aws_s3_bucket_cors_configuration" "Bucket_Cors" {
   bucket = aws_s3_bucket.Bucket_Project.id
 

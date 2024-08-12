@@ -1,6 +1,6 @@
 #---------------------------
-#DribbleData Project
-#Created by Matvey Guralskiy
+# DribbleData Project
+# Created by Matvey Guralskiy
 #---------------------------
 
 variable "Region_USA" {

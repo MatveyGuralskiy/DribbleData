@@ -1,6 +1,6 @@
 #---------------------------
-#DribbleData Project
-#Created by Matvey Guralskiy
+# DribbleData Project
+# Created by Matvey Guralskiy
 #---------------------------
 
 output "VPC_ID" {
@@ -21,16 +21,6 @@ output "Public_A_ID" {
 output "Public_B_ID" {
   value       = aws_subnet.Public_B.id
   description = "Public Subnet B ID of VPC"
-}
-
-output "Private_A_ID" {
-  value       = aws_subnet.Private_A.id
-  description = "Private Subnet A ID of VPC"
-}
-
-output "Private_B_ID" {
-  value       = aws_subnet.Private_B.id
-  description = "Private Subnet B ID of VPC"
 }
 
 output "EKS_ID" {
