@@ -1,3 +1,7 @@
+#---------------------------
+# DribbleData Project
+# Created by Matvey Guralskiy
+#---------------------------
 apiVersion: v1
 kind: ConfigMap
 metadata:
