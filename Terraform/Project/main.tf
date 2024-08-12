@@ -244,57 +244,60 @@ resource "aws_backup_selection" "Backup_selection" {
 
 #-----------------------Lambda---------------------------
 
-# Lambda IAM Role
+
+# IAM Role for Lambda
 resource "aws_iam_role" "Lambda_role" {
-  name = "lambda_execution_role"
+  name = "lambda_role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
       {
-        Action = "sts:AssumeRole",
         Effect = "Allow",
         Principal = {
           Service = "lambda.amazonaws.com"
-        }
-      },
-    ],
+        },
+        Action = "sts:AssumeRole"
+      }
+    ]
   })
 }
 
-# Lambda Policy
+# IAM Policy for Lambda
 resource "aws_iam_policy" "Lambda_policy" {
-  name = "lambda_policy"
+  name        = "lambda_policy"
+  description = "Policy for Lambda function to access EC2 and SSM"
 
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
       {
+        Effect = "Allow",
         Action = [
-          "eks:UpdateNodegroupConfig",
-          "eks:DescribeNodegroup",
           "ec2:DescribeInstances",
-          "ec2:DescribeInstanceStatus",
-          "ec2:RebootInstances"
+          "ssm:SendCommand"
         ],
-        Effect   = "Allow",
         Resource = "*"
       }
     ]
   })
 }
 
+# Attach Policy to Role
 resource "aws_iam_role_policy_attachment" "Lambda_policy_attachment" {
   role       = aws_iam_role.Lambda_role.name
   policy_arn = aws_iam_policy.Lambda_policy.arn
 }
 
-resource "aws_lambda_function" "Lambda_function_updates" {
+# Lambda Function
+resource "aws_lambda_function" "Update_packages" {
   filename      = "lambda_function.zip"
-  function_name = "eks_node_update_function"
+  function_name = "lambda_function"
   role          = aws_iam_role.Lambda_role.arn
   handler       = "index.lambda_handler"
-  runtime       = "python3.9"
+  runtime       = "python3.8"
+
+  source_code_hash = filebase64sha256("lambda_function.zip")
 
   environment {
     variables = {
@@ -302,56 +305,121 @@ resource "aws_lambda_function" "Lambda_function_updates" {
       NODEGROUP_NAME = "Node-Group-Dribbledata"
     }
   }
-
-  source_code_hash = filebase64sha256("lambda_function.zip")
 }
 
-# CloudWatch for Lambda
-
-# Rule to run every 24 hours
-resource "aws_cloudwatch_event_rule" "schedule" {
-  name                = "eks-update-schedule"
-  schedule_expression = "rate(24 hours)"
-}
-
-# Lambda Target
-resource "aws_cloudwatch_event_target" "lambda_target" {
-  rule = aws_cloudwatch_event_rule.schedule.name
-  arn  = aws_lambda_function.Lambda_function_updates.arn
-}
-
-# Permissions for CloudWatch
-resource "aws_lambda_permission" "allow_cloudwatch" {
-  statement_id  = "AllowExecutionFromCloudWatch"
+# Lambda Permissions for SSM
+resource "aws_lambda_permission" "Allow_ssm" {
+  statement_id  = "AllowSSMInvoke"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.Lambda_function_updates.function_name
-  principal     = "events.amazonaws.com"
-  source_arn    = aws_cloudwatch_event_rule.schedule.arn
+  function_name = aws_lambda_function.Update_packages.function_name
+  principal     = "ssm.amazonaws.com"
 }
 
-#---------------------------CloudWatch Logs--------------------------------
-
-# Send Logs to CloudWatch Logs with Fluent Bit
-
-# Create Role for Fluent Bit
-resource "aws_iam_role" "fluent_bit_role" {
-  name = "fluent_bit_role"
+# IAM Role for SSM
+resource "aws_iam_role" "ssm_role" {
+  name = "ssm_role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
       {
-        Action = "sts:AssumeRole",
         Effect = "Allow",
         Principal = {
-          Service = "ec2.amazonaws.com"
-        }
+          Service = "ssm.amazonaws.com"
+        },
+        Action = "sts:AssumeRole"
       }
     ]
   })
 }
 
-# Create Policy for Fluent Bit
+# IAM Policy for SSM
+resource "aws_iam_policy" "ssm_policy" {
+  name        = "ssm_policy"
+  description = "Policy for SSM to interact with Lambda"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = [
+          "lambda:InvokeFunction"
+        ],
+        Resource = aws_lambda_function.Update_packages.arn
+      }
+    ]
+  })
+}
+
+# Attach Policy to Role
+resource "aws_iam_role_policy_attachment" "ssm_policy_attachment" {
+  role       = aws_iam_role.ssm_role.name
+  policy_arn = aws_iam_policy.ssm_policy.arn
+}
+
+# CloudWatch Event Rule to Trigger Lambda
+resource "aws_cloudwatch_event_rule" "rule" {
+  name                = "daily_update_check"
+  description         = "Trigger Lambda function daily to check for updates"
+  schedule_expression = "rate(1 day)"
+}
+
+# Lambda Target for CloudWatch Event
+resource "aws_cloudwatch_event_target" "target" {
+  rule      = aws_cloudwatch_event_rule.rule.name
+  target_id = "update_packages"
+  arn       = aws_lambda_function.Update_packages.arn
+}
+
+# IAM Policy to Allow CloudWatch Events to Invoke Lambda
+resource "aws_lambda_permission" "allow_cloudwatch" {
+  statement_id  = "AllowCloudWatchInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.Update_packages.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.rule.arn
+}
+
+#---------------------------CloudWatch Logs--------------------------------
+
+data "aws_region" "current" {}
+
+data "aws_caller_identity" "current" {}
+
+data "aws_eks_cluster" "cluster" {
+  name = "EKS-Dribbledata"
+}
+
+# Extract the OIDC provider ID from the EKS cluster's OIDC issuer URL
+locals {
+  oidc_provider_url = data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer
+  oidc_provider_id = element(
+    split("/", local.oidc_provider_url),
+    4
+  )
+}
+
+# Create IAM Role for Fluent Bit
+resource "aws_iam_role" "fluent_bit_role" {
+  name = "FluentBitRole"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          Federated = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/oidc.eks.${data.aws_region.current.name}.amazonaws.com/id/${local.oidc_provider_id}"
+        },
+        Action = "sts:AssumeRoleWithWebIdentity"
+      }
+    ]
+  })
+  depends_on = [module.EKS-VPC-DribbleData]
+}
+
+# Create IAM Policy for Fluent Bit
 resource "aws_iam_policy" "fluent_bit_policy" {
   name = "fluent_bit_policy"
 
@@ -365,6 +433,13 @@ resource "aws_iam_policy" "fluent_bit_policy" {
           "logs:CreateLogStream",
           "logs:DescribeLogGroups",
           "logs:DescribeLogStreams"
+        ],
+        Effect   = "Allow",
+        Resource = "*"
+      },
+      {
+        Action = [
+          "eks:DescribeCluster"
         ],
         Effect   = "Allow",
         Resource = "*"
