@@ -3,6 +3,8 @@
 # Created by Matvey Guralskiy
 #---------------------------
 
+# Before You Archive this script RENAME him to 'lambda_function.py'
+
 import boto3
 from datetime import datetime, timedelta
 from dateutil import parser, tz
