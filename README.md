@@ -1,6 +1,6 @@
 <div align="center">
 
-  <img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Main-Logo.png?raw=true" alt="logo" width="500" height="auto" />
+  <img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Project/Main-Logo.png?raw=true" alt="logo" width="500" height="auto" />
 
 <h1>DribbleData Project</h1>
   
@@ -32,7 +32,7 @@ Additionally, the project incorporates other AWS services, such as Route 53 for 
 In summary, the DribbleData project represents a state-of-the-art approach to building scalable, secure, and efficient cloud applications. It leverages a wide array of modern tools and practices to deliver a robust, flexible, and high-performing system.
 
 
-<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Project-Scheme.jpeg?raw=true">
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Project/Project-Scheme.jpeg?raw=true">
 
 <hr style="border: 2px solid #FF9966;">
 
@@ -81,7 +81,7 @@ An S3 Bucket is used to store Terraform remote state and media content, with Clo
 The AWS Backup service is configured to back up DynamoDB tables and S3 bucket contents, with a backup plan managed through EventBridge
 
 
-<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/AWS-Scheme.jpeg?raw=true">
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Project/AWS-Scheme.jpeg?raw=true">
 
 <hr style="border: 2px solid #FF9966;">
 
@@ -117,7 +117,7 @@ Steps of CI:
 
 - Docker-Compose Test: A final test is conducted using Docker Compose to ensure the containers work together as expected.
 
-<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/CI-Scheme.jpeg?raw=true">
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Project/CI-Scheme.jpeg?raw=true">
 
 <hr style="border: 2px solid #FF9966;">
 
@@ -157,7 +157,7 @@ Steps of CD:
 
 15. Verify All Kubernetes Helm Files: The final step involves verifying that all Kubernetes Helm files are correctly configured and operational.
 
-<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/CD-Scheme.jpeg?raw=true">
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Project/CD-Scheme.jpeg?raw=true">
 
 <hr style="border: 2px solid #FF9966;">
 
@@ -168,6 +168,46 @@ Steps of CD:
 <hr style="border: 2px solid #FF9966;">
 
 ## Screens
+
+Screens of Application:
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Website/Website-Main.png?raw=true">
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Website/Website-Players-2.png?raw=true">
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Website/Website-Training-1.png?raw=true">
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Website/Website-Register-1.png?raw=true">
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Website/Website-Chat-3.png?raw=true">
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Website/Redirect-1.png?raw=true">
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Website/Website-Login-2.png?raw=true">
+
+Screens of CI/CD:
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/GitHub-Actions/GitHub-Actions-CI-3.png?raw=true">
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/GitHub-Actions/GitHub-Actions-CI-5.png?raw=true">
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/GitHub-Actions/GitHub-Actions-CD-1.png?raw=true">
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/GitHub-Actions/GitHub-Actions-CD-5.png?raw=true">
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/GitHub-Actions/GitHub-Actions-CD-7.png?raw=true">
+
+Screens of Grafana:
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Grafana/Dashboard-Result-1.png?raw=true">
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Grafana/Dashboard-Result-3.png?raw=true">
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Grafana/Dashboard-Result-2.png?raw=true">
+
+Screens of Prometheus:
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Prometheus/Prometheus-3.png?raw=true">
 
 <hr style="border: 2px solid #FF9966;">
 
