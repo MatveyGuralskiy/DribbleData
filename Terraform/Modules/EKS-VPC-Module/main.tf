@@ -293,3 +293,77 @@ resource "aws_launch_template" "EKS_Node_Template" {
   key_name      = var.Key_SSH
   user_data     = filebase64("../../SSM/ssm_agent.sh")
 }
+
+#------------------------------Bastion Host---------------------------------
+
+# Image for Launch Configuration
+data "aws_ami" "Latest_Ubuntu" {
+  owners      = ["099720109477"]
+  most_recent = true
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
+  }
+}
+
+# Security Group for Bastion Host
+resource "aws_security_group" "Bastion_Host_SG" {
+  name        = "Bastion Host Security Group"
+  description = "Security Group for SSH"
+  vpc_id      = aws_vpc.VPC.id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = "-1"
+    to_port     = "-1"
+    protocol    = "icmp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "Bastion Host SG"
+  }
+}
+
+# Launch Configuration for Auto-Scaling Group
+resource "aws_launch_configuration" "Bastion-Host-LC" {
+  name          = "Bastion-Host"
+  image_id      = data.aws_ami.Latest_Ubuntu.id
+  instance_type = var.Instance_type
+
+  key_name        = var.Key_SSH
+  security_groups = [aws_security_group.Bastion_Host_SG.id]
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+# Auto-Scaling Group for Bastion Host
+resource "aws_autoscaling_group" "Bastion-Host-ASG" {
+  desired_capacity    = 1
+  max_size            = 1
+  min_size            = 1
+  vpc_zone_identifier = [aws_subnet.Public_A.id, aws_subnet.Public_B.id]
+
+  launch_configuration = aws_launch_configuration.Bastion-Host-LC.id
+
+  tag {
+    key                 = "Name"
+    value               = "Bastion-Host-ASG"
+    propagate_at_launch = true
+  }
+}
