@@ -32,6 +32,12 @@ def get_instance_ids_with_tag(tag_key, tag_value):
     
     return instance_ids
 
+def is_instance_ready(instance_id):
+    """Check if the instance is in a running state."""
+    instance = ec2_client.describe_instances(InstanceIds=[instance_id])
+    state = instance['Reservations'][0]['Instances'][0]['State']['Name']
+    return state == 'running'
+
 def update_packages_on_instance(instance_id):
     """Update all packages and install all available updates on the instance."""
     # Command for Amazon Linux 2
@@ -48,10 +54,28 @@ def update_packages_on_instance(instance_id):
     )
     return response
 
-# Get instance IDs
-instance_ids = get_instance_ids_with_tag(tag_key, tag_value)
+def lambda_handler(event, context):
+    """Lambda function handler."""
+    try:
+        # Get instance IDs
+        instance_ids = get_instance_ids_with_tag(tag_key, tag_value)
 
-# Update packages on each instance
-for instance_id in instance_ids:
-    response = update_packages_on_instance(instance_id)
-    print(f"Update command sent to instance {instance_id}. Response: {response}")
+        # Update packages on each instance
+        for instance_id in instance_ids:
+            if is_instance_ready(instance_id):
+                response = update_packages_on_instance(instance_id)
+                print(f"Update command sent to instance {instance_id}. Response: {response}")
+            else:
+                print(f"Instance {instance_id} is not in a running state.")
+                
+        return {
+            'statusCode': 200,
+            'body': 'Commands sent successfully'
+        }
+    
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        return {
+            'statusCode': 500,
+            'body': f'Error: {str(e)}'
+        }

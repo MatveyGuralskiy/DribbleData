@@ -22,7 +22,7 @@ microservices:
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-type: alb
     ingressPath: /
-    base_url: http://dribbledata.matveyguralskiy.com
+    base_url: dribbledata.matveyguralskiy.com
     env:
       - name: BASE_URL_SERVICE_1
         valueFrom:
@@ -55,7 +55,7 @@ microservices:
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-type: alb
     ingressPath: /register
-    base_url: http://dribbledata.matveyguralskiy.com
+    base_url: dribbledata.matveyguralskiy.com
     env:
       - name: SECRET_KEY
         valueFrom:
@@ -108,7 +108,7 @@ microservices:
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-type: alb
     ingressPath: /training
-    base_url: http://dribbledata.matveyguralskiy.com
+    base_url: dribbledata.matveyguralskiy.com
     env:
       - name: SECRET_KEY
         valueFrom:
@@ -161,7 +161,7 @@ microservices:
       annotations:
         service.beta.kubernetes.io/aws-load-balancer-type: alb
     ingressPath: /players
-    base_url: http://dribbledata.matveyguralskiy.com
+    base_url: dribbledata.matveyguralskiy.com
     env:
       - name: SECRET_KEY
         valueFrom:
@@ -214,7 +214,7 @@ prometheus:
     annotations:
       service.beta.kubernetes.io/aws-load-balancer-type: alb
   ingressPath: /
-  base_url: http://prometheus.matveyguralskiy.com
+  base_url: prometheus.matveyguralskiy.com
 
 grafana:
   enabled: true
