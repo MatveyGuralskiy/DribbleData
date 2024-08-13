@@ -247,7 +247,7 @@ awsLoadBalancerController:
     pullPolicy: IfNotPresent
   clusterName: EKS-Dribbledata
   region: us-east-1
-  vpcId: vpc-00c5619e2ecf47950
+  vpcId: YOUR_VPC_ID
   serviceAccount:
     create: true
     name: aws-load-balancer-controller
@@ -263,11 +263,11 @@ awsLoadBalancerController:
     enabled: false
 
 subnets:
-  - id: subnet-0c327f709d647ed4b
+  - id: YOUR_PUBLIC_SUBNET_A_ID
     tags:
       - key: kubernetes.io/role/elb
         value: 1
-  - id: subnet-0fa4b065830cb4e0c
+  - id: YOUR_PUBLIC_SUBNET_B_ID
     tags:
       - key: kubernetes.io/role/elb
         value: 1
@@ -289,12 +289,12 @@ nodeExporter:
 ingress:
   host: dribbledata.matveyguralskiy.com
   tlsSecretName: tls-secret
-  certificateArn: arn:aws:acm:us-east-1:381491938951:certificate/41ce9ab3-7fb6-4fc9-840b-474e4b072b3a
+  certificateArn: YOUR_APPLICATION_ARN
   
   host2: prometheus.matveyguralskiy.com
   tlsSecretName2: prometheus-tls-secret
-  certificateArn2: arn:aws:acm:us-east-1:381491938951:certificate/d770be92-730b-4e09-93fd-2447672cff04
+  certificateArn2: YOUR_PROMETHEUS_ARN
 
   host3: grafana.matveyguralskiy.com
   tlsSecretName3: grafana-tls-secret
-  certificateArn3: arn:aws:acm:us-east-1:381491938951:certificate/ea3e55f7-934c-4109-aeeb-75f69581cb78
+  certificateArn3: YOUR_GRAFANA_ARN
