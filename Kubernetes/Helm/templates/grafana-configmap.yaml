@@ -15,3 +15,10 @@ data:
     [auth]
     disable_login_form = false
     disable_signout_menu = false
+    [smtp]
+    enabled = true
+    host = smtp.gmail.com:587
+    user = ${USER_EMAIL}
+    password = ${PASSWORD_EMAIL}
+    from_address = admin@grafana.localhost
+    from_name = Grafana

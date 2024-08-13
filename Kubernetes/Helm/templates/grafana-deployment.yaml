@@ -26,6 +26,17 @@ spec:
             - name: config-volume
               mountPath: /etc/grafana/grafana.ini
               subPath: grafana.ini
+          env:
+            - name: USER_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: USER_EMAIL
+            - name: PASSWORD_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: my-secrets
+                  key: PASSWORD_EMAIL
       volumes:
         - name: config-volume
           configMap:
