@@ -173,12 +173,16 @@ jobs:
         SESSION_COOKIE_SECURE=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SECURE --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text)
         SESSION_COOKIE_HTTPONLY=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_HTTPONLY --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text)
         SESSION_COOKIE_SAMESITE=$(aws ssm get-parameter --name /dribble-data/SESSION_COOKIE_SAMESITE --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text)
+        USER_EMAIL=$(aws ssm get-parameter --name /dribble-data/USER_EMAIL --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text)
+        PASSWORD_EMAIL=$(aws ssm get-parameter --name /dribble-data/PASSWORD_EMAIL --region $AWS_DEFAULT_REGION --query 'Parameter.Value' --output text)
         
         # Encode the parameters to Base64
         SECRET_KEY_BASE64=$(echo -n "$SECRET_KEY" | base64 | tr -d '\n')
         SESSION_COOKIE_SECURE_BASE64=$(echo -n "$SESSION_COOKIE_SECURE" | base64 | tr -d '\n')
         SESSION_COOKIE_HTTPONLY_BASE64=$(echo -n "$SESSION_COOKIE_HTTPONLY" | base64 | tr -d '\n')
         SESSION_COOKIE_SAMESITE_BASE64=$(echo -n "$SESSION_COOKIE_SAMESITE" | base64 | tr -d '\n')
+        USER_EMAIL_BASE64=$(echo -n "$USER_EMAIL" | base64 | tr -d '\n')
+        PASSWORD_EMAIL_BASE64=$(echo -n "$PASSWORD_EMAIL" | base64 | tr -d '\n')
     
         # Create secrets.yaml file
         echo "apiVersion: v1
@@ -192,6 +196,8 @@ jobs:
           SESSION_COOKIE_SECURE: $SESSION_COOKIE_SECURE_BASE64
           SESSION_COOKIE_HTTPONLY: $SESSION_COOKIE_HTTPONLY_BASE64
           SESSION_COOKIE_SAMESITE: $SESSION_COOKIE_SAMESITE_BASE64
+          USER_EMAIL: $USER_EMAIL_BASE64
+          PASSWORD_EMAIL: $PASSWORD_EMAIL_BASE64
         " > Kubernetes/Helm/secrets.yaml
     
         # Apply the secrets.yaml to the cluster
