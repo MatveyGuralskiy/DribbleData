@@ -209,6 +209,16 @@ Screens of Prometheus:
 
 <img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Prometheus/Prometheus-3.png?raw=true">
 
+Screens of AWS Services:
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/AWS-Console/DynamoDB/DynamoDB-5.png?raw=true">
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/AWS-Console/LoadBalancer/LoadBalancer-1.png?raw=true">
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/AWS-Console/VPC/VPC-1.png?raw=true">
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/AWS-Console/S3/S3-Bucket-Project-4.png?raw=true">
+
 <hr style="border: 2px solid #FF9966;">
 
 ## 👣 Documentation Part with Detailed Steps
