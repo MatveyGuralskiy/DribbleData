@@ -62,7 +62,7 @@ print("<span style='color:#FF9966;'>Hello</span> <span style='color:#003366;'>Wo
 
 ### Full Scheme in AWS of Project
 
-<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/AWS-Project-Scheme.jpg?raw=true">
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/AWS-Scheme.jpeg?raw=true">
 
 ### Continuous Integration
 
