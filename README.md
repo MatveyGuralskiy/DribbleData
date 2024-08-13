@@ -13,68 +13,163 @@
 
 <h2>🔍 About the Project</h2>
 
-The DribbleData project involves multiple interconnected systems, each requiring careful management. From automated testing and secure deployments to integrating various AWS services, this project shows how to manage complex infrastructure efficiently.
+The project, named DribbleData, is built using a microservices architecture, meaning it is composed of several smaller, independent services rather than one large application. These microservices are created using Flask, a popular Python web framework known for its simplicity and flexibility.
 
-Key aspects of the project include:
+Data storage and management are key aspects of the project, leveraging various Amazon Web Services (AWS) solutions. Amazon S3 buckets are utilized to store files such as images and documents, while DynamoDB, a fast and flexible NoSQL database, handles structured data, ensuring quick access and scalability.
 
-🔹 Automated Testing:<br> Implementing comprehensive automated tests to ensure that each microservice operates correctly and integrates seamlessly with others. This includes unit tests, integration tests, and end-to-end tests to catch issues early and maintain high-quality code.
+The project makes efficient use of serverless computing through AWS Lambda, allowing specific functions to execute only when needed, thereby conserving resources and reducing costs. To orchestrate different events and actions within the system, Amazon EventBridge is employed, functioning as a sophisticated event scheduler.
 
-🔸 Secure Deployments:<br> Leveraging security best practices to protect sensitive information and prevent unauthorized access. This involves encrypting data, using secure secrets management, and implementing robust authentication and authorization mechanisms.
+Containerization is integral to the project's architecture. Docker is used to package the application and its dependencies, ensuring consistent environments across different stages of development. Kubernetes, specifically Amazon's EKS service, manages these containers, ensuring they run smoothly and can be easily scaled up or down as required. Helm, a package manager for Kubernetes, simplifies the deployment and management of these containerized applications.
 
-🔹 AWS Services Integration:<br> Utilizing a variety of AWS services, such as EKS for container orchestration, DynamoDB for scalable database solutions, and S3 for storing training videos. The project showcases how to integrate these services effectively to build a scalable and resilient infrastructure.
+The development workflow is streamlined through continuous integration and delivery (CI/CD) pipelines, powered by GitHub Actions. This setup ensures that code changes are automatically tested and, if successful, seamlessly deployed to the production environment.
 
-🔸 Scaling and Performance Management:<br> Designing the system to handle increased loads and scale efficiently. This includes implementing auto-scaling policies, optimizing resource usage, and monitoring performance metrics to ensure the system can handle real-world demands.
+To monitor the health and performance of the system, the project utilizes Prometheus for collecting metrics, and Grafana for visualizing these metrics in intuitive dashboards. Fluent Bit plays a crucial role in gathering and forwarding logs, which is vital for troubleshooting and understanding system behavior.
 
-🔹 Downtime Prevention:<br> Employing strategies to minimize downtime and ensure high availability. This involves setting up redundancy, failover mechanisms, and proactive monitoring to quickly address any issues that arise.
+Security is paramount in the project. Adhering to security best practices, the project employs data encryption, secure secrets management, and robust authentication and authorization mechanisms to protect sensitive information and prevent unauthorized access.
 
-Overall, the DribbleData project is a sophisticated example of modern DevOps practices, demonstrating how to manage complex infrastructure effectively while addressing real-world challenges in scaling, security, and continuous operation.
+Additionally, the project incorporates other AWS services, such as Route 53 for domain management and CloudFront for the efficient global delivery of static content, enhancing the project's global reach and performance.
+
+In summary, the DribbleData project represents a state-of-the-art approach to building scalable, secure, and efficient cloud applications. It leverages a wide array of modern tools and practices to deliver a robust, flexible, and high-performing system.
 
 
 <img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Project-Scheme.jpeg?raw=true">
 
-### AWS Resources map
+<hr style="border: 2px solid #FF9966;">
+
+## ☁️ Full Scheme of Project in AWS
+
+This diagram represents the AWS architecture used in the DribbleData project. It highlights the key components and their interactions:
+
+VPC (Virtual Private Cloud) DribbleData Virginia:
+
+Within the VPC, public and private subnets are created to ensure resource isolation and security.
+Public Subnets (A and B):
+
+A Bastion Host is placed in one of the public subnets but if something happens with Subnet in Datacenter A, Auto-Scaling will create it in Datacenter B in public subnet B, serving as a secure gateway for remote access to private subnets.
+
+An Application Load Balancer (ALB) is set up to distribute incoming traffic across the EKS cluster nodes.
+
+Private Subnets:
+
+The private subnets host the EKS Cluster (Elastic Kubernetes Service) with nodes running t3.medium instances, where the application workloads are deployed.
+
+An AWS ALB Controller is used to manage application load balancing.
+
+Network Configuration:
+
+
+NAT Gateway and Elastic IP are configured to allow outbound internet access for resources in private subnets.
+
+Security:
+
+Security Groups are assigned to resources to control inbound and outbound traffic.
+
+SSL Certificates managed by AWS Certificate Manager are used to secure the domain names like dribbledata.matveyguralskiy.com, grafana.matveyguralskiy.com, and prometheus.matveyguralskiy.com
+
+Route 53 is configured to manage DNS records for these domains.
+
+Monitoring and Logging:
+
+Fluent Bit is deployed within the EKS cluster to forward logs to CloudWatch Logs
+
+A Lambda function is configured to automatically update nodes and apply patches
+
+Backup and Storage:
+
+An S3 Bucket is used to store Terraform remote state and media content, with CloudFront set up for CDN distribution
+
+The AWS Backup service is configured to back up DynamoDB tables and S3 bucket contents, with a backup plan managed through EventBridge
+
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/AWS-Scheme.jpeg?raw=true">
 
 <hr style="border: 2px solid #FF9966;">
 
-```python
-print("<span style='color:#FF9966;'>Hello</span> <span style='color:#003366;'>World</span>")
-```
+## 🛠️ Continuous Integration
 
-## 🗨️ Contacts
+Continuous Integration (CI) process for the DribbleData project involves the developer making changes to Flask microservices, which then go through a series of automated steps using GitHub Actions. These steps include building Docker images, testing them for vulnerabilities, and finally ensuring that all microservices work together properly
 
-<p align="center">
-  <a href="https://github.com/MatveyGuralskiy/DribbleData">
-    <img src="https://img.shields.io/badge/Clone-Project-FF9966?style=for-the-badge&logo=github" alt="Clone Project"/>
-  </a>
-  
-  <a href="https://www.linkedin.com/in/matveyguralskiy/">
-    <img src="https://img.shields.io/badge/LinkedIn-Profile-003366?style=for-the-badge&logo=linkedin" alt="LinkedIn Profile"/>
-  </a>
+Steps of CI:
 
-  <a href="mailto:mathewguralskiy@gmail.com">
-    <img src="https://img.shields.io/badge/Gmail-Contact-b80b06?style=for-the-badge&logo=gmail" alt="Gmail"/>
-  </a>
+1. Developer: The process begins with a developer working on Flask microservices, which are divided into four separate services: Main, Players, Users, and Training.
 
-  <a href="https://matveyguralskiy.com">
-    <img src="https://img.shields.io/badge/My-Website-76db6d?style=for-the-badge" alt="Website"/>
-  </a>
-</p>
+2. Change Image Version: After making changes to the microservices, the developer updates the image version file.
 
-### Full Scheme in AWS of Project
+3. Git Commit: The updated code, along with the version file, is committed to the GitHub repository.
 
-<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/AWS-Project-Scheme.jpg?raw=true">
+4. GitHub Repository: The code is pushed to the GitHub repository, which triggers the Continuous Integration (CI) process using GitHub Actions.
 
-### Continuous Integration
+5. GitHub Actions (CI): The CI process involves several steps:
+
+- Setup GitHub Actions: GitHub Actions are configured to automate the CI pipeline.
+
+- Create .env File: An environment file is created or updated to configure and connect to the microservices.
+
+- Unit Tests: Unit tests are executed to ensure that the code is functioning correctly.
+
+- Update Image Version for Helm: The updated image version is applied in Helm charts.
+
+- Build Docker Images: Docker images are built for each microservice.
+
+- Push to DockerHub: The newly built Docker images are pushed to DockerHub.
+
+- Test Containers with Aqua Trivy: The Docker containers are scanned for vulnerabilities using Aqua Trivy.
+
+- Docker-Compose Test: A final test is conducted using Docker Compose to ensure the containers work together as expected.
 
 <img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/CI-Scheme.jpeg?raw=true">
 
-### Continuos Deployment
+<hr style="border: 2px solid #FF9966;">
+
+## 🚀 Continuos Deployment
+
+Continuous Deployment (CD) process for the DribbleData project begins after the successful execution of the CI pipeline, leading to a series of automated steps managed by GitHub Actions. These steps include configuring Kubernetes with AWS credentials, installing the ALB Controller, and updating Helm files, ensuring the proper deployment of service
+
+Steps of CD:
+
+1. GitHub Actions CI Pipeline: The Continuous Deployment (CD) process starts only if the Continuous Integration (CI) pipeline is successfully executed
+
+2. GitHub Actions (CD): If the CI pipeline succeeds, the CD pipeline is triggered using GitHub Actions
+
+3. Setup GitHub Actions: GitHub Actions are configured to handle the deployment process.
+
+4. Update Kubeconfig: The kubeconfig file is updated to interact with the Kubernetes cluster.
+
+5. Associate IAM OIDC Provider: An IAM OpenID Connect (OIDC) provider is associated with the Kubernetes cluster to manage authentication.
+
+6. Install Policy for ALB Controller: A policy is installed to allow the AWS ALB (Application Load Balancer) Controller to manage load balancers.
+
+7. Create ServiceAccount for ALB Controller with CloudFormation: A ServiceAccount is created for the ALB Controller using AWS CloudFormation.
+
+8. Install and Update Helm Repository: The Helm repository is installed and updated to manage Kubernetes packages.
+
+9. Install ALB Controller: The ALB Controller is installed in the Kubernetes cluster.
+
+10. Wait until ALB Controller Starts Working: The process waits until the ALB Controller is fully operational.
+
+11. Create Namespace: A namespace is created within the Kubernetes cluster for organizing resources.
+
+12. Create AWS Credentials Secrets: AWS credentials are stored as secrets within Kubernetes for secure access.
+
+13. Generate Kubernetes Secrets File: A secrets file is generated within Kubernetes, containing the necessary credentials and configurations.
+
+14. Install and Update Helm Files: Helm files are installed and updated based on the latest configurations.
+
+15. Verify All Kubernetes Helm Files: The final step involves verifying that all Kubernetes Helm files are correctly configured and operational.
 
 <img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/CD-Scheme.jpeg?raw=true">
 
-<blockquote style="border-left: 10px solid #003366; padding: 10px;">
-  <p style="color:#FF9966;">"This project is a game-changer in the industry!"</p>
-</blockquote>
+<hr style="border: 2px solid #FF9966;">
+
+## Video Demonstration
+
+
+
+<hr style="border: 2px solid #FF9966;">
+
+## Screens
+
+<hr style="border: 2px solid #FF9966;">
 
 <h2>📂 Repository</h2>
 <p>
@@ -84,9 +179,11 @@ print("<span style='color:#FF9966;'>Hello</span> <span style='color:#003366;'>Wo
 
   |-- /Docker
 
-  |-- /Bash
+  |-- /Documentation
 
   |-- /DynamoDB
+
+  |-- /FinOps
 
   |-- /Kubernetes
 
@@ -96,9 +193,11 @@ print("<span style='color:#FF9966;'>Hello</span> <span style='color:#003366;'>Wo
 
   |-- /Screens
 
+  |-- /Static
+
   |-- /Terraform
 
-  |-- /.gitignore
+  |-- .gitignore
 
   |-- IMAGE_VERSION
 
@@ -128,6 +227,27 @@ Documentations for you to make the project
   
   Don’t hesitate to correct them and be able to improve your project for others
 </p>
+
+## 🗨️ Contacts
+
+<p align="center">
+  <a href="https://github.com/MatveyGuralskiy/DribbleData">
+    <img src="https://img.shields.io/badge/Clone-Project-FF9966?style=for-the-badge&logo=github" alt="Clone Project"/>
+  </a>
+  
+  <a href="https://www.linkedin.com/in/matveyguralskiy/">
+    <img src="https://img.shields.io/badge/LinkedIn-Profile-003366?style=for-the-badge&logo=linkedin" alt="LinkedIn Profile"/>
+  </a>
+
+  <a href="mailto:mathewguralskiy@gmail.com">
+    <img src="https://img.shields.io/badge/Gmail-Contact-b80b06?style=for-the-badge&logo=gmail" alt="Gmail"/>
+  </a>
+
+  <a href="https://matveyguralskiy.com">
+    <img src="https://img.shields.io/badge/My-Website-76db6d?style=for-the-badge" alt="Website"/>
+  </a>
+</p>
+<br>
 
 <h2>© License</h2>
 <p>
