@@ -161,9 +161,9 @@ Steps of CD:
 
 <hr style="border: 2px solid #FF9966;">
 
-## Video Demonstration
+## 📺 Video Demonstration
 
-
+[![Demonstration Video](https://i9.ytimg.com/vi_webp/ZUP0Qz46HkY/maxresdefault.webp?v=66bbc262&sqp=CKCJ77UG&rs=AOn4CLCFA7MmCk5RexuJ76oEWJBz0Rh_5A)](https://youtu.be/ZUP0Qz46HkY)
 
 <hr style="border: 2px solid #FF9966;">
 
@@ -208,6 +208,14 @@ Screens of Grafana:
 Screens of Prometheus:
 
 <img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Prometheus/Prometheus-3.png?raw=true">
+
+<hr style="border: 2px solid #FF9966;">
+
+## 👣 Documentation Part with Detailed Steps
+
+For complete documentation and steps to implement the project please follow the documentation folder
+
+[Documentation Directory](https://github.com/MatveyGuralskiy/DribbleData/tree/main/Documentation)
 
 <hr style="border: 2px solid #FF9966;">
 
