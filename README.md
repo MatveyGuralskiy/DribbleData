@@ -60,12 +60,17 @@ print("<span style='color:#FF9966;'>Hello</span> <span style='color:#003366;'>Wo
   </a>
 </p>
 
+### Full Scheme in AWS of Project
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/AWS-Scheme.jpeg?raw=true">
 
 ### Continuous Integration
 
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/CI-Scheme.jpeg?raw=true">
 
 ### Continuos Deployment
 
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/CD-Scheme.jpeg?raw=true">
 
 <blockquote style="border-left: 10px solid #003366; padding: 10px;">
   <p style="color:#FF9966;">"This project is a game-changer in the industry!"</p>
