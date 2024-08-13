@@ -388,7 +388,8 @@ data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
 
 data "aws_eks_cluster" "cluster" {
-  name = "EKS-Dribbledata"
+  name       = "EKS-Dribbledata"
+  depends_on = [module.EKS-VPC-DribbleData]
 }
 
 # Extract the OIDC provider ID from the EKS cluster's OIDC issuer URL

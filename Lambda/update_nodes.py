@@ -15,6 +15,7 @@ tag_key = 'eks:cluster-name'
 tag_value = 'EKS-Dribbledata'
 
 def get_instance_ids_with_tag(tag_key, tag_value):
+    """Retrieve the instance IDs with a specific tag."""
     instances = ec2_client.describe_instances(
         Filters=[
             {
@@ -32,12 +33,18 @@ def get_instance_ids_with_tag(tag_key, tag_value):
     return instance_ids
 
 def update_packages_on_instance(instance_id):
-    # Use SSM Run Command to execute a script on the instance
-    command = "sudo yum update -y"  # Example for Amazon Linux, adjust as needed
+    """Update all packages and install all available updates on the instance."""
+    # Command for Amazon Linux 2
+    command = (
+        "sudo yum update -y && "
+        "sudo yum upgrade -y"
+    )
+
+    # Send command via SSM
     response = ssm_client.send_command(
         InstanceIds=[instance_id],
         DocumentName='AWS-RunShellScript',
-        Parameters={'commands': [command]}
+        Parameters={'commands': [command]},
     )
     return response
 

@@ -252,6 +252,11 @@ resource "aws_iam_role_policy_attachment" "Node_Role-AmazonEC2ContainerRegistryR
   role       = aws_iam_role.Node_Role.name
 }
 
+resource "aws_iam_role_policy_attachment" "SSM_Role-AmazonSSMManagedInstanceCore" {
+  role       = aws_iam_role.Node_Role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
 # Create Node Group
 resource "aws_eks_node_group" "Worker_Nodes" {
   cluster_name    = aws_eks_cluster.EKS.name
@@ -286,4 +291,5 @@ resource "aws_launch_template" "EKS_Node_Template" {
   name          = var.EKS_Template_Name
   instance_type = var.Instance_type
   key_name      = var.Key_SSH
+  user_data     = filebase64("../../SSM/ssm_agent.sh")
 }
