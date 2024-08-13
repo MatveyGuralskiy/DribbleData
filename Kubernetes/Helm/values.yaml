@@ -3,7 +3,7 @@
 # Created by Matvey Guralskiy
 #---------------------------
 namespace: dribbledata-project
-env: Development
+env: Production
 
 # Common settings for all microservices
 replicaCount: 4
@@ -245,9 +245,9 @@ awsLoadBalancerController:
     repository: public.ecr.aws/eks/aws-load-balancer-controller
     tag: v2.8.1
     pullPolicy: IfNotPresent
-  clusterName: EKS-Development
+  clusterName: EKS-Dribbledata
   region: us-east-1
-  vpcId: vpc-04cf3bdb8887c361c
+  vpcId: vpc-00c5619e2ecf47950
   serviceAccount:
     create: true
     name: aws-load-balancer-controller
@@ -263,11 +263,11 @@ awsLoadBalancerController:
     enabled: false
 
 subnets:
-  - id: subnet-03244001c0f0798d0
+  - id: subnet-0c327f709d647ed4b
     tags:
       - key: kubernetes.io/role/elb
         value: 1
-  - id: subnet-0bba369a1730b6495
+  - id: subnet-0fa4b065830cb4e0c
     tags:
       - key: kubernetes.io/role/elb
         value: 1
@@ -289,12 +289,12 @@ nodeExporter:
 ingress:
   host: dribbledata.matveyguralskiy.com
   tlsSecretName: tls-secret
-  certificateArn: arn:aws:acm:us-east-1:381491938951:certificate/c16d2adf-fa63-455b-acfe-b3de67a366f3
+  certificateArn: arn:aws:acm:us-east-1:381491938951:certificate/41ce9ab3-7fb6-4fc9-840b-474e4b072b3a
   
   host2: prometheus.matveyguralskiy.com
   tlsSecretName2: prometheus-tls-secret
-  certificateArn2: arn:aws:acm:us-east-1:381491938951:certificate/cd40ad01-ed46-407c-b98a-83d3253193da
+  certificateArn2: arn:aws:acm:us-east-1:381491938951:certificate/d770be92-730b-4e09-93fd-2447672cff04
 
   host3: grafana.matveyguralskiy.com
   tlsSecretName3: grafana-tls-secret
-  certificateArn3: arn:aws:acm:us-east-1:381491938951:certificate/f431016a-8ae6-49fc-a28a-be3223661957
+  certificateArn3: arn:aws:acm:us-east-1:381491938951:certificate/ea3e55f7-934c-4109-aeeb-75f69581cb78

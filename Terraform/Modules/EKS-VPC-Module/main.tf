@@ -342,7 +342,7 @@ resource "aws_security_group" "Bastion_Host_SG" {
 resource "aws_launch_configuration" "Bastion-Host-LC" {
   name          = "Bastion-Host"
   image_id      = data.aws_ami.Latest_Ubuntu.id
-  instance_type = var.Instance_type
+  instance_type = "t2.micro"
 
   key_name        = var.Key_SSH
   security_groups = [aws_security_group.Bastion_Host_SG.id]
