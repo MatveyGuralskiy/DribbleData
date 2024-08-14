@@ -161,15 +161,23 @@ Steps of CD:
 
 <hr style="border: 2px solid #FF9966;">
 
+## 💵 Project Cost Overview
+
+I used AWS Calculator to estimate summary generated AWS Resources. Inside directory *FinOps* I got the file named *Project - AWS Pricing Calculator.pdf* The file contains all monetary calculations of resources.  
+
+It outlines the expected costs for various AWS services, including clusters, storage, serverless functions, and domains, based on specific configurations for the user's project. A monthly cost of **$516.09**, and a total 12-month cost of **$6,373.08​**
+
+<hr style="border: 2px solid #FF9966;">
+
 ## 📺 Video Demonstration
 
-[![Demonstration Video](https://i9.ytimg.com/vi_webp/ZUP0Qz46HkY/maxresdefault.webp?v=66bbc262&sqp=CKCJ77UG&rs=AOn4CLCFA7MmCk5RexuJ76oEWJBz0Rh_5A)](https://youtu.be/ZUP0Qz46HkY)
+[![Demonstration Video](https://img.youtube.com/vi/ZUP0Qz46HkY/maxresdefault.jpg)](https://youtu.be/ZUP0Qz46HkY)
 
 <hr style="border: 2px solid #FF9966;">
 
 ## Screens
 
-Screens of Application:
+### Screens of Application:
 
 <img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Website/Website-Main.png?raw=true">
 
@@ -185,7 +193,7 @@ Screens of Application:
 
 <img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Website/Website-Login-2.png?raw=true">
 
-Screens of CI/CD:
+### Screens of CI/CD:
 
 <img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/GitHub-Actions/GitHub-Actions-CI-3.png?raw=true">
 
@@ -197,7 +205,7 @@ Screens of CI/CD:
 
 <img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/GitHub-Actions/GitHub-Actions-CD-7.png?raw=true">
 
-Screens of Grafana:
+### Screens of Grafana:
 
 <img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Grafana/Dashboard-Result-1.png?raw=true">
 
@@ -205,15 +213,31 @@ Screens of Grafana:
 
 <img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Grafana/Dashboard-Result-2.png?raw=true">
 
-Screens of Prometheus:
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Grafana/Alert-Rules-Results-1.png?raw=true">
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Grafana/Alert-Rules-Results-3.png?raw=true">
+
+### Screens of Prometheus:
 
 <img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Prometheus/Prometheus-3.png?raw=true">
 
-Screens of AWS Services:
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/Prometheus/Prometheus-4.png?raw=true">
+
+### Screens of AWS Services:
 
 <img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/AWS-Console/DynamoDB/DynamoDB-5.png?raw=true">
 
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/AWS-Console/Lambda/Delete-Old-Messages-1.png?raw=true">
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/AWS-Console/Lambda/Update-Nodes-2.png?raw=true">
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/AWS-Console/CloudWatch/CloudWatch-Logs-2.png?raw=true">
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/AWS-Console/System-Manager/SSM-Fleet-Manager.png?raw=true">
+
 <img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/AWS-Console/LoadBalancer/LoadBalancer-1.png?raw=true">
+
+<img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/AWS-Console/LoadBalancer/LoadBalancer-2.png?raw=true">
 
 <img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/AWS-Console/VPC/VPC-1.png?raw=true">
 
