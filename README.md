@@ -243,6 +243,8 @@ It outlines the expected costs for various AWS services, including clusters, sto
 
 <img src="https://github.com/MatveyGuralskiy/DribbleData/blob/main/Screens/Demo/AWS-Console/S3/S3-Bucket-Project-4.png?raw=true">
 
+### You can see more detailed screenshots in the Documentation directory
+
 <hr style="border: 2px solid #FF9966;">
 
 ## 👣 Documentation Part with Detailed Steps
